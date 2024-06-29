@@ -1,0 +1,43 @@
+{
+  "name": "nuxt-web3-starter",
+  "author": {
+    "name": "Abstrucked",
+    "email": "abstrucked-github@privacyphoenix.com",
+    "url": "https://twitter.com/abstrucked"
+  },
+  "version": "1.0.0",
+  "description": "A Nuxt.js starter template with ethers and Onboard.js",
+  "license": "",
+  "keywords": [
+    "nuxt",
+    "web3",
+    "ethers",
+    "web3Onboard",
+    "web3-starter"
+  ],
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.7.0",
+    "@nuxt/ui": "^2.17.0",
+    "nuxt": "^3.12.1"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@web3-onboard/coinbase": "^2.4.1",
+    "@web3-onboard/core": "^2.22.1",
+    "@web3-onboard/injected-wallets": "^2.11.1",
+    "@web3-onboard/transaction-preview": "^2.1.1",
+    "@web3-onboard/vue": "^2.8.1",
+    "ethers": "^6.13.0",
+    "nuxi": "^3.12.0"
+  }
+}
