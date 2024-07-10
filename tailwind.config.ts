@@ -7,7 +7,6 @@ export default <Partial<Config>>{
       colors: {
         primary: 'white',
         gray: 'cool',
-        background: 'dark',
         'harlequin': {
           '50': '#eeffe4',
           '100': '#d9ffc4',

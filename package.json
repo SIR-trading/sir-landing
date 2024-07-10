@@ -1,12 +1,12 @@
 {
-  "name": "nuxt-web3-starter",
+  "name": "sir-landing",
   "author": {
     "name": "Abstrucked",
     "email": "abstrucked-github@privacyphoenix.com",
-    "url": "https://twitter.com/abstrucked"
+    "url": "https://docs.sir.trading/"
   },
   "version": "1.0.0",
-  "description": "A Nuxt.js starter template with ethers and Onboard.js",
+  "description": "SIR website",
   "license": "",
   "keywords": [
     "nuxt",

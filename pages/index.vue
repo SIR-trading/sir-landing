@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Hero from '@/components/common/Hero.vue'
 import Section from '@/components/common/Section.vue'
+import SirHero from "~/components/common/SirHero.vue";
 const links = [
   {
     name: 'Mint',
@@ -11,14 +12,15 @@ const links = [
 </script>
 <template>
   <UContainer>
-    <Hero
-        title="Welcome!"
-        icon="logo_base.png"
-        subtitle="Hero component with links and icon"
-        :links="links"
-        class-name="sm:justify-center"
-        background-color="bg-gray-100 dark:bg-gray-900"
-    />
+    <SirHero image="logo_240x240.png">
+      <template #title >
+        Safer Leverage for
+        <span class="text-yellow-400">Long-term</span> Investors
+      </template>
+      <template #description>
+        Get X by doing Y. On Z
+      </template>
+    </SirHero>
     <Section class-name="p-6 ring-gray-100 dark:ring-gray-800" variant="ring">
       <h5>Section Component</h5>
       <div class="p-4">
