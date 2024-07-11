@@ -51,7 +51,7 @@ const goTo = (path: string) => {
             <div class="flex gap-6 flex-col lg:flex-row items-center">
               <UIcon name="simple-icons:discord" dynamic />
               <UIcon name="simple-icons:twitter" dynamic />
-              <UButton label="Prototype" :disabled="true"/>
+              <UButton label="Prototype" color="white" variant="outline" :disabled="true"/>
 
             </div>
           </div>
