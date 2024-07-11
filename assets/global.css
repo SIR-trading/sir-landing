@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base {
+    html {
+        background-color: #0A0A0F;
+    }
     body {
-        font-family: 'Courier', system-ui;
+        font-family: 'Inter', system-ui;
         @apply text-base ;
     }
     h1 {
@@ -23,6 +29,18 @@
         @apply text-base md:text-lg lg:text-xl xl:text-2xl;
     }
     h6 {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
+    p {
+        @apply text-gray-500;
+    }
+}
+
+.title {
+    font-family: 'Lora', system-ui;
+    @apply font-bold text-2xl md:text-4xl lg:text-6xl;
+}
+
+.subtitle {
+    @apply font-bold text-gray-500
 }

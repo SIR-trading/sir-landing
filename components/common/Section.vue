@@ -24,7 +24,10 @@ const classes = computed(() => {
           [className ? className : '', classes]
           )">
     <div class="flex flex-col items-center justify-center gap-4 lg:gap-8 lg:items-start ">
-      <slot/>
+
+      <h1 class="font-['Lora'] text-white font-bold text-4xl" ><slot name="header"/></h1>
+      <p class="text-gray-500 text-lg"><slot name="content"/></p>
+      <slot name="default"></slot>
     </div>
   </section>
 </template>

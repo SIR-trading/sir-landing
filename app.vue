@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Header from "~/components/layout/Header.vue";
-import Footer from "~/components/layout/Footer.vue";
 import {init} from '@web3-onboard/vue'
 import type {AppMetadata} from "@web3-onboard/common";
 import injectedModule from '@web3-onboard/injected-wallets'
@@ -40,7 +39,6 @@ web3Onboard.value = init({
       <UNotifications/>
 
     </main>
-    <Footer/>
   </div>
 </template>
 

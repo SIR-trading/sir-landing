@@ -4,13 +4,22 @@ import Connect from "~/components/wallet/Connect.vue";
 
 const {isMobile, isTablet} = useDevice();
 const links = [
-  {name: 'Home', to: '/'},
-  {name: 'Mint', to: '/mint'},
-  {name: "About", to: '/about'}
+  {name: "About", to: '/about'},
+  {name: 'Fundraising', to: '/fundraising'},
+  {name: 'Docs', to: '/mint'},
+  {name: 'Roadmap', to: '/mint'},
+  {name: 'Whitepaper', to: '/mint'}
 ];
 
 const isMenuOpen = ref(false);
 const toggleMenu = () => isMenuOpen.value = !isMenuOpen.value;
+
+const colorMode = useColorMode();
+colorMode.value = 'dark';
+
+const goTo = (path: string) => {
+  useRouter().push(path)
+}
 
 </script>
 
@@ -18,12 +27,13 @@ const toggleMenu = () => isMenuOpen.value = !isMenuOpen.value;
   <header class="w-full p-6">
     <ClientOnly>
       <UContainer>
-        <nav class="flex flex-col text-2xl font-bold w-full gap-6 items-center justify-between md:flex-row md:justify-center">
+        <nav class="flex flex-col text-lg font-bold w-full gap-6 items-center justify-between md:flex-row md:justify-center">
           <div class="w-full flex flex-between md:w-auto">
-            <div class="flex flex-row flex-auto w-full items-center justify-around lg:justify-start lg:w-50">
+            <div @click="goTo('/')" class="cursor-pointer flex flex-row flex-auto w-full items-center justify-around lg:justify-start lg:w-50">
               <picture class="logo md:flex flex-start">
-                <NuxtImg src="logo_base_64x64.png" alt="Logo" width="64" height="64"/>
+                <NuxtImg src="logo_base_64x64.png" alt="Logo" width="32" height="32"/>
               </picture>
+              <div class="font-['Lora'] inline-flex ml-1 text-lg">Sir.Trading</div>
               <button v-show="isMobile || isTablet" @click="toggleMenu">
                 <UIcon :name="isMenuOpen ? 'ep:close':'fluent-mdl2:numbered-list-text-mirrored'" dynamic/>
               </button>
@@ -38,10 +48,12 @@ const toggleMenu = () => isMenuOpen.value = !isMenuOpen.value;
               >{{ link.name }}
               </ULink>
             </div>
-            <Connect/>
-          </div>
-          <div>
-            <ThemeSwitch/>
+            <div class="flex gap-6 flex-col lg:flex-row items-center">
+              <UIcon name="simple-icons:discord" dynamic />
+              <UIcon name="simple-icons:twitter" dynamic />
+              <UButton label="Prototype" :disabled="true"/>
+
+            </div>
           </div>
         </nav>
       </UContainer>
