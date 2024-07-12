@@ -1,12 +1,23 @@
 <script lang="ts" setup>
-defineProps<{
+
+const props = defineProps<{
+  size? : 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   image?: string
   imageAlt?: string
+  className?: string
 }>()
+
+const {classLink} = helpers()
+const classes = computed(() => {
+  return classLink([
+    'card flex flex-col justify-start rounded-lg', `max-w-${props.size ? `${props.size}` : 'sm'}`,
+    props.className ? props.className : ''
+  ])
+})
 </script>
 
 <template>
- <div class="card">
+ <div :class="classes">
    <div v-if="image">
      <img :src="image" class="rounded-lg" :alt="imageAlt"/>
    </div>
@@ -17,10 +28,5 @@ defineProps<{
 </template>
 
 <style scoped>
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 400px;
-}
+
 </style>
