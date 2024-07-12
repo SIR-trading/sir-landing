@@ -33,9 +33,13 @@ const links = [
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>What is SIR?</template>
-      <template v-slot:content>SIR’s mission is to offer users safe long-term leverage on the underlying assets. Here is
-        an example of ETH/USDT with perfectly constant x1.25 leverage. No maintaince fees nor volatility decay.
-      </template>
+      <p>
+        SIR introduces a new approach to leveraged investing, offering compounding returns without maintenance fees or
+        volatility decay. Instead users pay fees, only, when opening or closing a position. SIR maintains constant
+        leverage through continuous virtual rebalancing, backed by internal liquidity pools. This provides a potentially
+        safer way to access amplified, compounding returns on assets over the long term.
+      </p>
+      <p>Here is an example of ETH/USDC with perfectly constant x1.5 leverage.</p>
     </Section>
     <Section class-name="" variant="ring">
       <template v-slot:content>
@@ -118,12 +122,14 @@ const links = [
     <Section class-name="px-0">
       <template v-slot:header>Disclaimer for Funders of SIR</template>
       <div class="flex flex-col gap-3">
-        <p>By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:</p>
+        <p>By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following
+          terms:</p>
 
         <div class="paragraphs">
           <h6>Trustless Launch:</h6>
           <p>The Protocol will be launched in a trustless manner, meaning that once the launch has occurred, the token
-            allocations are immutable and cannot be altered by the team or any other entity. This ensures a decentralized
+            allocations are immutable and cannot be altered by the team or any other entity. This ensures a
+            decentralized
             and transparent distribution process.</p>
         </div>
 
@@ -131,7 +137,8 @@ const links = [
           <h6>Risk of Bugs and Attacks:</h6>
           <p>
             While the development team will make all reasonable efforts to minimize bugs and vulnerabilities through
-            thorough testing and, where possible, independent audits, it is impossible to guarantee the complete absence of
+            thorough testing and, where possible, independent audits, it is impossible to guarantee the complete absence
+            of
             bugs or vulnerabilities. By participating, you acknowledge that the Protocol may be subject to bugs,
             vulnerabilities, or attacks that could result in partial or total loss of your funds. The development team,
             contributors, and associated parties shall not be held liable for any loss or damage arising from bugs,
@@ -142,9 +149,12 @@ const links = [
         <div class="paragraphs">
           <h6>Value of Token SIR:</h6>
           <p>
-            The value of the token SIR is highly volatile and can be influenced by a variety of factors beyond the control
-            of the development team, including market conditions, regulatory changes, and technological advancements. The
-            development team does not guarantee any specific value of the token SIR and is not responsible for any loss of
+            The value of the token SIR is highly volatile and can be influenced by a variety of factors beyond the
+            control
+            of the development team, including market conditions, regulatory changes, and technological advancements.
+            The
+            development team does not guarantee any specific value of the token SIR and is not responsible for any loss
+            of
             value or potential loss of funds associated with the token SIR.
           </p>
         </div>
@@ -152,8 +162,10 @@ const links = [
         <div class="paragraphs">
           <h6>No Financial Advice:</h6>
           <p>
-            The information provided on the Protocol's website and in related materials is for informational purposes only
-            and does not constitute financial, investment, or other professional advice. Participation in the funding of the
+            The information provided on the Protocol's website and in related materials is for informational purposes
+            only
+            and does not constitute financial, investment, or other professional advice. Participation in the funding of
+            the
             Protocol should be based on your own research and assessment of the risks involved.
           </p>
 
@@ -165,9 +177,12 @@ const links = [
             applicable laws and regulations in your jurisdiction. The development team is not responsible for any legal
             consequences arising from your participation.</p>
           <p>
-            Acceptance of Risks: By participating in the funding of the Protocol, you accept all risks associated with your
-            participation, including but not limited to financial loss, regulatory risk, and technical risks. You agree that
-            you are participating at your own risk and that the development team, contributors, and associated parties shall
+            Acceptance of Risks: By participating in the funding of the Protocol, you accept all risks associated with
+            your
+            participation, including but not limited to financial loss, regulatory risk, and technical risks. You agree
+            that
+            you are participating at your own risk and that the development team, contributors, and associated parties
+            shall
             not be held liable for any loss or damage arising from your participation.
           </p>
 
