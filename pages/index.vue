@@ -33,8 +33,8 @@ const links = [
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>What is SIR?</template>
-      <template v-slot:content>SIR’s mission is to offer users safe long-term leverage on the underlying assets. Here is
-        an example of ETH/USDT with perfectly constant x1.25 leverage. No maintaince fees nor volatility decay.
+      <template v-slot:content>SIR introduces a new approach to leveraged investing, offering compounding returns without maintenance fees or volatility decay. Instead users pay fees, only, when opening or closing a position. SIR maintains constant leverage through continuous virtual rebalancing, backed by internal liquidity pools. This provides a potentially safer way to access amplified, compounding returns on assets over the long term.
+Here is an example of ETH/USDC with perfectly constant x1.5 leverage.
       </template>
     </Section>
     <Section class-name="" variant="ring">
