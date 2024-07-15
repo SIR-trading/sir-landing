@@ -41,23 +41,21 @@ const links = [
       </p>
       <p>Here is an example of ETH/USDC with perfectly constant x1.5 leverage.</p>
     </Section>
-    <Section class-name="" variant="ring">
+    <Section class-name="">
       <template v-slot:content>
-        <div class="h-32">
-          CHART
-        </div>
+       <NuxtImg src="/chart_eth-usdc-sir.png" alt="ss" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
       </template>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
       <div class="flex flex-col md:flex-row md:justify-around w-full">
-        <SirCard image="https://placehold.co/400x250">
+        <SirCard image="https://placehold.co/400x250" size="md">
           <b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
           in
           the
           native token SIR. As LPers, gentlemen also get their own token TEA.
         </SirCard>
-        <SirCard image="https://placehold.co/400x250">
+        <SirCard image="https://placehold.co/400x250" size="md">
           <b>Apes</b> choose which pair they want to long, and which leverage. They pay upfront fees for minting and
           burning, but not during their position. APE is a leveraged token that can be transferred and used in other
           protocols.
@@ -76,7 +74,7 @@ const links = [
     <Section class-name="px-0">
       <template v-slot:header>Contribute</template>
       <div class="flex flex-col md:flex-row md:justify-around w-full">
-        <SirCard image="https://placehold.co/400x250">
+        <SirCard image="https://placehold.co/400x250" size="md">
           <template v-slot:header>Cover project costs</template>
           <p>
             We are raising a small amount to pay for audits, deployment costs, initial liquidity and any other necessary
@@ -86,7 +84,7 @@ const links = [
             In exchange we have allocated 10% of all SIR tokens issued during the first three years.
           </p>
         </SirCard>
-        <SirCard image="https://placehold.co/400x250">
+        <SirCard image="https://placehold.co/400x250" size="md">
           <template v-slot:header>Equal opportunities</template>
           <p>We want to go back to the fair distribution model popular during the early ICO mania.</p>
 
