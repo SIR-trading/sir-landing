@@ -41,10 +41,10 @@ const links = [
       </p>
       <p>Here is an example of ETH/USDC with perfectly constant x1.5 leverage.</p>
     </Section>
-    <Section class-name="">
-      <template v-slot:content>
-       <NuxtImg src="/static_chart.png" alt="ETH/USDC Leverages Chart" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
-      </template>
+    <Section class-name="px-0">
+        <div class="flex flex-row w-full justify-center items-center">
+          <NuxtImg src="/static_chart.png" alt="ETH/USDC Leverages Chart" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
+        </div>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
