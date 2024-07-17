@@ -43,7 +43,7 @@ const links = [
     </Section>
     <Section class-name="">
       <template v-slot:content>
-       <NuxtImg src="/chart_eth-usdc-sir.png" alt="ss" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
+       <NuxtImg src="/static_chart.png" alt="ETH/USDC Leverages Chart" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
       </template>
     </Section>
     <Section class-name="px-0">
