@@ -31,7 +31,7 @@ const links = [
       </div>
       <UProgress class="my-6" size="5xl" :value="70"></UProgress>
     </Section>
-    <Section class-name="px-0">
+    <Section class-name="px-0 mb-0">
       <template v-slot:header>What is SIR?</template>
       <p>
         SIR introduces a new approach to leveraged investing, offering compounding returns without maintenance fees or
@@ -40,7 +40,7 @@ const links = [
         safer way to access amplified, compounding returns on assets over the long term.
       </p>
     </Section>
-    <Section class-name="px-0">
+    <Section class-name="px-0 mt-0">
         <div class="flex flex-col w-full justify-center items-center">
           <NuxtImg src="/static_chart_bg.png" alt="ETH/USDC Leverages Chart" sizes="sm:640px md:768px lg:1000px" class="rounded-lg ring-1 ring-gray-suit-950" />
           <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5 leverage versus
@@ -50,7 +50,7 @@ const links = [
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
-      <div class="flex flex-col lg:flex-row md:justify-between w-full">
+      <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
         <SirCard image="https://placehold.co/396x226" size="md">
           <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
           in
@@ -75,7 +75,7 @@ const links = [
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Contribute</template>
-      <div class="flex flex-col md:flex-row md:justify-between w-full">
+      <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
         <SirCard image="https://placehold.co/396x226" size="md">
           <template v-slot:header>Cover project costs</template>
           <p>
