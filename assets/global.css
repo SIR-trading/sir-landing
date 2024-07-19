@@ -31,7 +31,7 @@
 
 .title {
     font-family: 'Lora', system-ui;
-    @apply font-bold text-white text-2xl;
+    @apply font-bold text-white text-3xl;
 }
 
 .subtitle {
