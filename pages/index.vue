@@ -70,13 +70,13 @@ const links = [
         Just like in Uniswap, anyone can create a vault which consist of a pair of tokens and a leverage ratio. The
         protocol aims to be permissionless and maximally trustless. After the beta phase its unstoppable code will be
         completely immutable and live on Ethereum forever.
-        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>
+<!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
       </template>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Contribute</template>
       <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
-        <SirCard image="https://placehold.co/396x226" size="md">
+        <SirCard size="md">
           <template v-slot:header>Cover project costs</template>
           <p>
             We are raising a small amount to pay for audits, deployment costs, initial liquidity and any other necessary
@@ -86,7 +86,7 @@ const links = [
             In exchange we have allocated 10% of all SIR tokens issued during the first three years.
           </p>
         </SirCard>
-        <SirCard image="https://placehold.co/396x226" size="md">
+        <SirCard size="md">
           <template v-slot:header>Equal opportunities</template>
           <p>We want to go back to the fair distribution model popular during the early ICO mania.</p>
 
@@ -116,7 +116,7 @@ const links = [
           for
           post-launch expenses.
         </p>
-        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>
+<!--        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>-->
       </div>
     </Section>
     <Section class-name="px-0">
