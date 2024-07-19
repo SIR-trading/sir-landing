@@ -1,9 +1,32 @@
-import type { Config } from 'tailwindcss'
+import type {Config} from 'tailwindcss'
 
 export default <Partial<Config>>{
 
   theme: {
     extend: {
+      fontSize: {
+        sm: '0.875rem',
+        md: '1.125rem',
+        lg: '1.5rem',
+        xl: '2rem',
+        '2xl': '3rem',
+        '3xl': '3.5rem',
+        '4xl': '4rem'
+      },
+      maxWidth: {
+        md: '24.75rem',
+      },
+      fontWeight: {
+        thin: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        black: '900',
+      },
       colors: {
         primary: 'white',
         gray: 'cool',
@@ -45,6 +68,32 @@ export default <Partial<Config>>{
           '800': '#165953',
           '900': '#174a45',
           '950': '#072c2a',
+        },
+        'gray-suit': {
+          '50': '#f5f6f8',
+          '100': '#edeef2',
+          '200': '#dedfe7',
+          '300': '#c9cbd8',
+          '400': '#b6b6c9',
+          '500': '#9f9eb6',
+          '600': '#8c88a3',
+          '700': '#79758d',
+          '800': '#636073',
+          '900': '#52515e',
+          '950': '#302f37',
+        },
+        'blue-bell': {
+          '50': '#f8f9fa',
+          '100': '#f1f2f6',
+          '200': '#e5e6ef',
+          '300': '#d0d1e2',
+          '400': '#b5b6d0',
+          '500': '#8f8fb7',
+          '600': '#817ea9',
+          '700': '#6f6b96',
+          '800': '#5c597e',
+          '900': '#4d4a68',
+          '950': '#313045',
         },
       }
     }

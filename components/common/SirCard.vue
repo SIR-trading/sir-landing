@@ -21,8 +21,10 @@ const classes = computed(() => {
    <div v-if="image">
      <img :src="image" class="rounded-lg" :alt="imageAlt"/>
    </div>
-   <h4 class="mt-2"><slot name="header"/></h4>
-   <div class="text-gray-500 mt-2 text-xl flex flex-col gap-3"><slot name="default"/></div>
+   <div class="flex flex-wrap overflow-auto">
+     <h4 class="mt-4 font-['Lora'] text-lg font-bold"><slot name="header"/></h4>
+     <div class="mt-4  flex flex-col gap-4 flex-wrap "><slot name="default"/></div>
+   </div>
    <div><slot name="footer"/></div>
  </div>
 </template>

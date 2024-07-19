@@ -16,7 +16,7 @@ const links = [
     <SirHero image="logo_240x240.png">
       <template #title>
         Safer Leverage for
-        <span class="text-primary inline-flex">Long-term</span> Investors
+        <span class="text-primary inline-block">Long-term</span> Investors
       </template>
       <template #description>
         Get X by doing Y. On Z
@@ -24,9 +24,9 @@ const links = [
     </SirHero>
     <Section class-name="px-0">
       <div class="flex flex-col md:flex-row md:justify-between w-full">
-        <h2 class="font-['Lora'] font-bold text-4xl">Be part of the SIR fundraising</h2>
-        <UButton color="green" variant="solid" size="lg">
-          <span class="text-white">Learn more</span>
+        <h2 class="font-['Lora'] font-bold  text-xl">Be part of the SIR fundraising</h2>
+        <UButton color="green" variant="solid" size="sm">
+          <span class="text-white text-sm">Learn more</span>
         </UButton>
       </div>
       <UProgress class="my-6" size="5xl" :value="70"></UProgress>
@@ -39,26 +39,28 @@ const links = [
         leverage through continuous virtual rebalancing, backed by internal liquidity pools. This provides a potentially
         safer way to access amplified, compounding returns on assets over the long term.
       </p>
-      <p>Here is an example of ETH/USDC with perfectly constant x1.5 leverage.</p>
     </Section>
     <Section class-name="px-0">
-        <div class="flex flex-row w-full justify-center items-center">
-          <NuxtImg src="/static_chart.png" alt="ETH/USDC Leverages Chart" sizes="100vw sm:50vw md:100%" class="rounded-lg" />
+        <div class="flex flex-col w-full justify-center items-center">
+          <NuxtImg src="/static_chart_bg.png" alt="ETH/USDC Leverages Chart" sizes="sm:640px md:768px lg:1000px" class="rounded-lg ring-1 ring-gray-suit-950" />
+          <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5 leverage versus
+            <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
+          </p>
         </div>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
-      <div class="flex flex-col md:flex-row md:justify-around w-full">
-        <SirCard image="https://placehold.co/400x250" size="md">
-          <b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
+      <div class="flex flex-col lg:flex-row md:justify-between w-full">
+        <SirCard image="https://placehold.co/396x226" size="md">
+          <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
           in
           the
-          native token SIR. As LPers, gentlemen also get their own token TEA.
+          native token SIR. As LPers, gentlemen also get their own token TEA.</p>
         </SirCard>
-        <SirCard image="https://placehold.co/400x250" size="md">
-          <b>Apes</b> choose which pair they want to long, and which leverage. They pay upfront fees for minting and
+        <SirCard image="https://placehold.co/396x226" size="md">
+          <p><b>Apes</b> choose which pair they want to long, and which leverage. They pay upfront fees for minting and
           burning, but not during their position. APE is a leveraged token that can be transferred and used in other
-          protocols.
+          protocols.</p>
         </SirCard>
       </div>
     </Section>
@@ -68,13 +70,13 @@ const links = [
         Just like in Uniswap, anyone can create a vault which consist of a pair of tokens and a leverage ratio. The
         protocol aims to be permissionless and maximally trustless. After the beta phase its unstoppable code will be
         completely immutable and live on Ethereum forever.
-        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>
+        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>
       </template>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Contribute</template>
-      <div class="flex flex-col md:flex-row md:justify-around w-full">
-        <SirCard image="https://placehold.co/400x250" size="md">
+      <div class="flex flex-col md:flex-row md:justify-between w-full">
+        <SirCard image="https://placehold.co/396x226" size="md">
           <template v-slot:header>Cover project costs</template>
           <p>
             We are raising a small amount to pay for audits, deployment costs, initial liquidity and any other necessary
@@ -84,7 +86,7 @@ const links = [
             In exchange we have allocated 10% of all SIR tokens issued during the first three years.
           </p>
         </SirCard>
-        <SirCard image="https://placehold.co/400x250" size="md">
+        <SirCard image="https://placehold.co/396x226" size="md">
           <template v-slot:header>Equal opportunities</template>
           <p>We want to go back to the fair distribution model popular during the early ICO mania.</p>
 
@@ -96,7 +98,7 @@ const links = [
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>SIR: a Fee Paying Token</template>
-      <div class="flex flex-col gap-3 text-gray-500">
+      <div class="flex flex-col gap-3">
         <p>
           SIR is the native token of the SIR protocol. Rather than being an ad-hoc token, it is part of the core
           protocol, meaning after launch none of its parameters can be changed.
@@ -124,7 +126,7 @@ const links = [
           terms:</p>
 
         <div class="paragraphs">
-          <h6>Trustless Launch:</h6>
+          <h3>Trustless Launch:</h3>
           <p>The Protocol will be launched in a trustless manner, meaning that once the launch has occurred, the token
             allocations are immutable and cannot be altered by the team or any other entity. This ensures a
             decentralized
@@ -132,7 +134,7 @@ const links = [
         </div>
 
         <div class="paragraphs">
-          <h6>Risk of Bugs and Attacks:</h6>
+          <h3>Risk of Bugs and Attacks:</h3>
           <p>
             While the development team will make all reasonable efforts to minimize bugs and vulnerabilities through
             thorough testing and, where possible, independent audits, it is impossible to guarantee the complete absence
@@ -145,7 +147,7 @@ const links = [
         </div>
 
         <div class="paragraphs">
-          <h6>Value of Token SIR:</h6>
+          <h3>Value of Token SIR:</h3>
           <p>
             The value of the token SIR is highly volatile and can be influenced by a variety of factors beyond the
             control
@@ -158,7 +160,7 @@ const links = [
         </div>
 
         <div class="paragraphs">
-          <h6>No Financial Advice:</h6>
+          <h3>No Financial Advice:</h3>
           <p>
             The information provided on the Protocol's website and in related materials is for informational purposes
             only
@@ -169,7 +171,7 @@ const links = [
 
         </div>
         <div class="paragraphs">
-          <h6>Legal Compliance:</h6>
+          <p class="font-bold">Legal Compliance:</p>
           <p>
             It is your responsibility to ensure that your participation in the funding of the Protocol complies with all
             applicable laws and regulations in your jurisdiction. The development team is not responsible for any legal
@@ -185,7 +187,7 @@ const links = [
           </p>
 
         </div>
-        <p class="italic text-gray-400">
+        <p>
           By proceeding with the funding of SIR, you acknowledge that you have read, understood, and agreed to this
           disclaimer in its entirety.
         </p>
@@ -196,11 +198,8 @@ const links = [
 
 <style scoped>
 
-h6 {
-  @apply text-gray-400;
-}
 
 .paragraphs p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 </style>

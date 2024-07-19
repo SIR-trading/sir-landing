@@ -11,36 +11,33 @@
     }
     body {
         font-family: 'Inter', system-ui;
-        @apply text-base ;
+        @apply text-base;
+
     }
     h1 {
-        @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
+        @apply text-2xl;
     }
     h2 {
-        @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+        @apply text-white text-lg;
     }
     h3 {
-        @apply text-lg md:text-xl lg:text-2xl xl:text-3xl;
+        @apply text-md font-bold text-gray-suit-400;
     }
-    h4 {
-        @apply text-base md:text-lg lg:text-xl xl:text-2xl;
-    }
-    h5 {
-        @apply text-base md:text-lg lg:text-xl xl:text-2xl;
-    }
-    h6 {
-        font-size: 1.2rem;
-    }
+
     p {
-        @apply text-gray-500;
+        @apply text-gray-suit-400;
     }
 }
 
 .title {
     font-family: 'Lora', system-ui;
-    @apply font-bold text-2xl md:text-4xl lg:text-6xl;
+    @apply font-bold text-white text-2xl;
 }
 
 .subtitle {
-    @apply font-bold text-gray-500
+    @apply font-normal text-blue-bell-500;
+}
+
+.text-base {
+    @apply font-normal text-md text-gray-suit-400;
 }
