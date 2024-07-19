@@ -51,13 +51,13 @@ const links = [
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
       <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
-        <SirCard image="https://placehold.co/396x226" size="md">
+        <SirCard image="/gentlemen_card.png" size="md">
           <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
           in
           the
           native token SIR. As LPers, gentlemen also get their own token TEA.</p>
         </SirCard>
-        <SirCard image="https://placehold.co/396x226" size="md">
+        <SirCard image="/apes_card.png" size="md">
           <p><b>Apes</b> choose which pair they want to long, and which leverage. They pay upfront fees for minting and
           burning, but not during their position. APE is a leveraged token that can be transferred and used in other
           protocols.</p>
