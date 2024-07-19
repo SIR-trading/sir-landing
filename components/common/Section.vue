@@ -12,7 +12,7 @@ const classes = computed(() => {
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
     props.variant === 'background' ? 'bg-gray-800' : '',
-    'p-6 my-6',
+    'p-6 my-24',
     props.className ? props.className : ''
   ])
 })
@@ -23,10 +23,13 @@ const classes = computed(() => {
       :class="classLink(
           [className ? className : '', classes]
           )">
-    <div class="flex flex-col items-center justify-center gap-4 lg:gap-8 lg:items-start ">
-
-      <h1 class="font-['Lora'] text-white font-bold text-4xl" ><slot name="header"/></h1>
-      <p class="text-gray-500 text-lg"><slot name="content"/></p>
+    <div class="flex flex-col items-center justify-center gap-5 lg:items-start ">
+      <h1 class="font-['Lora'] text-white font-bold text-xl">
+        <slot name="header"/>
+      </h1>
+      <p class="">
+        <slot name="content"/>
+      </p>
       <slot name="default"></slot>
     </div>
   </section>
