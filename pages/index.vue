@@ -34,10 +34,10 @@ const links = [
     <Section class-name="px-0 mb-0">
       <template v-slot:header>What is SIR?</template>
       <p>
-        SIR introduces a new approach to leveraged investing, offering compounding returns without maintenance fees or
-        volatility decay. Instead users pay fees, only, when opening or closing a position. SIR maintains constant
-        leverage through continuous virtual rebalancing, backed by internal liquidity pools. This provides a potentially
-        safer way to access amplified, compounding returns on assets over the long term.
+        SIR brings a fresh approach to leveraged investing in DeFi, offering compounding returns without the usual drawbacks. Unlike
+        traditional approaches to leverage, SIR does away with maintenance fees and removes 
+        <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>. Users only pay when they
+        open or close a position, in contrast with many platforms that charge ongoing fees, eating into long-term returns.
       </p>
     </Section>
     <Section class-name="px-0 mt-0">
@@ -47,6 +47,13 @@ const links = [
             <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
           </p>
         </div>
+    </Section>
+    <Section class-name="px-0 mb-0">
+      <p>
+        SIR achieves these improvements by controlling its own internal liquidity pools. This enables continuous virtual rebalancing,
+        ensuring steady leverage without costly external transactions. The result is a safer, more efficient way to gain amplified,
+        compounding returns over the long term.
+      </p>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
