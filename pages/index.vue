@@ -19,7 +19,7 @@ const links = [
         <span class="text-primary inline-block">Long-term</span> Investors
       </template>
       <template #description>
-        Get X by doing Y. On Z
+        Trustless. Immutable. Permissionless.
       </template>
     </SirHero>
     <!--<Section class-name="px-0">
