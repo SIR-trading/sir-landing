@@ -1,13 +1,35 @@
-import type { Config } from 'tailwindcss'
+import type {Config} from 'tailwindcss'
 
 export default <Partial<Config>>{
 
   theme: {
     extend: {
+      fontSize: {
+        sm: '0.875rem',
+        md: '1.125rem',
+        lg: '1.5rem',
+        xl: '2rem',
+        '2xl': '3rem',
+        '3xl': '3.5rem',
+        '4xl': '4rem'
+      },
+      maxWidth: {
+        md: '24.75rem',
+      },
+      fontWeight: {
+        thin: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        black: '900',
+      },
       colors: {
         primary: 'white',
         gray: 'cool',
-        background: 'dark',
         'harlequin': {
           '50': '#eeffe4',
           '100': '#d9ffc4',
@@ -20,6 +42,58 @@ export default <Partial<Config>>{
           '800': '#1c6d07',
           '900': '#1a5c0b',
           '950': '#073400',
+        },
+        'sea-buckthorn': {
+          '50': '#fef8ec',
+          '100': '#fde9c8',
+          '200': '#fad18d',
+          '300': '#f7b452',
+          '400': '#f69f36',
+          '500': '#ef7511',
+          '600': '#d4540b',
+          '700': '#b0380d',
+          '800': '#8f2b11',
+          '900': '#752512',
+          '950': '#431005',
+        },
+        'green': {
+          '50': '#f1fcfa',
+          '100': '#cff8ee',
+          '200': '#9ff0dd',
+          '300': '#67e1ca',
+          '400': '#37cab2',
+          '500': '#1eae99',
+          '600': '#15897b',
+          '700': '#157066',
+          '800': '#165953',
+          '900': '#174a45',
+          '950': '#072c2a',
+        },
+        'gray-suit': {
+          '50': '#f5f6f8',
+          '100': '#edeef2',
+          '200': '#dedfe7',
+          '300': '#c9cbd8',
+          '400': '#b6b6c9',
+          '500': '#9f9eb6',
+          '600': '#8c88a3',
+          '700': '#79758d',
+          '800': '#636073',
+          '900': '#52515e',
+          '950': '#302f37',
+        },
+        'blue-bell': {
+          '50': '#f8f9fa',
+          '100': '#f1f2f6',
+          '200': '#e5e6ef',
+          '300': '#d0d1e2',
+          '400': '#b5b6d0',
+          '500': '#8f8fb7',
+          '600': '#817ea9',
+          '700': '#6f6b96',
+          '800': '#5c597e',
+          '900': '#4d4a68',
+          '950': '#313045',
         },
       }
     }
