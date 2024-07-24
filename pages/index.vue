@@ -22,7 +22,7 @@ const links = [
         Get X by doing Y. On Z
       </template>
     </SirHero>
-    <Section class-name="px-0">
+    <!--<Section class-name="px-0">
       <div class="flex flex-col md:flex-row md:justify-between w-full">
         <h2 class="font-['Lora'] font-bold  text-xl">Be part of the SIR fundraising</h2>
         <UButton color="green" variant="solid" size="sm">
@@ -30,7 +30,7 @@ const links = [
         </UButton>
       </div>
       <UProgress class="my-6" size="5xl" :value="70"></UProgress>
-    </Section>
+    </Section>-->
     <Section class-name="px-0 mb-0">
       <template v-slot:header>What is SIR?</template>
       <p>
@@ -128,7 +128,7 @@ const links = [
 <!--        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>-->
       </div>
     </Section>
-    <Section class-name="px-0">
+    <!--<Section class-name="px-0">
       <template v-slot:header>Disclaimer for Funders of SIR</template>
       <div class="flex flex-col gap-3">
         <p>By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following
@@ -201,7 +201,7 @@ const links = [
           disclaimer in its entirety.
         </p>
       </div>
-    </Section>
+    </Section>-->
   </UContainer>
 </template>
 
