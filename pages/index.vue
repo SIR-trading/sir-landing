@@ -91,14 +91,15 @@ const links = [
        <p>The token is issued at a constant rate of 2015M tokens per year indefinitely. This approach ensures early liquidity providers (LPers)
        benefit from reduced competition, while later LPers continue to enjoy the permanent liquidity mining program.</p>
        <p>Token distribution is structured as follows:</p>
-       <p>For the first 3 years:</p>
-       <ul>
+       <p class="p-header">For the first 3 years:</p>
+       <ul class="list-inside list-disc	">
         <li>70% of tokens go to LPers</li>
         <li>10% to pre-launch contributors</li>
         <li>10% to the treasury for post-launch expenses</li>
         <li>10% to fundraising participants</li>
        </ul>
-       <p>After the initial 3-year period, 100% of newly issued tokens will be allocated to LPers, further reinforcing the protocol's commitment
+       <p class="p-header text-sm">After the initial 3-year period:</p>
+        <p>100% of newly issued tokens will be allocated to LPers, further reinforcing the protocol's commitment
        to liquidity providers.</p>
 <!--        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>-->
       </div>

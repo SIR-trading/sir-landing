@@ -41,3 +41,7 @@
 .text-base {
     @apply font-normal text-md text-gray-suit-400;
 }
+
+.p-header {
+    @apply mt-4 font-['Lora'] text-lg font-bold
+}

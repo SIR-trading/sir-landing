@@ -4,11 +4,11 @@ import Connect from "~/components/wallet/Connect.vue";
 
 const {isMobile, isTablet} = useDevice();
 const links = [
-  {name: "About", to: '/about'},
-  {name: 'Fundraising', to: '/fundraising'},
-  {name: 'Docs', to: '/mint'},
-  {name: 'Roadmap', to: '/mint'},
-  {name: 'Whitepaper', to: '/mint'}
+  // {name: "About", to: '/about'},
+  // {name: 'Fundraising', to: '/fundraising'},
+  {name: 'Docs', to: 'https://docs.sir.trading/', target:"_blank"},
+  // {name: 'Roadmap', to: '/mint'},
+  // {name: 'Whitepaper', to: '/mint'}
 ];
 
 const isMenuOpen = ref(false);
@@ -34,28 +34,29 @@ const goTo = (path: string) => {
                 <NuxtImg src="logo_base_64x64.png" alt="Logo" width="32" height="32"/>
               </picture>
               <div class="font-['Lora'] inline-flex ml-1 text-sm text-white">Sir.Trading</div>
-              <button v-show="isMobile || isTablet" @click="toggleMenu">
-                <UIcon :name="isMenuOpen ? 'ep:close':'fluent-mdl2:numbered-list-text-mirrored'" dynamic/>
-              </button>
+              <UButton color="white" variant="ghost" size="xl" v-show="isMobile || isTablet" @click="toggleMenu">
+                <UIcon :name="isMenuOpen ? 'ep:close':'fluent-mdl2:numbered-list-text-mirrored'" dynamic size="24"/>
+              </UButton>
             </div>
           </div>
           <div v-if="!isTablet || isMenuOpen" class="flex flex-auto flex-col gap-6 items-center justify-between lg:flex-row ">
             <div class="flex gap-6 flex-col lg:flex-row">
               <ULink v-for="link in links" :key="link.to"
                      :to="link.to"
+                     :target="link.target ? link.target : ''"
                      active-class="text-primary"
                      inactive-class="text-blue-bell-500 dark:text-blue-bell-500 hover:text-gray-700 dark:hover:text-gray-200"
               >{{ link.name }}
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">
-              <a href="https://twitter.com" target="_blank">
-                <UIcon name="simple-icons:twitter" dynamic size="24px" class="text-white"/>
+              <a href="https://x.com/leveragesir" target="_blank">
+                <UIcon name="simple-icons:x" dynamic size="20px" class="text-white"/>
               </a>
               <a href="https://discord.gg/JpJtBFvQj8" target="_blank">
                 <UIcon name="simple-icons:discord" dynamic size="24px" class="text-white"/>
               </a>
-              <UButton color="white" variant="outline" :disabled="true">
+              <UButton color="gray" variant="outline" :disabled="true">
                 <span class="font-sm font-semibold">Launch Prototype</span>
               </UButton>
 

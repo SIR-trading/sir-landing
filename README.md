@@ -1,32 +1,5 @@
-# Nuxt Web3 Starter
-A Nuxt3 starter template with web3 integration.
-This template is based on the [Nuxt UI](https://ui.nuxt.com) template.
-
-- _Look at [Nuxt docs](https://nuxt.com/docs/getting-started/introduction) and [Nuxt UI docs](https://ui.nuxt.com) to learn more._
-
-## Features
-- [x] Wallet connection with [web3Onboard](https://onboard.blocknative.com/docs/overview/introduction#features) by **blocknative**
-- [x] Minimal custom EthereumClient implementation, ready for expansion
-- [x] Dark/Light mode switch
-- [x] Minimalistic design with [Tailwind CSS](https://tailwindcss.com)
-- [x] Responsive menu
-- [x] Media queries composable for mobile, tablet and desktop
-- [x] Event logging
-- [x] Contract interaction methods
-- [x] Basic ERC721 ABI
-- [x] Notifications
-
-## Custom Components
-- [x] Wallet widget
-- [x] Hero
-- [x] Section
-
-### Default Wallets
-- [x] Injected
-- [x] Coinbase Wallet
-- [x] MetaMask
-
-_For different wallets support please refer to the **web3Onboard** documentation_
+# SIR.trading landing page
+SIR.trading landing page repo
 
 ## Environment Variables
 The following environment variables are required to be set in a `.env` file in the root of the project:
