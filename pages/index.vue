@@ -56,6 +56,17 @@ const links = [
       </p>
     </Section>
     <Section class-name="px-0">
+      <template v-slot:header>Permissionless & Trustless</template>
+      <template v-slot:content>
+        <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
+        <p>Like Uniswap, anyone can create a vault, specifying a pair of tokens and a leverage ratio. The protocol runs on unchangeable
+        smart contracts with fixed parameters, eliminating risks from unexpected changes.</p>
+        <p>After its beta phase, SIR's unstoppable code will be completely immutable, living on Ethereum forever.</p>
+        <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money lego' in the DeFi ecosystem.</p>
+<!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
+      </template>
+    </Section>
+    <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
       <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
         <SirCard image="/gentlemen_card.png" size="md">
@@ -70,15 +81,6 @@ const links = [
           protocols.</p>
         </SirCard>
       </div>
-    </Section>
-    <Section class-name="px-0">
-      <template v-slot:header>Permissionless & Trustless</template>
-      <template v-slot:content>
-        Just like in Uniswap, anyone can create a vault which consist of a pair of tokens and a leverage ratio. The
-        protocol aims to be permissionless and maximally trustless. After the beta phase its unstoppable code will be
-        completely immutable and live on Ethereum forever.
-<!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
-      </template>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Contribute</template>
