@@ -34,24 +34,27 @@ const links = [
     <Section class-name="px-0 mb-0">
       <template v-slot:header>What is SIR?</template>
       <p>
-        SIR brings a fresh approach to leveraged investing in DeFi, offering compounding returns without the usual drawbacks. Unlike
-        traditional approaches to leverage, SIR does away with maintenance fees and removes 
-        <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>. Users only pay when they
-        open or close a position, in contrast with many platforms that charge ongoing fees, eating into long-term returns.
+        SIR brings a fresh approach to leveraged investing in DeFi, offering compounding returns without the usual
+        drawbacks. Unlike
+        traditional approaches to leverage, SIR does away with maintenance fees and removes
+        <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>. Users only
+        pay when they
+        open or close a position, in contrast with many platforms that charge ongoing fees, eating into long-term
+        returns.
       </p>
-    </Section>
-    <Section class-name="px-0 mt-0">
-        <div class="flex flex-col w-full justify-center items-center">
-          <NuxtImg src="/static_chart_bg.png" alt="ETH/USDC Leverages Chart" sizes="sm:640px md:768px lg:1000px" class="rounded-lg ring-1 ring-gray-suit-950" />
-          <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5 leverage versus
-            <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
-          </p>
-        </div>
-    </Section>
-    <Section class-name="px-0 mb-0">
+      <div class="flex flex-col w-full justify-center items-center">
+        <NuxtImg src="/static_chart_bg.png" alt="ETH/USDC Leverages Chart" sizes="sm:640px md:768px lg:1000px"
+                 class="rounded-lg ring-1 ring-gray-suit-950"/>
+        <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5 leverage
+          versus
+          <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
+        </p>
+      </div>
       <p>
-        SIR achieves these improvements by controlling its own internal liquidity pools. This enables continuous virtual rebalancing,
-        ensuring steady leverage without costly external transactions. The result is a safer, more efficient way to gain amplified,
+        SIR achieves these improvements by controlling its own internal liquidity pools. This enables continuous virtual
+        rebalancing,
+        ensuring steady leverage without costly external transactions. The result is a safer, more efficient way to gain
+        amplified,
         compounding returns over the long term.
       </p>
     </Section>
@@ -59,49 +62,56 @@ const links = [
       <template v-slot:header>Permissionless & Trustless</template>
       <template v-slot:content>
         <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
-        <p>Like Uniswap, anyone can create a vault, specifying a pair of tokens and a leverage ratio. The protocol runs on unchangeable
-        smart contracts with fixed parameters, eliminating risks from unexpected changes.</p>
+        <p>Like Uniswap, anyone can create a vault, specifying a pair of tokens and a leverage ratio. The protocol runs
+          on unchangeable
+          smart contracts with fixed parameters, eliminating risks from unexpected changes.</p>
         <p>After its beta phase, SIR's unstoppable code will be completely immutable, living on Ethereum forever.</p>
-        <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money lego' in the DeFi ecosystem.</p>
-<!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
+        <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
+          lego' in the DeFi ecosystem.</p>
+        <!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
       </template>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>Gentlemen & Apes</template>
-      <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between w-full">
+      <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-between w-full">
         <SirCard image="/gentlemen_card.png" size="md">
-          <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also rewards
-          in
-          the
-          native token SIR. As LPers, gentlemen also get their own token TEA.</p>
+          <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also
+            rewards
+            in
+            the
+            native token SIR. As LPers, gentlemen also get their own token TEA.</p>
         </SirCard>
         <SirCard image="/apes_card.png" size="md">
           <p><b>Apes</b> choose which pair they want to long, and which leverage. They pay upfront fees for minting and
-          burning, but not during their position. APE is a leveraged token that can be transferred and used in other
-          protocols.</p>
+            burning, but not during their position. APE is a leveraged token that can be transferred and used in other
+            protocols.</p>
         </SirCard>
       </div>
     </Section>
     <Section class-name="px-0">
       <template v-slot:header>SIR: a Fee Paying Token</template>
       <div class="flex flex-col gap-3">
-       <p>SIR is the native token of the SIR protocol. Unlike ad-hoc tokens added later and controlled by admin keys, the SIR token is an
-       integral part of the core protocol, making it immutable. Stakers of SIR receive a portion of the fees generated by the protocol,
-       incentivizing long-term participation.</p>
-       <p>The token is issued at a constant rate of 2015M tokens per year indefinitely. This approach ensures early liquidity providers (LPers)
-       benefit from reduced competition, while later LPers continue to enjoy the permanent liquidity mining program.</p>
-       <p>Token distribution is structured as follows:</p>
-       <p class="p-header">For the first 3 years:</p>
-       <ul class="list-inside list-disc	">
-        <li>70% of tokens go to LPers</li>
-        <li>10% to pre-launch contributors</li>
-        <li>10% to the treasury for post-launch expenses</li>
-        <li>10% to fundraising participants</li>
-       </ul>
-       <p class="p-header text-sm">After the initial 3-year period:</p>
+        <p>SIR is the native token of the SIR protocol. Unlike ad-hoc tokens added later and controlled by admin keys,
+          the SIR token is an
+          integral part of the core protocol, making it immutable. Stakers of SIR receive a portion of the fees
+          generated by the protocol,
+          incentivizing long-term participation.</p>
+        <p>The token is issued at a constant rate of 2015M tokens per year indefinitely. This approach ensures early
+          liquidity providers (LPers)
+          benefit from reduced competition, while later LPers continue to enjoy the permanent liquidity mining
+          program.</p>
+        <p>Token distribution is structured as follows:</p>
+        <p class="p-header">For the first 3 years:</p>
+        <ul class="list-inside list-disc	">
+          <li>70% of tokens go to LPers</li>
+          <li>10% to pre-launch contributors</li>
+          <li>10% to the treasury for post-launch expenses</li>
+          <li>10% to fundraising participants</li>
+        </ul>
+        <p class="p-header text-sm">After the initial 3-year period:</p>
         <p>100% of newly issued tokens will be allocated to LPers, further reinforcing the protocol's commitment
-       to liquidity providers.</p>
-<!--        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>-->
+          to liquidity providers.</p>
+        <!--        <div class="h-64 bg-gray-600 my-6 rounded-lg"></div>-->
       </div>
     </Section>
     <Section class-name="px-0">
