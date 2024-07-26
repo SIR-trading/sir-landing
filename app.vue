@@ -29,7 +29,14 @@ web3Onboard.value = init({
   }
 })
 // console.log("web3Onboard", web3Onboard)
-
+useSeoMeta({
+  title: 'Sir.trading',
+  ogTitle: 'Sir.trading',
+  description: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
+  ogDescription: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
+  ogImage: '/twitter_image.png',
+  twitterCard: '/twitter_image.png',
+})
 </script>
 <template>
   <div class="main-layout">
