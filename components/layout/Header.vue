@@ -6,7 +6,7 @@ const {isMobile, isTablet} = useDevice();
 const links = [
   // {name: "About", to: '/about'},
   // {name: 'Fundraising', to: '/fundraising'},
-  {name: 'Docs', to: 'https://docs.sir.trading/', target:"_blank"},
+  {name: 'Docs', to: 'https://docs.sir.trading/'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
 ];
