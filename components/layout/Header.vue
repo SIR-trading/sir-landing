@@ -47,8 +47,10 @@ const goTo = (path: string) => {
                      active-class="text-primary"
                      inactive-class="text-blue-bell-500 dark:text-blue-bell-500 hover:text-gray-700 dark:hover:text-gray-200"
               >
-
-                  <span class="left-0 p-0 h-full">{{ link.name }}<UIcon class="top-0 h-full" v-if="link.trailing" :name="link.trailing" dynamic size="12"/></span>
+                <span class="left-0 p-0 h-full">
+                  {{ link.name }}
+                  <UIcon class="top-0 h-full" v-if="link.trailing" :name="link.trailing" dynamic size="12"/>
+                </span>
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">
