@@ -6,7 +6,7 @@ const {isMobile, isTablet} = useDevice();
 const links = [
   // {name: "About", to: '/about'},
   // {name: 'Fundraising', to: '/fundraising'},
-  {name: 'Docs', to: 'https://docs.sir.trading/', target:"_blank"},
+  {name: 'Docs', to: 'https://docs.sir.trading/', target:"_blank", trailing: 'uil:arrow-up-right'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
 ];
@@ -31,7 +31,7 @@ const goTo = (path: string) => {
           <div class="w-full flex flex-between md:w-auto">
             <div @click="goTo('/')" class="cursor-pointer flex flex-row flex-auto w-full items-center justify-around lg:justify-start lg:w-50">
               <picture class="logo md:flex flex-start">
-                <NuxtImg src="logo_base_64x64.png" alt="Logo" width="32" height="32"/>
+                <NuxtImg src="favicon-32x32.png" alt="Logo" width="32" height="32"/>
               </picture>
               <div class="font-['Lora'] inline-flex ml-1 text-sm text-white">Sir.Trading</div>
               <UButton color="white" variant="ghost" size="xl" v-show="isMobile || isTablet" @click="toggleMenu">
@@ -46,7 +46,11 @@ const goTo = (path: string) => {
                      :target="link.target ? link.target : ''"
                      active-class="text-primary"
                      inactive-class="text-blue-bell-500 dark:text-blue-bell-500 hover:text-gray-700 dark:hover:text-gray-200"
-              >{{ link.name }}
+              >
+                <span class="left-0 p-0 h-full">
+                  {{ link.name }}
+                  <UIcon class="top-0 h-full" v-if="link.trailing" :name="link.trailing" dynamic size="12"/>
+                </span>
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">
