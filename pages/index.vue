@@ -22,6 +22,7 @@ const links = [
         Trustless. Immutable. Permissionless.
       </template>
     </SirHero>
+
     <!--<Section class-name="px-0">
       <div class="flex flex-col md:flex-row md:justify-between w-full">
         <h2 class="font-['Lora'] font-bold  text-xl">Be part of the SIR fundraising</h2>
@@ -31,6 +32,7 @@ const links = [
       </div>
       <UProgress class="my-6" size="5xl" :value="70"></UProgress>
     </Section>-->
+    <ClientOnly>
     <Section class-name="px-0 mb-0">
       <template v-slot:header>What is SIR?</template>
       <p>
@@ -43,8 +45,8 @@ const links = [
         returns.
       </p>
       <div class="flex flex-col w-full justify-center items-center">
-        <NuxtImg src="/static_chart_bg.png" alt="ETH/USDC Leverages Chart" sizes="sm:640px md:768px lg:1000px"
-                 class="rounded-lg ring-1 ring-gray-suit-950"/>
+        <EthSirChart  />
+
         <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5 leverage
           versus
           <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
@@ -211,6 +213,7 @@ const links = [
         </p>
       </div>
     </Section>-->
+    </ClientOnly>
   </UContainer>
 </template>
 
