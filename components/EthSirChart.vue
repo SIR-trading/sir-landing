@@ -35,7 +35,6 @@ ChartJS.register(
     LinearScale
 );
 
-const loading = ref(true); // Add a loading state
 const chartData = ref(null); // Initialize chartData as null
 const chartOptions = ref({
   responsive: true,
