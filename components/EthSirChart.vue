@@ -1,8 +1,12 @@
 <template>
-  <div class="w-full flex items-center justify-center">
-    <div v-if="loading">Loading...</div>
-    <Line v-else type="line" :data="chartData" :options="chartOptions"/>
-  </div>
+  <ClientOnly>
+    <div class="w-full flex items-center justify-center">
+      <Line v-if="chartData" type="line" :data="chartData" :options="chartOptions"/>
+      <div v-else class="flex items-center justify-center">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup>
@@ -31,7 +35,6 @@ ChartJS.register(
     LinearScale
 );
 
-const loading = ref(true); // Add a loading state
 const chartData = ref(null); // Initialize chartData as null
 const chartOptions = ref({
   responsive: true,
@@ -50,45 +53,29 @@ const chartOptions = ref({
   },
 });
 
-const { data, execute, status, error } = useFetch('api/eth-sir-chart')
 
-execute().then(() => {
-  if (data.value && status.value === 'success') {
-    chartData.value = {
-      labels: data.value.dates,
-      datasets: [
-        {
-          label: 'ETH/USDC',
-          backgroundColor: '#2FA0A5',
-          borderColor: '#2FA0A5',
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          data: data.value.eth_line,
-        },
-        {
-          label: 'SIR',
-          backgroundColor: '#F69F36',
-          borderColor: '#F69F36',
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          data: data.value.sir_line,
-        },
-        {
-          label: 'Squeeth',
-          backgroundColor: '#EB5E1D',
-          borderColor: '#EB5E1D',
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          data: data.value.squeeth_aligned,
-        },
-      ],
-    }
-    loading.value = false
-  } else if (error.value) {
-    console.error(error.value)
-  }
+
+import { useChartStore } from '@/stores/chart';
+
+const {loadChartData, getChartData} = useChartStore();
+
+onBeforeMount(async () => {
+  await loadChartData().then(
+      () => {
+        console.log(useChartStore().chartData);
+        chartData.value = useChartStore().chartData;
+      }
+  )
+});
+
+onMounted(() => {
+
 })
+
+
+
+
+
+
+
 </script>
