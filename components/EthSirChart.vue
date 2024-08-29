@@ -58,7 +58,7 @@ const chartOptions = ref({
     y: {
       ticks: {
         // For a category axis, the val is the index so the lookup via getLabelForValue is needed
-        callback: function(val, index) {
+        callback: function(val) {
           // Hide every 2nd tick label
           return "$" + this.getLabelForValue(val);
         },
