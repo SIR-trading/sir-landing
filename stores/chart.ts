@@ -11,7 +11,7 @@ export const useChartStore = defineStore('chart', {
         labels: rawData.dates,
         datasets: [
           {
-            label: 'ETH/USDC',
+            label: 'ETH',
             backgroundColor: '#2FA0A5',
             borderColor: '#2FA0A5',
             borderWidth: 2,
