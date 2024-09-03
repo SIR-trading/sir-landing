@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
+  import { defineStore } from 'pinia';
 
 export const useChartStore = defineStore('chart', {
   state: () => ({
-    chartData: null,
+    chartData: {},
   }),
   actions: {
     async loadChartData() {
@@ -11,7 +11,7 @@ export const useChartStore = defineStore('chart', {
         labels: rawData.dates,
         datasets: [
           {
-            label: 'ETH/USDC',
+            label: 'ETH',
             backgroundColor: '#2FA0A5',
             borderColor: '#2FA0A5',
             borderWidth: 2,
@@ -21,8 +21,8 @@ export const useChartStore = defineStore('chart', {
           },
           {
             label: 'SIR',
-            backgroundColor: '#F69F36',
-            borderColor: '#F69F36',
+            backgroundColor: '#00d903',
+            borderColor: '#00d903',
             borderWidth: 2,
             pointRadius: 0,
             pointHoverRadius: 0,
