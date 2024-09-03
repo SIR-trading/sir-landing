@@ -40,6 +40,14 @@ ChartJS.register(
 const chartData = ref(null); // Initialize chartData as null
 const chartOptions = ref({
   responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        color: 'rgba(255, 255, 255, 1)', // Legend label color
+      },
+    },
+  },
   maintainAspectRatio: false,
   animation: {
     duration: 1000,
@@ -53,6 +61,7 @@ const chartOptions = ref({
           // Hide every 2nd tick label
           return index % 4 === 0 ? this.getLabelForValue(val) : '';
         },
+        color: 'rgba(255, 255, 255, 1)'
       }
     },
     y: {
@@ -62,6 +71,8 @@ const chartOptions = ref({
           // Hide every 2nd tick label
           return "$" + this.getLabelForValue(val);
         },
+        color: 'rgba(255, 255, 255, 1)'
+
       }
     }
   }
