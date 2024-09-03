@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
+  import { defineStore } from 'pinia';
 
 export const useChartStore = defineStore('chart', {
   state: () => ({
-    chartData: null,
+    chartData: {},
   }),
   actions: {
     async loadChartData() {
@@ -14,16 +14,16 @@ export const useChartStore = defineStore('chart', {
             label: 'ETH',
             backgroundColor: '#2FA0A5',
             borderColor: '#2FA0A5',
-            borderWidth: 2,
+            borderWidth: 1,
             pointRadius: 0,
             pointHoverRadius: 0,
             data: rawData.eth_line,
           },
           {
             label: 'SIR',
-            backgroundColor: '#F69F36',
-            borderColor: '#F69F36',
-            borderWidth: 2,
+            backgroundColor: '#00d903',
+            borderColor: '#00d903',
+            borderWidth: 1,
             pointRadius: 0,
             pointHoverRadius: 0,
             data: rawData.sir_line,
@@ -32,7 +32,7 @@ export const useChartStore = defineStore('chart', {
             label: 'Squeeth',
             backgroundColor: '#EB5E1D',
             borderColor: '#EB5E1D',
-            borderWidth: 2,
+            borderWidth: 1,
             pointRadius: 0,
             pointHoverRadius: 0,
             data: rawData.squeeth_aligned,
