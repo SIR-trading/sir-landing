@@ -3,26 +3,15 @@ import Section from '@/components/common/Section.vue'
 import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
 
-const links = [
-  {
-    name: 'Mint',
-    to: '/mint',
-    variant: 'outline'
-  }
-]
 </script>
+
 <template>
   <UContainer>
-    <SirHero image="logo_240x240.png">
+    <SirHero image="hero_image.png">
       <template #title>
-        Safer Leverage for
-        <span class="text-primary inline-block">Long-term</span> Investors
-      </template>
-      <template #description>
-        Trustless. Immutable. Permissionless.
+        Safer Leverage for Long-term Investors
       </template>
     </SirHero>
-
     <!--<Section class-name="px-0">
       <div class="flex flex-col md:flex-row md:justify-between w-full">
         <h2 class="font-['Lora'] font-bold  text-xl">Be part of the SIR fundraising</h2>
@@ -33,51 +22,58 @@ const links = [
       <UProgress class="my-6" size="5xl" :value="70"></UProgress>
     </Section>-->
     <ClientOnly>
-      <Section class-name="px-0 mb-0">
+      <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is SIR?</template>
-        <p>
-          SIR brings a fresh approach to leveraged investing in DeFi, offering compounding returns without the usual
-          drawbacks. Unlike
-          traditional approaches to leverage, SIR does away with maintenance fees and removes
-          <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>. Users only
-          pay when they
-          open or close a position, in contrast with many platforms that charge ongoing fees, eating into long-term
-          returns.
-        </p>
+        <div class="section-text-block">
+          <p>
+            SIR brings a fresh approach to leveraged investing in DeFi, offering compounding returns without the usual
+            drawbacks. Unlike
+            traditional approaches to leverage, SIR does away with maintenance fees and removes
+            <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>.
+          </p>
+          <p>
+            Users only
+            pay when they
+            open or close a position, in contrast with many platforms that charge ongoing fees, eating into long-term
+            returns.
+          </p>
+        </div>
         <div class="flex flex-col w-full justify-center items-center">
           <EthSirChart/>
-
           <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5
             leverage
             versus
             <a href="https://www.opyn.co/squeeth?ct=IT" class="text-blue-bell-500">Squeeth from Opyn</a>
           </p>
         </div>
-        <p>
-          SIR achieves these improvements by controlling its own internal liquidity pools. This enables continuous
-          virtual
-          rebalancing,
-          ensuring steady leverage without costly external transactions. The result is a safer, more efficient way to
+        <div class="section-text-block">
+          <p>
+            SIR achieves these improvements by controlling its own internal liquidity pools. This enables continuous
+            virtual
+            rebalancing,
+            ensuring steady leverage without costly external transactions.
+          </p>
+          <p>The result is a safer, more efficient way to
           gain
           amplified,
-          compounding returns over the long term.
-        </p>
+            compounding returns over the long term.</p>
+        </div>
       </Section>
-      <Section class-name="px-0">
+      <Section variant="background">
         <template v-slot:header>Permissionless & Trustless</template>
-        <template v-slot:content>
-          <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
-          <p>Like Uniswap, anyone can create a vault, specifying a pair of tokens and a leverage ratio. The protocol
-            runs
-            on unchangeable
-            smart contracts with fixed parameters, eliminating risks from unexpected changes.</p>
-          <p>After its beta phase, SIR's unstoppable code will be completely immutable, living on Ethereum forever.</p>
-          <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
-            lego' in the DeFi ecosystem.</p>
+         <div class="section-text-block">
+           <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
+           <p>Like Uniswap, anyone can create a vault, specifying a pair of tokens and a leverage ratio. The protocol
+             runs
+             on unchangeable
+             smart contracts with fixed parameters, eliminating risks from unexpected changes.</p>
+           <p>After its beta phase, SIR's unstoppable code will be completely immutable, living on Ethereum forever.</p>
+           <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
+             lego' in the DeFi ecosystem.</p>
+         </div>
           <!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
-        </template>
       </Section>
-      <Section class-name="px-0">
+      <Section variant="background">
         <template v-slot:header>Gentlemen & Apes</template>
         <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-between w-full">
           <SirCard image="/gentlemen_card.png" size="md">
@@ -95,9 +91,9 @@ const links = [
           </SirCard>
         </div>
       </Section>
-      <Section class-name="px-0">
+      <Section variant="background">
         <template v-slot:header>SIR: a Fee Paying Token</template>
-        <div class="flex flex-col gap-3">
+        <div class="section-text-block">
           <p>
             SIR is the native token of the SIR protocol. Unlike ad-hoc tokens added later and controlled by admin keys,
             the SIR token is an integral part of the core protocol, making it immutable. Stakers of SIR receive a
@@ -110,38 +106,40 @@ const links = [
           </p>
         </div>
       </Section>
-      <Section class-name="px-0">
+      <Section variant="background">
         <template v-slot:header>SIR Token Sale</template>
-        <p class="p-header">Token Allocation and Fundraising Goal</p>
-        <p>
-          We have designated 10-13% of all SIR tokens issued during the initial three-year period for our public token
-          sale. Our objective is to raise up to $500,000 to cover essential expenses, including:
-        </p>
-        <ul class="px-5 list-disc">
-          <li>Smart contract audits</li>
-          <li>Contract deployments</li>
-          <li>Bootstrapping liquidity</li>
-          <li>Other operational costs</li>
-        </ul>
-        <p class="p-header">Fair Distribution Model</p>
-        <p>In the spirit of the early ICO era, we are embracing a fair distribution model. As cypherpunks committed to maximum fairness, we are implementing the following principles:</p>
-        <ul class="px-5 list-disc">
-          <li>No private sale</li>
-          <li>No pre-sales</li>
-          <li>No multiple rounds with various discounts</li>
-        </ul>
-        <p class="p-header">Bonus for Existing Community Members</p>
-        <p>
-          To reward our loyal community members, we're offering a special bonus for holders of
-          <a class="text-blue-bell-500" href="https://opensea.io/collection/mined-jpeg">Mined JPEG(MJ)</a> or
-          <a class="text-blue-bell-500" href="https://opensea.io/collection/buterin-cards">Buterin Cards(BC):</a>
-        </p>
-        <ul class="px-5 list-disc">
-          <li>Lock your MJ or BC for one year to receive extra tokens</li>
-          <li>Earn 5% additional tokens for each locked MJ or BC</li>
-          <li>Maximum bonus capped at 30%</li>
-        </ul>
-        <p>This bonus structure allows participants to acquire up to 30% more tokens during the sale, based on their existing holdings and willingness to lock them for a year.</p>
+        <div class="section-text-block">
+          <p class="p-header">Token Allocation and Fundraising Goal</p>
+          <p>
+            We have designated 10-13% of all SIR tokens issued during the initial three-year period for our public token
+            sale. Our objective is to raise up to $500,000 to cover essential expenses, including:
+          </p>
+          <ul class="px-5 list-disc">
+            <li>Smart contract audits</li>
+            <li>Contract deployments</li>
+            <li>Bootstrapping liquidity</li>
+            <li>Other operational costs</li>
+          </ul>
+          <p class="p-header">Fair Distribution Model</p>
+          <p>In the spirit of the early ICO era, we are embracing a fair distribution model. As cypherpunks committed to maximum fairness, we are implementing the following principles:</p>
+          <ul class="px-5 list-disc">
+            <li>No private sale</li>
+            <li>No pre-sales</li>
+            <li>No multiple rounds with various discounts</li>
+          </ul>
+          <p class="p-header">Bonus for Existing Community Members</p>
+          <p>
+            To reward our loyal community members, we're offering a special bonus for holders of
+            <a class="text-blue-bell-500" href="https://opensea.io/collection/mined-jpeg">Mined JPEG(MJ)</a> or
+            <a class="text-blue-bell-500" href="https://opensea.io/collection/buterin-cards">Buterin Cards(BC):</a>
+          </p>
+          <ul class="px-5 list-disc">
+            <li>Lock your MJ or BC for one year to receive extra tokens</li>
+            <li>Earn 5% additional tokens for each locked MJ or BC</li>
+            <li>Maximum bonus capped at 30%</li>
+          </ul>
+          <p>This bonus structure allows participants to acquire up to 30% more tokens during the sale, based on their existing holdings and willingness to lock them for a year.</p>
+        </div>
       </Section>
     </ClientOnly>
   </UContainer>

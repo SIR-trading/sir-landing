@@ -33,7 +33,7 @@ const goTo = (path: string) => {
               <picture class="logo md:flex flex-start">
                 <NuxtImg src="favicon-32x32.png" alt="Logo" width="32" height="32"/>
               </picture>
-              <div class="font-['Lora'] inline-flex ml-1 text-sm text-white">Sir.Trading</div>
+              <div class="inline-flex text-brand ml-1 text-sm text-white">SIR.TRADING</div>
               <UButton color="white" variant="ghost" size="xl" v-show="isMobile || isTablet" @click="toggleMenu">
                 <UIcon :name="isMenuOpen ? 'ep:close':'fluent-mdl2:numbered-list-text-mirrored'" dynamic size="24"/>
               </UButton>
