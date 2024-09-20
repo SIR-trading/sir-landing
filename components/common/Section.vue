@@ -11,8 +11,8 @@ const classes = computed(() => {
   return classLink([
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
-    props.variant === 'background' ? 'bg-gray-800' : '',
-    'p-6 my-24',
+    props.variant === 'background' ? 'bg-black-russian-950' : '',
+    'p-6 my-12',
     props.className ? props.className : ''
   ])
 })
@@ -23,8 +23,8 @@ const classes = computed(() => {
       :class="classLink(
           [className ? className : '', classes]
           )">
-    <div class="flex flex-col items-center justify-center gap-5 lg:items-start ">
-      <h1 class="font-['Lora'] text-white font-bold text-xl">
+    <div class="flex flex-col items-center justify-center gap-1  text-center ">
+      <h1 class="section-header sir-text-shadow font-bold text-xl">
         <slot name="header"/>
       </h1>
       <p class="">

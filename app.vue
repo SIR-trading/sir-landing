@@ -54,6 +54,8 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: radial-gradient(55.25% 55.16% at 48.63% 44.84%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+  background-blend-mode: lighten;
 }
 
 .content {
