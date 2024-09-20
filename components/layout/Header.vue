@@ -40,7 +40,7 @@ const goTo = (path: string) => {
             </div>
           </div>
           <div v-if="!isTablet || isMenuOpen" class="flex flex-auto flex-col gap-6 items-center justify-between lg:flex-row ">
-            <div class="flex gap-6 flex-col lg:flex-row">
+            <div class="flex gap-6 flex-col lg:flex-row lg:items-center">
               <ULink v-for="link in links" :key="link.to"
                      :to="link.to"
                      :target="link.target ? link.target : ''"
