@@ -63,7 +63,7 @@ const goTo = (path: string) => {
               <a href="https://github.com/SIR-trading" target="_blank">
                 <UIcon name="simple-icons:github" dynamic size="24px" class="text-white"/>
               </a>
-              <UButton color="gray" variant="outline" :disabled="true">
+              <UButton color="gray" variant="outline" :disabled="false" external="true" to="https://prototype.sir.trading/" target="_blank">
                 <span class="font-sm font-semibold">Launch Prototype</span>
               </UButton>
 
