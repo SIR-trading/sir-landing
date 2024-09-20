@@ -1,25 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 
 @layer base {
     html {
         background-color: #0A0A0F;
     }
-    body {
-        font-family: 'Inter', system-ui;
-        @apply text-base;
 
+    body {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.5rem;
+        @apply text-base;
+        /* assets/css/main.css */
+        background-image: url('/public/background.png');
+        background-repeat: repeat;
+        background-size: auto; /* Optional: To cover the entire screen */
+        background-position: center; /* Optional: To center the image */
     }
+
+
+
     h1 {
         @apply text-2xl;
     }
+
     h2 {
         @apply text-white text-lg;
     }
+
     h3 {
         @apply text-md font-bold text-gray-suit-400;
     }
@@ -30,8 +41,11 @@
 }
 
 .title {
-    font-family: 'Lora', system-ui;
-    @apply font-bold text-white text-3xl;
+    font-family: "Bebas Neue", sans-serif;
+    text-transform: uppercase;
+    line-height: 5rem;
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
+    @apply font-normal text-white text-4xl;
 }
 
 .subtitle {
@@ -42,10 +56,32 @@
     @apply font-normal text-md text-gray-suit-400;
 }
 
-.p-header {
-    @apply mt-4 font-['Lora'] text-lg font-bold
+.section-header {
+    font-family: "Bebas Neue", sans-serif;
+    text-transform: uppercase;
+    line-height: 5rem;
+    @apply font-normal text-rob-roy-300;
 }
 
+.text-brand {
+    font-family: "Bebas Neue", sans-serif;
+    text-transform: uppercase;
+    line-height: 1rem;
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
+    @apply font-normal text-white text-lg;
+}
+.text-capital {
+    text-transform: uppercase;
+}
+.sir-text-shadow {
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
+}
+.p-header {
+    @apply text-lg font-bold
+}
+.section-text-block {
+    @apply text-center max-w-[560px] flex flex-col gap-[15px];
+}
 .spinner {
     border: 16px solid #333333; /* Light grey */
     border-top: 16px solid #f69f36; /* Blue */
@@ -56,6 +92,10 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
