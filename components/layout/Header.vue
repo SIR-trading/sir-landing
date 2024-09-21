@@ -6,7 +6,7 @@ const {isMobile, isTablet} = useDevice();
 const links = [
   // {name: "About", to: '/about'},
   // {name: 'Fundraising', to: '/fundraising'},
-  {name: 'Docs', to: 'https://docs.sir.trading/', target:"_blank", trailing: 'uil:arrow-up-right'},
+  {name: 'Docs', to: 'https://docs.sir.trading/', trailing: 'uil:arrow-up-right'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
 ];
@@ -63,7 +63,7 @@ const goTo = (path: string) => {
               <a href="https://github.com/SIR-trading" target="_blank">
                 <UIcon name="simple-icons:github" dynamic size="24px" class="text-white"/>
               </a>
-              <UButton color="gray" variant="outline" :disabled="true">
+              <UButton color="gray" variant="outline" :disabled="false" external="true" to="https://prototype.sir.trading/">
                 <span class="font-sm font-semibold">Launch Prototype</span>
               </UButton>
 
