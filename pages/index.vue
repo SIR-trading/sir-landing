@@ -2,6 +2,15 @@
 import Section from '@/components/common/Section.vue'
 import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
+import SirProgressBar from "~/components/common/SirProgressBar.vue";
+import SirButton from "~/components/common/SirButton.vue";
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const goTo = (_path: string) => {
+  router.push({ path: _path })
+}
 
 </script>
 
@@ -12,15 +21,19 @@ import SirCard from "~/components/common/SirCard.vue";
         Safer Leverage for Long-term Investors
       </template>
     </SirHero>
-    <!--<Section class-name="px-0">
-      <div class="flex flex-col md:flex-row md:justify-between w-full">
-        <h2 class="font-['Lora'] font-bold  text-xl">Be part of the SIR fundraising</h2>
-        <UButton color="green" variant="solid" size="sm">
-          <span class="text-white text-sm">Learn more</span>
-        </UButton>
+    <Section class-name="mb-0" variant="background">
+      <template #header>Project founding progress</template>
+      <div class="section-text-block mt-0 mb-3">
+        <p>
+          By being an early patreon you help covering development costs. In return you get SIR tokens that...
+        </p>
       </div>
-      <UProgress class="my-6" size="5xl" :value="70"></UProgress>
-    </Section>-->
+      <SirProgressBar />
+      <div class="mt-6 flex flex-row w-full justify-end">
+        <SirButton label="Contribute" @clicked="goTo('/fundraising')" />
+
+      </div>
+    </Section>
     <ClientOnly>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is SIR?</template>

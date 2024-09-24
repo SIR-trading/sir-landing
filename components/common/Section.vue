@@ -12,7 +12,7 @@ const classes = computed(() => {
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
     props.variant === 'background' ? 'bg-black-russian-950' : '',
-    'p-6 my-12',
+    'p-8 my-12',
     props.className ? props.className : ''
   ])
 })

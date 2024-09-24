@@ -45,7 +45,7 @@
     text-transform: uppercase;
     line-height: 5rem;
     text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
-    @apply font-normal text-white text-4xl;
+    @apply font-normal text-white;
 }
 
 .subtitle {
@@ -59,7 +59,7 @@
 .section-header {
     font-family: "Bebas Neue", sans-serif;
     text-transform: uppercase;
-    line-height: 5rem;
+    line-height: 2rem;
     @apply font-normal text-rob-roy-300;
 }
 
@@ -98,4 +98,10 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+.btn-gradient {
+    border-radius: 6px;
+    background: linear-gradient(90deg, rgba(122, 91, 46, 0.50) 0%, rgba(191, 155, 103, 0.50) 23.23%, rgba(255, 255, 255, 0.50) 50.56%, rgba(191, 155, 103, 0.50) 75.59%, rgba(122, 91, 46, 0.50) 100.12%), #F2C46A;
+    filter: blur(12px);
 }
