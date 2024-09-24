@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-const value = "30%"
+const value = 30; // Change type to number for proper ARIA handling
 </script>
 
 <template>
-  <div class="relative bg-[#414158] rounded-md w-full p-1 flex flex-wrap">
-
-    <div class="absolute rounded-md blur-gradient h-[40px]" :style="'width:'+value"></div>
-    <div class="rounded-md progress-gradient h-[40px]" :style="'width:'+value">
-      <div class="indicator title text-lg">{{ value }} RAISED</div>
+  <div class="relative bg-[#414158] rounded-md w-full p-1 flex flex-wrap"
+       role="progressbar"
+       :aria-valuenow="value"
+       aria-valuemin="0"
+       aria-valuemax="100"
+       aria-label="Progress for fundraising campaign">
+    <div class="absolute rounded-md blur-gradient h-[40px]" :style="'width:'+value+'%'"></div>
+    <div class="rounded-md progress-gradient h-[40px]" :style="'width:'+value+'%'">
+      <div class="indicator title text-lg">{{ value }}% RAISED</div>
     </div>
   </div>
 </template>
