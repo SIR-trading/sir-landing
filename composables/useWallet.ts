@@ -12,7 +12,7 @@ export const useWallet = () => {
     address: computed(() => {
       return connectedWallet.value?.accounts[0].address;
     }),
-    getSigner: async () => {
+    getSigner: async (): Promise<ethers.JsonRpcSigner | null> => {
       if (!connectedWallet.value) {
         console.error('No connected wallet');
         return null; // Return null instead of throwing an error
@@ -27,8 +27,8 @@ export const useWallet = () => {
         console.error(e);
       }
     },
-    hasAgreed: computed(() => {
-      if (!connectedWallet.value?.accounts[0].address) return false;
+    hasAgreed: computed((): boolean => {
+      if (!connectedWallet.value?.accounts[0].address) return true;
       const wallet = localStorage.getItem(`wallet-${connectedWallet.value?.accounts[0].address}`)
       return !!wallet;
     })

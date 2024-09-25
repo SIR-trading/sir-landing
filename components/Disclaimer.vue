@@ -2,13 +2,13 @@
 import Section from "~/components/common/Section.vue";
 import Modal from "~/components/common/Modal.vue";
 
-const isModalOpen: Ref<boolean> = ref(true)
-
 import {useWallet} from "~/composables/useWallet";
+
 const walletStore = useWallet()
 const {isConnected, hasAgreed, address} = walletStore
-
 const agreed = ref(null)
+
+const isModalOpen: Ref<boolean> = ref(!hasAgreed.value)
 
 const toggleModal= () => {
   isModalOpen.value = !isModalOpen.value
