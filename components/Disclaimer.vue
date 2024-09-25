@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import Section from "~/components/common/Section.vue";
 import Modal from "~/components/common/Modal.vue";
-import type {TWalletCookie} from "~/types";
 
 const isModalOpen: Ref<boolean> = ref(true)
 

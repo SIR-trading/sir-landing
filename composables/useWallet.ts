@@ -13,8 +13,11 @@ export const useWallet = () => {
       return connectedWallet.value?.accounts[0].address;
     }),
     getSigner: async () => {
+      if (!connectedWallet.value) {
+        console.error('No connected wallet');
+        return null; // Return null instead of throwing an error
+      }
       try {
-        if (!connectedWallet.value) throw new Error('No connected wallet');
         const walletProvider = connectedWallet.value?.provider as ethers.Eip1193Provider;
         const chain = connectedWallet.value?.chains[0].id;
         const browserProvider = new ethers.BrowserProvider(walletProvider, parseInt(chain));

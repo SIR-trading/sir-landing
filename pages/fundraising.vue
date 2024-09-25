@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import Section from '@/components/common/Section.vue'
-import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
-import Modal from "~/components/common/Modal.vue";
 import Connect from "~/components/wallet/Connect.vue";
 import {useWallet} from "~/composables/useWallet";
 
-const walletStore = useWallet();
 const {isConnected, hasAgreed, address} = useWallet();
-const links = [
-  {
-    name: 'Mint',
-    to: '/mint',
-    variant: 'outline'
-  }
-]
+
 
 
 
