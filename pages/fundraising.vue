@@ -2,7 +2,12 @@
 import Section from '@/components/common/Section.vue'
 import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
+import Modal from "~/components/common/Modal.vue";
+import Connect from "~/components/wallet/Connect.vue";
+import {useWallet} from "~/composables/useWallet";
 
+const walletStore = useWallet();
+const {isConnected, hasAgreed, address} = useWallet();
 const links = [
   {
     name: 'Mint',
@@ -10,6 +15,8 @@ const links = [
     variant: 'outline'
   }
 ]
+
+
 
 const bullets = [
   {
@@ -27,15 +34,24 @@ const bullets = [
 </script>
 <template>
   <UContainer>
-    <SirHero image="logo_240x240.png">
-      <template #title>
-        Safer Leverage for
-        <span class="text-primary inline-flex">Long-term</span> Investors
-      </template>
-      <template #description>
-        Be part of the SIR protocol fundraising
-      </template>
-    </SirHero>
+<!--    <SirHero image="logo_240x240.png">-->
+<!--      <template #title>-->
+<!--        Safer Leverage for-->
+<!--        <span class="text-primary inline-flex">Long-term</span> Investors-->
+<!--      </template>-->
+<!--      <template #description>-->
+<!--        Be part of the SIR protocol fundraising-->
+<!--      </template>-->
+<!--    </SirHero>-->
+    <Section variant="background">
+      <Connect />
+      <div>
+        <p>{{isConnected}}</p>
+        <p>{{hasAgreed}}</p>
+        <p>{{address}}</p>
+      </div>
+    </Section>
+    <Disclaimer v-if="!hasAgreed"/>
     <Section class-name="px-0">
       <template v-slot:content>
         Be a part of making SIR reality. By being an early patreon you help covering development costs. In return you
