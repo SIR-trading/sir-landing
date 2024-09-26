@@ -32,7 +32,6 @@ const goTo = (_path: string) => {
       <SirProgressBar/>
       <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
         <SirButton label="Contribute" @clicked="goTo('/fundraising')"/>
-
       </div>
     </Section>
     <ClientOnly>

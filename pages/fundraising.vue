@@ -4,6 +4,7 @@ import SirCard from "~/components/common/SirCard.vue";
 import Connect from "~/components/wallet/Connect.vue";
 import {useWallet} from "~/composables/useWallet";
 import SirHero from "~/components/common/SirHero.vue";
+import SirProgressBar from "~/components/common/SirProgressBar.vue";
 
 const {isConnected, hasAgreed, address} = useWallet();
 
@@ -34,6 +35,7 @@ const bullets = [
       <p class="section-text-block mb-3">
         Some text about what will happen when you contribute and perhaps mentioning buterin cards.
       </p>
+      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3"><SirProgressBar/></div>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
         <Connect/>
       </div>
@@ -68,20 +70,6 @@ const bullets = [
       </div>
     </Section>
     <Disclaimer v-if="!hasAgreed"/>
-    <Section class-name="px-0">
-      <template v-slot:content>
-        Be a part of making SIR reality. By being an early patreon you help covering development costs. In return you
-        get SIR tokens that...
-      </template>
-      <UProgress class="my-6" size="5xl" :value="70"></UProgress>
-      <div class="flex flex-row w-full justify-center">
-        <UButton color="green" variant="solid" size="lg" class="w-1/3 text-center">
-          <span class="text-white w-full">Contribute</span>
-        </UButton>
-      </div>
-    </Section>
-
-
   </UContainer>
 </template>
 
