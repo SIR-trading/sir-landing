@@ -35,8 +35,10 @@ const bullets = [
       <p class="section-text-block mb-3">
         Some text about what will happen when you contribute and perhaps mentioning buterin cards.
       </p>
-      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3"><SirProgressBar/></div>
-      <div class="flex flex-col md:flex-row md:justify-evenly w-full">
+      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
+        <SirProgressBar/>
+      </div>
+      <div class="flex flex-col md:flex-row items-center  md:justify-end w-full">
         <Connect/>
       </div>
     </Section>
@@ -52,20 +54,24 @@ const bullets = [
           <p class="p-3 text-left">{{ bullet.text }}</p>
         </SirCard>
       </div>
-      <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 ">
-        <div class="flex flex-col w-full p-12  gap-y-8">
+      <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 gap-12 md:gap-0 ">
+        <div class="flex flex-col w-full p-0 md:p-12  gap-y-8">
           <p class="flex flex-col font-bold">
             <span>Token issuance</span>
             <span>for the first three years</span>
           </p>
-          <NuxtImg src="first_years_emission.png" />
+          <div class="flex justify-center">
+            <NuxtImg src="first_years_emission.png"   sizes="100vw md:300px"/>
+          </div>
         </div>
-        <div class="flex flex-col w-full p-12 gap-y-8">
+        <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
           <p class="flex flex-col  font-bold">
             <span>Token issuance</span>
             <span>after three years</span>
           </p>
-          <NuxtImg src="3_years_emission.png" />
+          <div class="flex justify-center">
+            <NuxtImg src="3_years_emission.png"   sizes="100vw md:300px"/>
+          </div>
         </div>
       </div>
     </Section>
