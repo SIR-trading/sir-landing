@@ -3,10 +3,9 @@ import Section from '@/components/common/Section.vue'
 import SirCard from "~/components/common/SirCard.vue";
 import Connect from "~/components/wallet/Connect.vue";
 import {useWallet} from "~/composables/useWallet";
+import SirHero from "~/components/common/SirHero.vue";
 
 const {isConnected, hasAgreed, address} = useWallet();
-
-
 
 
 const bullets = [
@@ -25,21 +24,47 @@ const bullets = [
 </script>
 <template>
   <UContainer>
-<!--    <SirHero image="logo_240x240.png">-->
-<!--      <template #title>-->
-<!--        Safer Leverage for-->
-<!--        <span class="text-primary inline-flex">Long-term</span> Investors-->
-<!--      </template>-->
-<!--      <template #description>-->
-<!--        Be part of the SIR protocol fundraising-->
-<!--      </template>-->
-<!--    </SirHero>-->
+    <SirHero image="hero_image_optimized.png">
+      <template #title>
+        Be part of making SIR a reality
+      </template>
+    </SirHero>
     <Section variant="background">
-      <Connect />
-      <div>
-        <p>{{isConnected}}</p>
-        <p>{{hasAgreed}}</p>
-        <p>{{address}}</p>
+      <template #header>Contribute to the funderaiser</template>
+      <p class="section-text-block mb-3">
+        Some text about what will happen when you contribute and perhaps mentioning buterin cards.
+      </p>
+      <div class="flex flex-col md:flex-row md:justify-evenly w-full">
+        <Connect/>
+      </div>
+    </Section>
+    <Section variant="background">
+      <template #header>How it works</template>
+      <div class="flex flex-col md:flex-row md:justify-evenly w-full">
+        <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
+          <template #header>
+            <div class="rounded-xl font-black text-rob-roy-300 ring-2 ring-rob-roy-300  text-center py-3 px-4">
+              {{ bullet.i }}
+            </div>
+          </template>
+          <p class="p-3 text-left">{{ bullet.text }}</p>
+        </SirCard>
+      </div>
+      <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 ">
+        <div class="flex flex-col w-full p-12  gap-y-8">
+          <p class="flex flex-col font-bold">
+            <span>Token issuance</span>
+            <span>for the first three years</span>
+          </p>
+          <NuxtImg src="first_years_emission.png" />
+        </div>
+        <div class="flex flex-col w-full p-12 gap-y-8">
+          <p class="flex flex-col  font-bold">
+            <span>Token issuance</span>
+            <span>after three years</span>
+          </p>
+          <NuxtImg src="3_years_emission.png" />
+        </div>
       </div>
     </Section>
     <Disclaimer v-if="!hasAgreed"/>
@@ -56,16 +81,6 @@ const bullets = [
       </div>
     </Section>
 
-    <Section class-name="px-0">
-      <div class="flex flex-col md:flex-row md:justify-evenly w-full">
-        <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
-          <template #header>
-            <UBadge color="gray" variant="solid" size="xl">{{bullet.i}}</UBadge>
-          </template>
-          <p>{{bullet.text}}</p>
-        </SirCard>
-      </div>
-    </Section>
 
   </UContainer>
 </template>

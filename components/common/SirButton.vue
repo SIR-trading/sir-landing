@@ -30,7 +30,7 @@ defineEmits<{
 
 @layer base {
   .btn-sir {
-    @apply text-black leading-9 size-[16px] font-inter font-semibold absolute w-[164px] h-[40px] -left-0.5 top-0 button-blur-gradient shadow-md rounded-md flex flex-row justify-center items-center p-2 gap-2 z-10;
+    @apply text-black leading-9 text-[16px] font-inter font-semibold absolute w-[164px] h-[40px] -left-0.5 top-0 button-blur-gradient shadow-md rounded-md flex flex-row justify-center items-center p-2 gap-2 z-10;
   }
 }
 

@@ -5,6 +5,7 @@ export default defineAppConfig({
     gray: 'neutral',
     container: {
       constrained: 'max-w-5xl',
+      padding: 'px-0 sm:px-0 lg:px-0'
     },
     progress: {
       progress: {

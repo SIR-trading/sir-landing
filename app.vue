@@ -41,7 +41,7 @@ useSeoMeta({
 <template>
   <div class="main-layout">
     <Header/>
-    <main class="content p-1 md:p-3 lg:p-7 h-80">
+    <main class="content h-80">
       <NuxtPage/>
       <UNotifications/>
 
