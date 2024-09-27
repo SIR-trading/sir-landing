@@ -12,7 +12,7 @@ const classes = computed(() => {
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
     props.variant === 'background' ? 'bg-black-russian-950' : '',
-    'p-6 my-12',
+    'p-3 md:p-8 my-12',
     props.className ? props.className : ''
   ])
 })
@@ -24,7 +24,7 @@ const classes = computed(() => {
           [className ? className : '', classes]
           )">
     <div class="flex flex-col items-center justify-center gap-1  text-center ">
-      <h1 class="section-header sir-text-shadow font-bold text-xl">
+      <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">
         <slot name="header"/>
       </h1>
       <p class="">

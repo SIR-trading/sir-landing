@@ -21,9 +21,9 @@ const classes = computed(() => {
    <div v-if="image">
      <img :src="image" class="rounded-lg" :alt="imageAlt"/>
    </div>
-   <div class="flex flex-wrap overflow-auto">
-     <h4 class="mt-4 font-['Lora'] text-lg font-bold"><slot name="header"/></h4>
-     <div class="mt-4  flex flex-col gap-4 flex-wrap "><slot name="default"/></div>
+   <div class="flex flex-col flex-wrap overflow-auto">
+     <h4 class="p-6 flex flex-row items-center justify-center"><slot name="header"/></h4>
+     <div class=" flex flex-col flex-wrap "><slot name="default"/></div>
    </div>
    <div><slot name="footer"/></div>
  </div>

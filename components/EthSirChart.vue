@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="w-full h-[250px] md:w-[700px] md:h-[450px] bg-lighter flex items-center justify-center p-1 md:p-3 rounded-md">
+    <div class="w-full h-[250px] md:w-[700px] md:h-[400px] bg-lighter flex items-center justify-center p-1 md:p-3 rounded-md">
       <Line v-if="chartData" type="line" :data="chartData" :options="chartOptions"/>
       <div v-else class="flex items-center justify-center">
         <div class="spinner"></div>

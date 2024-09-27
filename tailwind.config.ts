@@ -4,6 +4,15 @@ export default <Partial<Config>>{
 
   theme: {
     extend: {
+      backgroundImage: {
+        '5-color-gradient': 'linear-gradient(to right, rgba(122, 91, 46, 0.50) 0%, rgba(191, 155, 103, 0.50) 23.23%, rgba(255, 255, 255, 0.50) 50.56%, rgba(191, 155, 103, 0.50) 75.59%, rgba(122, 91, 46, 0.50) 100.12%)'
+      },
+      boxShadow: {
+        'md': '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      },
+      blur: {
+        '12px': '12px',
+      },
       fontSize: {
         sm: '0.875rem',
         md: '1.125rem',
@@ -15,6 +24,9 @@ export default <Partial<Config>>{
       },
       maxWidth: {
         md: '24.75rem',
+      },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
       },
       fontWeight: {
         thin: '100',
@@ -30,6 +42,23 @@ export default <Partial<Config>>{
       colors: {
         primary: 'white',
         gray: 'cool',
+        darkGray: '#0A0A0F',
+        'gradient-start': 'rgba(122, 91, 46, 0.5)',
+        'gradient-mid': 'rgba(191, 155, 103, 0.5)',
+        'gradient-end': 'rgba(255, 255, 255, 0.5)',
+        'geyser': {
+          '50': '#f5f7f9',
+          '100': '#e8edf1',
+          '200': '#ced8e1',
+          '300': '#bbc9d5',
+          '400': '#9aaec0',
+          '500': '#8197b0',
+          '600': '#6f83a1',
+          '700': '#637392',
+          '800': '#556078',
+          '900': '#475061',
+          '950': '#2e323d',
+        },
         'harlequin': {
           '50': '#eeffe4',
           '100': '#d9ffc4',
@@ -120,6 +149,45 @@ export default <Partial<Config>>{
           '800': '#873719',
           '900': '#6f2e18',
           '950': '#3f1609',
+        },
+        'cameo': {
+          '50': '#faf6f2',
+          '100': '#f3ebe1',
+          '200': '#e5d4c3',
+          '300': '#cdaa89',
+          '400': '#c39674',
+          '500': '#b77d58',
+          '600': '#a96a4d',
+          '700': '#8d5541',
+          '800': '#72473a',
+          '900': '#5d3b31',
+          '950': '#311d19',
+        },
+        'kumera': {
+          '50': '#f8f7ee',
+          '100': '#efedd2',
+          '200': '#e1daa7',
+          '300': '#cfc175',
+          '400': '#c0a94f',
+          '500': '#b19641',
+          '600': '#987836',
+          '700': '#7a5b2e',
+          '800': '#674b2c',
+          '900': '#59402a',
+          '950': '#332215',
+        },
+        'twine': {
+          '50': '#f8f5ee',
+          '100': '#ede6d4',
+          '200': '#ddcdab',
+          '300': '#c9ac7b',
+          '400': '#bf9b67',
+          '500': '#a97e49',
+          '600': '#91653d',
+          '700': '#754c33',
+          '800': '#634030',
+          '900': '#56372d',
+          '950': '#311d17',
         },
         'mercury': {
           '50': '#f9f8f7',

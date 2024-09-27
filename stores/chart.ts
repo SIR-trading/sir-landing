@@ -12,8 +12,8 @@ export const useChartStore = defineStore('chart', {
         datasets: [
           {
             label: 'ETH',
-            backgroundColor: '#2FA0A5',
-            borderColor: '#2FA0A5',
+            backgroundColor: '#d7589d',
+            borderColor: '#d7589d',
             borderWidth: 2,
             pointRadius: 0,
             pointHoverRadius: 0,
@@ -21,8 +21,8 @@ export const useChartStore = defineStore('chart', {
           },
           {
             label: 'SIR',
-            backgroundColor: '#00d903',
-            borderColor: '#00d903',
+            backgroundColor: '#dea55b',
+            borderColor: '#dea55b',
             borderWidth: 2,
             pointRadius: 0,
             pointHoverRadius: 0,
@@ -30,8 +30,8 @@ export const useChartStore = defineStore('chart', {
           },
           {
             label: 'Squeeth',
-            backgroundColor: '#EB5E1D',
-            borderColor: '#EB5E1D',
+            backgroundColor: '#659ba0',
+            borderColor: '#659ba0',
             borderWidth: 2,
             pointRadius: 0,
             pointHoverRadius: 0,

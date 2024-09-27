@@ -874,13 +874,6 @@
   dependencies:
     "@tanstack/vue-virtual" "^3.0.0-beta.60"
 
-"@iconify-json/fluent-mdl2@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@iconify-json/fluent-mdl2/-/fluent-mdl2-1.2.0.tgz#47ce8f1d1d919b1c2a3aced0fa31c0ece75df432"
-  integrity sha512-V/8AmNxszliUbFv6sNEVJM1JHshB3k7m/yjysG8fi9hTMkIW4v8XncJJZJTPNCiZRY12Lm/yKUENa8v1X/goTA==
-  dependencies:
-    "@iconify/types" "*"
-
 "@iconify-json/heroicons@^1.1.23":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@iconify-json/heroicons/-/heroicons-1.2.0.tgz#6ac769329c869d51630d81fd1d6d6f5ad61eb2e0"
