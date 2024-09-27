@@ -3,7 +3,14 @@ import {useDevice} from "~/composables/useDevice";
 import Connect from "~/components/wallet/Connect.vue";
 
 const {isMobile, isTablet} = useDevice();
-const links = [
+
+declare type Link = {
+  name: string,
+  to: string,
+  trailing?: string,
+}
+
+const links: Array<Link> = [
   // {name: "About", to: '/about'},
   // {name: 'Fundraising', to: '/fundraising'},
   {name: 'Docs', to: 'https://docs.sir.trading/', trailing: 'uil:arrow-up-right'},
@@ -24,14 +31,14 @@ const goTo = (path: string) => {
 </script>
 
 <template>
-  <header class="w-full p-6">
+  <header class="w-full px-6 mt-[24px] mb-[48px]">
     <ClientOnly>
       <UContainer>
         <nav class="flex flex-col text-sm font-semibold w-full gap-6 items-center justify-between md:flex-row md:justify-center">
           <div class="w-full flex flex-between md:w-auto">
             <div @click="goTo('/')" class="cursor-pointer flex flex-row flex-auto w-full items-center justify-around lg:justify-start lg:w-50">
               <picture class="logo md:flex flex-start">
-                <NuxtImg src="favicon-32x32.png" alt="Logo" width="32" height="32"/>
+                <NuxtImg src="logo.png" alt="Logo" width="32" height="32"/>
               </picture>
               <div class="inline-flex text-brand ml-1 text-sm text-white">SIR.TRADING</div>
               <UButton color="white" variant="ghost" size="xl" v-show="isMobile || isTablet" @click="toggleMenu">
@@ -45,12 +52,12 @@ const goTo = (path: string) => {
                      :to="link.to"
                      :target="link.target ? link.target : ''"
                      active-class="text-primary"
-                     inactive-class="text-blue-bell-500 dark:text-blue-bell-500 hover:text-gray-700 dark:hover:text-gray-200"
+                     inactive-class="text-cameo-300 dark:text-cameo-300 hover:text-cameo-500 dark:hover:text-rob-roy-300"
               >
                 <span class="left-0 p-0 h-full">
                   {{ link.name }}
-                  <UIcon class="top-0 h-full" v-if="link.trailing" :name="link.trailing" dynamic size="12"/>
                 </span>
+                <UIcon :name="link.trailing" dynamic size="12px" class="right-0 top-0"/>
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">
@@ -63,10 +70,9 @@ const goTo = (path: string) => {
               <a href="https://github.com/SIR-trading" target="_blank">
                 <UIcon name="simple-icons:github" dynamic size="24px" class="text-white"/>
               </a>
-              <UButton color="gray" variant="outline" :disabled="false" external="true" to="https://prototype.sir.trading/">
+              <UButton color="robRoy" variant="outline" :disabled="false" :external="true" to="https://prototype.sir.trading/">
                 <span class="font-sm font-semibold">Launch Prototype</span>
               </UButton>
-
             </div>
           </div>
         </nav>

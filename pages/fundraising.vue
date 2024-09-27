@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import Section from '@/components/common/Section.vue'
-import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
+import Connect from "~/components/wallet/Connect.vue";
+import {useWallet} from "~/composables/useWallet";
+import SirHero from "~/components/common/SirHero.vue";
+import SirProgressBar from "~/components/common/SirProgressBar.vue";
 
-const links = [
-  {
-    name: 'Mint',
-    to: '/mint',
-    variant: 'outline'
-  }
-]
+const {isConnected, hasAgreed, address} = useWallet();
+
 
 const bullets = [
   {
@@ -27,39 +25,57 @@ const bullets = [
 </script>
 <template>
   <UContainer>
-    <SirHero image="logo_240x240.png">
+    <SirHero image="hero_image_optimized.png">
       <template #title>
-        Safer Leverage for
-        <span class="text-primary inline-flex">Long-term</span> Investors
-      </template>
-      <template #description>
-        Be part of the SIR protocol fundraising
+        Be part of making SIR a reality
       </template>
     </SirHero>
-    <Section class-name="px-0">
-      <template v-slot:content>
-        Be a part of making SIR reality. By being an early patreon you help covering development costs. In return you
-        get SIR tokens that...
-      </template>
-      <UProgress class="my-6" size="5xl" :value="70"></UProgress>
-      <div class="flex flex-row w-full justify-center">
-        <UButton color="green" variant="solid" size="lg" class="w-1/3 text-center">
-          <span class="text-white w-full">Contribute</span>
-        </UButton>
+    <Section variant="background">
+      <template #header>Contribute to the funderaiser</template>
+      <p class="section-text-block mb-3">
+        Some text about what will happen when you contribute and perhaps mentioning buterin cards.
+      </p>
+      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
+        <SirProgressBar/>
+      </div>
+      <div class="flex flex-col md:flex-row items-center  md:justify-end w-full">
+        <Connect/>
       </div>
     </Section>
-
-    <Section class-name="px-0">
+    <Section variant="background">
+      <template #header>How it works</template>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
         <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
           <template #header>
-            <UBadge color="gray" variant="solid" size="xl">{{bullet.i}}</UBadge>
+            <div class="rounded-xl font-black text-rob-roy-300 ring-2 ring-rob-roy-300  text-center py-3 px-4">
+              {{ bullet.i }}
+            </div>
           </template>
-          <p>{{bullet.text}}</p>
+          <p class="p-3 text-left">{{ bullet.text }}</p>
         </SirCard>
       </div>
+      <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 gap-12 md:gap-0 ">
+        <div class="flex flex-col w-full p-0 md:p-12  gap-y-8">
+          <p class="flex flex-col font-bold">
+            <span>Token issuance</span>
+            <span>for the first three years</span>
+          </p>
+          <div class="flex justify-center">
+            <NuxtImg src="first_years_emission.png"   sizes="100vw md:300px"/>
+          </div>
+        </div>
+        <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
+          <p class="flex flex-col  font-bold">
+            <span>Token issuance</span>
+            <span>after three years</span>
+          </p>
+          <div class="flex justify-center">
+            <NuxtImg src="3_years_emission.png"   sizes="100vw md:300px"/>
+          </div>
+        </div>
+      </div>
     </Section>
-
+    <Disclaimer v-if="!hasAgreed"/>
   </UContainer>
 </template>
 
