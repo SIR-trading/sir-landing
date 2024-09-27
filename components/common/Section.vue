@@ -24,7 +24,7 @@ const classes = computed(() => {
           [className ? className : '', classes]
           )">
     <div class="flex flex-col items-center justify-center gap-1  text-center ">
-      <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px">
+      <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">
         <slot name="header"/>
       </h1>
       <p class="">

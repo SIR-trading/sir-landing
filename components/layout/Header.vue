@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 import {useDevice} from "~/composables/useDevice";
 import Connect from "~/components/wallet/Connect.vue";
-import SirButton from "~/components/common/SirButton.vue";
 
 const {isMobile, isTablet} = useDevice();
-const links = [
+
+declare type Link = {
+  name: string,
+  to: string,
+  trailing?: string,
+}
+
+const links: Array<Link> = [
   // {name: "About", to: '/about'},
-  {name: 'Fundraising', to: '/fundraising'},
+  // {name: 'Fundraising', to: '/fundraising'},
   {name: 'Docs', to: 'https://docs.sir.trading/', trailing: 'uil:arrow-up-right'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
@@ -50,8 +56,8 @@ const goTo = (path: string) => {
               >
                 <span class="left-0 p-0 h-full">
                   {{ link.name }}
-                  <UIcon class="top-0 h-full" v-if="link.trailing" :name="link.trailing" dynamic size="12"/>
                 </span>
+                <UIcon :name="link.trailing" dynamic size="12px" class="right-0 top-0"/>
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">
