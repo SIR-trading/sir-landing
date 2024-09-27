@@ -12,7 +12,7 @@ declare type Link = {
 
 const links: Array<Link> = [
   // {name: "About", to: '/about'},
-  // {name: 'Fundraising', to: '/fundraising'},
+  {name: 'Fundraising', to: '/fundraising'},
   {name: 'Docs', to: 'https://docs.sir.trading/', trailing: 'uil:arrow-up-right'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
@@ -57,7 +57,7 @@ const goTo = (path: string) => {
                 <span class="left-0 p-0 h-full">
                   {{ link.name }}
                 </span>
-                <UIcon :name="link.trailing" dynamic size="12px" class="right-0 top-0"/>
+                <UIcon v-if="link.trailing" :name="link.trailing" dynamic size="12px" class="right-0 top-0"/>
               </ULink>
             </div>
             <div class="flex gap-6 flex-col lg:flex-row items-center">

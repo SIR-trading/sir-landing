@@ -31,7 +31,7 @@ defineEmits(["click", "close"]);
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,10 +50,12 @@ defineEmits(["click", "close"]);
   max-width: 900px;
   max-height: 80%;
 }
+
+
 .close-button {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 50px;
   background: none;
   border: none;
   font-size: 1.5em;

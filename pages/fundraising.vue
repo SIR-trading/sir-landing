@@ -8,7 +8,6 @@ import SirProgressBar from "~/components/common/SirProgressBar.vue";
 
 const {isConnected, hasAgreed, address} = useWallet();
 
-
 const bullets = [
   {
     i: 1,
