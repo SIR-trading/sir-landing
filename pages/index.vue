@@ -17,7 +17,7 @@ const goTo = (_path: string) => {
 
 <template>
   <UContainer>
-    <SirHero image="hero_image_optimized.png">
+    <SirHero image="hero_image_borderless.png">
       <template #title>
         Safer Leverage for Long-term Investors
       </template>
