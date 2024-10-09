@@ -4,11 +4,16 @@ import {init} from '@web3-onboard/vue'
 import type {AppMetadata} from "@web3-onboard/common";
 import injectedModule from '@web3-onboard/injected-wallets'
 import coinbaseWallet from '@web3-onboard/coinbase';
-import {hychain, hychainTestnet} from "~/web3/chains";
+import {type Chain,ethereum, local} from "~/web3/chains";
+
 import type {OnboardAPI} from "@web3-onboard/core";
 
 const injected = injectedModule()
 const coinbase = coinbaseWallet()
+
+const config = useRuntimeConfig()
+
+
 
 const web3Onboard = ref(null as OnboardAPI)
 
@@ -17,9 +22,11 @@ const appMetadata: AppMetadata = {
   description: 'Project Description',
 }
 
+const chain: Chain = local
+
 web3Onboard.value = init({
   wallets: [injected, coinbase],
-  chains: [hychain, hychainTestnet],
+  chains: [chain],
   appMetadata: appMetadata,
   theme: 'dark',
   connect: {

@@ -1,5 +1,448 @@
 [
-  "function mint(uint256 _amount) external",
-  "function price() external view returns (uint256)",
-  "event Transfer(address indexed from, address indexed to, uint256 value)"
-]
+    {
+      "type": "constructor",
+      "inputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "MAX_CONTRIBUTIONS_NO_DECIMALS",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint24",
+          "internalType": "uint24"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "contributions",
+      "inputs": [
+        {
+          "name": "contributor",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple",
+          "internalType": "struct SaleStructs.Contribution",
+          "components": [
+            {
+              "name": "stablecoin",
+              "type": "uint8",
+              "internalType": "enum SaleStructs.Stablecoin"
+            },
+            {
+              "name": "amountFinalNoDecimals",
+              "type": "uint24",
+              "internalType": "uint24"
+            },
+            {
+              "name": "amountWithdrawableNoDecimals",
+              "type": "uint24",
+              "internalType": "uint24"
+            },
+            {
+              "name": "timeLastContribution",
+              "type": "uint40",
+              "internalType": "uint40"
+            },
+            {
+              "name": "lockedButerinCards",
+              "type": "tuple",
+              "internalType": "struct SaleStructs.LockedButerinCards",
+              "components": [
+                {
+                  "name": "number",
+                  "type": "uint8",
+                  "internalType": "uint8"
+                },
+                {
+                  "name": "ids",
+                  "type": "uint16[5]",
+                  "internalType": "uint16[5]"
+                }
+              ]
+            },
+            {
+              "name": "lockedMinedJpegs",
+              "type": "tuple",
+              "internalType": "struct SaleStructs.LockedMinedJpegs",
+              "components": [
+                {
+                  "name": "number",
+                  "type": "uint8",
+                  "internalType": "uint8"
+                },
+                {
+                  "name": "ids",
+                  "type": "uint8[5]",
+                  "internalType": "uint8[5]"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "depositAndLockNfts",
+      "inputs": [
+        {
+          "name": "stablecoin",
+          "type": "uint8",
+          "internalType": "enum SaleStructs.Stablecoin"
+        },
+        {
+          "name": "amountNoDecimals",
+          "type": "uint24",
+          "internalType": "uint24"
+        },
+        {
+          "name": "buterinCardIds",
+          "type": "uint16[]",
+          "internalType": "uint16[]"
+        },
+        {
+          "name": "minedJpegIds",
+          "type": "uint8[]",
+          "internalType": "uint8[]"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "endSale",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "lockNfts",
+      "inputs": [
+        {
+          "name": "buterinCardIds",
+          "type": "uint16[]",
+          "internalType": "uint16[]"
+        },
+        {
+          "name": "minedJpegIds",
+          "type": "uint8[]",
+          "internalType": "uint8[]"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "owner",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "renounceOwnership",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "state",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple",
+          "internalType": "struct SaleStructs.SaleState",
+          "components": [
+            {
+              "name": "totalContributionsNoDecimals",
+              "type": "uint24",
+              "internalType": "uint24"
+            },
+            {
+              "name": "timeSaleEnded",
+              "type": "uint40",
+              "internalType": "uint40"
+            }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "transferOwnership",
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "unlockAllNfts",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "withdraw",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "withdrawExoticERC20",
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "to",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "withdrawFunds",
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "withdrawNfts",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "ButerinCardLocked",
+      "inputs": [
+        {
+          "name": "tokenId",
+          "type": "uint16",
+          "indexed": false,
+          "internalType": "uint16"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "ButerinCardUnlocked",
+      "inputs": [
+        {
+          "name": "tokenId",
+          "type": "uint16",
+          "indexed": false,
+          "internalType": "uint16"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Deposit",
+      "inputs": [
+        {
+          "name": "stablecoin",
+          "type": "uint8",
+          "indexed": false,
+          "internalType": "enum SaleStructs.Stablecoin"
+        },
+        {
+          "name": "amountNoDecimals",
+          "type": "uint24",
+          "indexed": false,
+          "internalType": "uint24"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "DepositWasReduced",
+      "inputs": [],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "MinedJpegLocked",
+      "inputs": [
+        {
+          "name": "tokenId",
+          "type": "uint8",
+          "indexed": false,
+          "internalType": "uint8"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "MinedJpegUnlocked",
+      "inputs": [
+        {
+          "name": "tokenId",
+          "type": "uint8",
+          "indexed": false,
+          "internalType": "uint8"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "OwnershipTransferred",
+      "inputs": [
+        {
+          "name": "previousOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "newOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "SaleEnded",
+      "inputs": [
+        {
+          "name": "timeSaleEnded",
+          "type": "uint40",
+          "indexed": false,
+          "internalType": "uint40"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Withdrawal",
+      "inputs": [
+        {
+          "name": "stablecoin",
+          "type": "uint8",
+          "indexed": false,
+          "internalType": "enum SaleStructs.Stablecoin"
+        },
+        {
+          "name": "amountNoDecimals",
+          "type": "uint24",
+          "indexed": false,
+          "internalType": "uint24"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "NftsLocked",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "NoNfts",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "NullAddress",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "NullDeposit",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "OwnableInvalidOwner",
+      "inputs": [
+        {
+          "name": "owner",
+          "type": "address",
+          "internalType": "address"
+        }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "OwnableUnauthorizedAccount",
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address",
+          "internalType": "address"
+        }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "SaleIsLive",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "SaleIsOver",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "TooManyNfts",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "WrongStablecoin",
+      "inputs": []
+    }
+  ]

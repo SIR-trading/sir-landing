@@ -1,3 +1,5 @@
+import {SymbolKind} from "vscode-languageserver-types";
+import Number = SymbolKind.Number;
 
 export declare type Chain = {
   id: string,
@@ -13,19 +15,13 @@ export const ethereum: Chain = {
   rpcUrl: "https://eth.llamarpc.com"
 }
 
-export const hychain: Chain = {
-  id: '0xb5f',
-  token: 'TOPIA',
-  label: 'Hychain',
-  rpcUrl: "https://rpc.hychain.com/http"
+export const local: Chain = {
+  id: '0x1',
+  token: 'ETH',
+  label: 'Ethereum',
+  rpcUrl: "http://127.0.0.1:8545"
 }
 
-export const hychainTestnet: Chain = {
-  id: '0x71b8',
-  token: 'TOPIA',
-  label: 'Hychain Testnet',
-  rpcUrl: 'https://testnet-rpc.hychain.com/http'
-}
 
 export function isChain(obj: any): obj is Chain {
   return typeof obj === 'object' &&
