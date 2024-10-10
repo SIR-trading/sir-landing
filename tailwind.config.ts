@@ -45,6 +45,7 @@ export default <Partial<Config>>{
         darkGray: '#0A0A0F',
         midGray: '#25213C',
         softGray: '#414158',
+        cyan: '#26DEC8',
         'gradient-start': 'rgba(122, 91, 46, 0.5)',
         'gradient-mid': 'rgba(191, 155, 103, 0.5)',
         'gradient-end': 'rgba(255, 255, 255, 0.5)',
