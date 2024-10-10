@@ -1,0 +1,121 @@
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useNfts } from '~/composables/useNfts';
+import { useWallet } from '~/composables/useWallet';
+import SirButton from "~/components/common/SirButton.vue";
+import Modal from "~/components/common/Modal.vue";
+import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+
+// Initialize composables
+const nfts = useNfts();
+const wallet = useWallet();
+const { address, isConnected } = wallet;
+
+// Reactive variables
+const btList = ref([]);
+const totalSelected = ref(0);
+
+// Fetch NFTs if connected
+let bt = ref([]);
+let mj = ref([]);
+if (isConnected) {
+  console.log('address', address.value);
+  bt.value = await nfts.fetchWalletButerinCards(address.value);
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+}
+
+// Method to handle selection
+const toggleSelection = (collection: string, nft: number) => {
+  const nftObject = { collection: collection, id: nft };
+  const index = btList.value.findIndex((item) => item.collection === nftObject.collection && item.id === nftObject.id);
+  if (index === -1) {
+    if (btList.value.length >= 5) {
+      return;
+    }
+    // Add NFT to the list
+    btList.value.push(nftObject);
+    totalSelected.value += 1;
+    console.log("*****************", btList.value, totalSelected.value);
+  } else {
+    // Remove NFT from the list
+    btList.value.splice(index, 1);
+    totalSelected.value -= 1;
+  }
+};
+
+// Check if selected
+const isSelected = (collection: string, nft: number) => {
+  return btList.value.some((item) => item.collection === collection && item.id === nft);
+};
+
+
+const isModalOpen: Ref<boolean> = ref(false)
+
+const toggleModal= () => {
+  isModalOpen.value = !isModalOpen.value
+}
+
+</script>
+
+<template>
+  <div class="flex flex-col items-center justify-center w-full bg-midGray rounded-lg p-3 gap-2">
+    <div class="flex flex-col w-full gap-2 justify-center items-center rounded-md bg-softGray p-2">
+      <div>Buterin Cards</div>
+      <div v-for="tokenId in bt" :key="`BT-${tokenId}`" class="flex flex-col items-center justify-center w-full">
+        <div class="flex flex-row gap-3 w-full justify-around">
+          <div>{{ tokenId }}</div>
+          <UCheckbox
+              :model-value="isSelected('BT', tokenId)"
+              @update:model-value="() => toggleSelection('BT', tokenId)"
+              :name="`BT-${tokenId}`"
+              label="Add to contribution"
+              :disabled="totalSelected >= 5 && !isSelected('BT', tokenId)"
+          />
+        </div>
+      </div>
+    </div>
+    <UDivider />
+    <div class="flex flex-col w-full gap-2 justify-center items-center rounded-md bg-softGray p-2">
+    <div>Mined Jpeg</div>
+    <div v-for="tokenId in mj" :key="`MJ-${tokenId}`" class="flex flex-col items-center justify-center w-full">
+      <div class="flex flex-row gap-3 w-full justify-around">
+        <div>{{ tokenId }}</div>
+        <UCheckbox
+            :model-value="isSelected('MJ', tokenId)"
+            @update:model-value="() => toggleSelection('MJ', tokenId)"
+            :name="`MJ-${tokenId}`"
+            label="Add to contribution"
+            :disabled="totalSelected >= 5 && !isSelected('MJ', tokenId)"
+        />
+
+      </div>
+    </div>
+    </div>
+    <div>Bonus reached {{totalSelected}}/5</div>
+    <div class="flex flex-row gap-2 justify-center items-center rounded-md bg-softGray p-2">
+      <div v-for="item in btList" :key="`BT-${item}`" class="flex flex-col items-center justify-center w-full rounded-md bg-primary p-1">
+        <div class="flex flex-col items-center justify-center w-[50px] text-black text-sm font-bold ">
+          <span>{{ item.collection }}</span>
+          <span>{{ item.id }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-2 flex justify-center items-center">
+      <SirButton label="Contribute" @click="toggleModal"></SirButton>
+    </div>
+    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal" modal-background-color="bg-black-russian-950" class-list="sm:w-full md:w-[600px]" >
+      <div class="flex flex-col items-center justify-center w-full">
+        <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
+          <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]" >Contribute</h1>
+          <p class="flex flex-col">
+            <span>You can withdraw your contribution within 24h</span>
+            <span> if you change your mind. After that it’s locked in.</span>
+          </p>
+        </div>
+        <ContributeForm />
+      </div>
+    </Modal>
+  </div>
+</template>
+
+<style scoped></style>
