@@ -1,13 +1,14 @@
 import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
+import {useWallet} from "~/composables/useWallet";
 
 
 
 export const useEthClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
-  const {chain,  contract } = env
+  const {contract } = env
   const ethClient = new EthereumClient(contract, config.rpc, 1, abi)
 
   const state = async () => {
@@ -26,9 +27,47 @@ export const useEthClient = () => {
     ethClient.contract.lockNfts(buterinCardsIds, minedJpegsIds)
   }
 
+  /**
+   * Deposits and locks NFTs.
+   * @param {number} stablecoin - The stablecoin type as an enum.
+   * @param {number} amountNoDecimals - The amount with no decimals.
+   * @param {Array<number>} buterinCardIds - The IDs of the Buterin cards.
+   * @param {Array<number>} minedJpegIds - The IDs of the mined JPEGs.
+   * @returns {Promise<void>} Transaction response.
+   */
+  async function depositAndLockNfts(stablecoin: Stablecoin, amountNoDecimals: number, buterinCardIds: Array<number>, minedJpegIds: Array<number>) {
+    try {
+      const {getSigner} = useWallet()
+      const {contract} = ethClient
+      const signer = await getSigner()
+      const mutableContract = contract.connect(signer)
+      // const data = contract.interface.encodeFunctionData("depositAndLockNFTs", [
+      //   stablecoin,
+      //   amount,
+      //   buterinCardIds,
+      //   minedJpegIds
+      // ]);
+
+      // // Estimate gas limit
+      // const gasEstimate = await provider.estimateGas({
+      //   to: contractAddress,
+      //   data: data
+      // });
+      //
+      // console.log(`Estimated Gas Limit: ${gasEstimate.toString()}`);\
+      console.log(mutableContract)
+      const tx = await mutableContract.depositAndLockNfts(0, amountNoDecimals, buterinCardIds, minedJpegIds, {gasLimit: 700000});
+      await tx.wait();
+      console.log('Transaction successful:', tx);
+    } catch (error) {
+      console.error('Transaction failed:', error);
+    }
+  }
+
+
   const maxContributions = async () => {
     return Number(await ethClient.contract.MAX_CONTRIBUTIONS_NO_DECIMALS())
   }
 
-  return {ethClient, state, contributions, maxContributions}
+  return {ethClient, state, contributions, maxContributions, lockNfts, depositAndLockNfts}
 }

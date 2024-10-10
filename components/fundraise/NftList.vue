@@ -112,7 +112,7 @@ const toggleModal= () => {
             <span> if you change your mind. After that it’s locked in.</span>
           </p>
         </div>
-        <ContributeForm />
+        <ContributeForm :mined-jpegs="[]" :buterin-cards="[]" />
       </div>
     </Modal>
   </div>

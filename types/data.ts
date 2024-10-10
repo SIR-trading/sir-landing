@@ -1,8 +1,9 @@
+
 declare type TWalletCookie = {
   walletAddress: string;
 }
 
-enum Stablecoin {
+export enum Stablecoin {
   USDT,
   USDC,
   DAI
@@ -29,4 +30,11 @@ declare type SaleState = {
   timeSaleEnded: number;
 }
 
-export type { TWalletCookie, Stablecoin, LockedNFT, Contribution, SaleState}
+declare type Token = {
+  name: string;
+  ticker: string;
+  address: string;
+  icon: string;
+}
+
+export type { TWalletCookie, LockedNFT, Contribution, SaleState, Token}

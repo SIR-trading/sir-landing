@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import {ref, reactive} from 'vue'
-import {object, string, number, array, type InferType} from 'yup'
-import SirButton from "~/components/common/SirButton.vue";
-import {placeholder} from "@babel/types";
-
-// Define schema
-const schema = object({
-  amount: number().min(1).max(100000).required('Required'),
-  stablecoin: array().of(string()).required('Required')
-})
-
-type Schema = InferType<typeof schema>
-
-const amount = ref(1)
+import {ref} from 'vue'
+import {type Token} from "@/types"
 import tokens from "@/assets/token_list.json"
 import {useWallet} from "~/composables/useWallet";
 import {useErc20} from "~/composables/useErc20";
-import {formatNumber} from "chart.js/helpers";
+import {SymbolKind} from "vscode-languageserver-types";
+import {useEthClient} from "~/composables/useEthClient";
 
-const selected = ref(tokens[1])
+const props = defineProps({
+  minedJpegs: Array<number>,
+  buterinCards: Array<number>,
+})
+
+const amount = ref(1)
+import Array = SymbolKind.Array;
+
+const selected: Ref<Token> = ref(tokens[1])
 
 const blackRussian = {
   color: {
@@ -32,7 +29,7 @@ const {fetchBalance} = useErc20()
 const balance = ref(0)
 const handleChange = async () => {
   const {address, isConnected} = useWallet()
-  if(isConnected.value && selected.value) {
+  if (isConnected.value && selected.value) {
     balance.value = await fetchBalance(selected.value.address, address.value)
   }
 
@@ -40,6 +37,17 @@ const handleChange = async () => {
 
 const amountTo = (percent: number) => {
   amount.value = Math.round(balance.value * percent / 100)
+}
+
+
+import {Stablecoin} from "@/types/data"
+const contribute = async () => {
+
+
+  const {depositAndLockNfts} = useEthClient()
+  const coins = Stablecoin;
+  await depositAndLockNfts(coins[selected.value.ticker], amount.value, props.buterinCards, props.minedJpegs)
+
 }
 
 onMounted(() => {
@@ -71,7 +79,7 @@ onMounted(() => {
               </template>
             </UInputMenu>
           </div>
-          <div class="text-sm italic">Balance: ${{balance.toLocaleString('en-US')}}</div>
+          <div class="text-sm italic">Balance: ${{ balance.toLocaleString('en-US') }}</div>
           <div class="flex flex-row gap-1 text-cyan text-sm font-semibold">
             <div role="button" @click="amountTo(25)">25%</div>
             <div role="button" @click="amountTo(25)">50%</div>
@@ -80,7 +88,9 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
-        <div role="button" class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center" >Add contribution</div>
+        <div role="button" @click="contribute"
+             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">Add contribution
+        </div>
       </div>
     </UFormGroup>
   </div>
