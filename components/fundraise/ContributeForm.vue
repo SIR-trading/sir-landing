@@ -12,7 +12,7 @@ const props = defineProps({
   buterinCards: Array<number>,
 })
 
-const amount = ref(1)
+const amount = ref(0)
 import Array = SymbolKind.Array;
 
 const selected: Ref<Token> = ref(tokens[1])
@@ -39,10 +39,17 @@ const amountTo = (percent: number) => {
   amount.value = Math.round(balance.value * percent / 100)
 }
 
+const isApproved = ref(true)
+
+const checkApproval =async  () => {
+  const {isErc20Approved} = useErc20()
+  isApproved.value = await isErc20Approved(selected.value.address, amount.value)
+}
+
+const {approveErc20} = useErc20()
 
 import {Stablecoin} from "@/types/data"
 const contribute = async () => {
-
 
   const {depositAndLockNfts} = useEthClient()
   const coins = Stablecoin;
@@ -60,8 +67,9 @@ onMounted(() => {
     <UFormGroup label="Contribute:" class="w-full ">
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
-          <UInput :modelValue="amount" type="number" label="Amount" placeholder="100" variant="none"/>
-        </div>
+          <UInput v-model="amount" type="number" label="Amount" placeholder="100" variant="none"
+                  @change="checkApproval"/>
+          {{ isApproved }}</div>
         <div class="flex flex-col gap-2 items-end w-full">
           <div class="flex flex-row gap-0  items-center justify-end bg-black-russian-950 rounded-md p-2">
             <picture>
@@ -89,7 +97,8 @@ onMounted(() => {
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
         <div role="button" @click="contribute"
-             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">Add contribution
+             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+          {{isApproved ? 'Add contribution' : 'Approve'}}
         </div>
       </div>
     </UFormGroup>

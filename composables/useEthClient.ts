@@ -2,6 +2,11 @@ import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import {useWallet} from "~/composables/useWallet";
+import {ethers} from "ethers";
+import {log} from "node:util";
+import type {Contribution, LockedNFT} from "~/types";
+import {Stablecoin} from "~/types/data";
+import {l} from "vite/dist/node/types.d-aGj9QkWt";
 
 
 
@@ -9,8 +14,13 @@ export const useEthClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
   const {contract } = env
-  const ethClient = new EthereumClient(contract, config.rpc, 1, abi)
-
+  let rpc = 'http://127.0.0.1:8545';
+  // if (import.meta.server) {
+  //   console.log('RPC', config.rpc)
+  //   rpc = config.rcp
+  // }
+  const ethClient = new EthereumClient(contract, rpc, env.chain.id, abi)
+  const iFace: ethers.Interface = ethClient.contract.interface
   const state = async () => {
     const _state = await ethClient.contract.state()
     return {
@@ -40,8 +50,20 @@ export const useEthClient = () => {
       const {getSigner} = useWallet()
       const {contract} = ethClient
       const signer = await getSigner()
-      const mutableContract = contract.connect(signer)
-      const tx = await mutableContract.depositAndLockNfts(0, 1000, [], [], {gasLimit: 300000})
+      // const mutableContract = contract.connect(signer)
+      // const tx = await mutableContract.depositAndLockNfts(0, 1000, [], [], {gasLimit: 7000000})
+      const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
+        stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
+      ])
+
+      const rawTx: ethers.TransactionRequest = {
+        data: data,
+        to: await contract.getAddress(),
+        gasLimit: 100000000,
+        nonce: await signer?.getNonce(),
+      }
+
+      const tx = await signer.sendTransaction(rawTx)
       console.log('Transaction successful:', tx);
     } catch (error) {
       console.error('Transaction failed:', error);

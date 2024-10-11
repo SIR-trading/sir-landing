@@ -6,13 +6,13 @@ import Connect from '~/components/wallet/Connect.vue';
 import { useWallet } from '~/composables/useWallet';
 import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
-import { useEthClient } from '~/composables/useEthClient';
-import { asyncComputed } from '@vueuse/core';
-import type { Contribution, SaleState } from '~/types';
-import { useFundraiseStore } from "~/stores/fundraise";
-import PreviousContributions from "~/components/fundraise/NftList.vue";
 
-const fundraiseStore = useFundraiseStore();
+import SirButton from "~/components/common/SirButton.vue";
+import NftList from "~/components/fundraise/NftList.vue";
+import PreviousContributions from "~/components/fundraise/PreviousContributions.vue";
+
+
+
 const { isConnected, address, hasAgreed } = useWallet();
 const bullets = [
   {
@@ -29,22 +29,7 @@ const bullets = [
   }
 ];
 
-const contributions = ref<Contribution[]>([]);
-const hasFetchedContributions = ref(false);
 
-const fetchContributions = async () => {
-  if (isConnected.value && !hasFetchedContributions.value) {
-    contributions.value = await fundraiseStore.fetchWalletContributions(address.value);
-    hasFetchedContributions.value = true;
-    console.log("Contributions: ", contributions.value);
-  }
-};
-
-// Watch for changes in 'isConnected' to fetch contributions
-watch(isConnected, fetchContributions);
-
-// Initially, call fetchContributions if already connected
-fetchContributions();
 </script>
 
 <template>
@@ -68,7 +53,10 @@ fetchContributions();
     </Section>
     <Section variant="background" v-if="isConnected">
       <template #header>Contribute to the Fundraiser</template>
-      <PreviousContributions/>
+      <div class="flex flex-col gap-3 w-full">
+        <PreviousContributions />
+        <NftList />
+      </div>
     </Section>
     <Section variant="background">
       <template #header>How it works</template>

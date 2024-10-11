@@ -16,7 +16,7 @@ export const ethereum: Chain = {
 }
 
 export const local: Chain = {
-  id: '0x1',
+  id: '0x539',
   token: 'ETH',
   label: 'Ethereum',
   rpcUrl: "http://127.0.0.1:8545"

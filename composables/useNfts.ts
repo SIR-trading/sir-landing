@@ -9,7 +9,7 @@ export const useNfts = () => {
   const config = useRuntimeConfig()
   const {buterinCards, minedJpeg} = config.public
   const _fetchNFTs = async (contract: string, address: string) => {
-    const eth = new EthereumClient(contract, config.rpc, 1, abi)
+    const eth = new EthereumClient(contract, config.rpc, chain.id, abi)
     try {
       const amount = Number(await eth.contract.balanceOf(address));
       console.log("Items:", amount);
