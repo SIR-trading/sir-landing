@@ -41,23 +41,7 @@ export const useEthClient = () => {
       const {contract} = ethClient
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
-      // const data = contract.interface.encodeFunctionData("depositAndLockNFTs", [
-      //   stablecoin,
-      //   amount,
-      //   buterinCardIds,
-      //   minedJpegIds
-      // ]);
-
-      // // Estimate gas limit
-      // const gasEstimate = await provider.estimateGas({
-      //   to: contractAddress,
-      //   data: data
-      // });
-      //
-      // console.log(`Estimated Gas Limit: ${gasEstimate.toString()}`);\
-      console.log(mutableContract)
-      const tx = await mutableContract.depositAndLockNfts(0, amountNoDecimals, buterinCardIds, minedJpegIds, {gasLimit: 700000});
-      await tx.wait();
+      const tx = await mutableContract.depositAndLockNfts(0, 1000, [], [], {gasLimit: 300000})
       console.log('Transaction successful:', tx);
     } catch (error) {
       console.error('Transaction failed:', error);

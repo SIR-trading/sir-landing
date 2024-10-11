@@ -1,73 +1,13 @@
 import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
+import abi from "@/assets/erc721_abi.json"
 
-// Define the ABI
-const abi = [
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "name",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "name": "index",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenOfOwnerByIndex",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  }
-];
 
-const BUTERIN_CARDS_ADDRESS="0x5726C14663A1EaD4A7D320E8A653c9710b2A2E89"
-const MINED_JPEG_ADDRESS="0x7cd51FA7E155805C34F333ba493608742A67Da8e"
 export const useNfts = () => {
   const env = useEnv()
-  const config = useRuntimeConfig()
   const {chain,  contract } = env
-
+  const config = useRuntimeConfig()
+  const {buterinCards, minedJpeg} = config.public
   const _fetchNFTs = async (contract: string, address: string) => {
     const eth = new EthereumClient(contract, config.rpc, 1, abi)
     try {
@@ -88,15 +28,21 @@ export const useNfts = () => {
     }
   }
   const fetchWalletButerinCards = async (address: string) => {
-    return await _fetchNFTs(BUTERIN_CARDS_ADDRESS, address);
+    return await _fetchNFTs(buterinCards, address);
 
   }
 
   const fetchWalletMinedJpeg = async (address: string) => {
-    return await _fetchNFTs(MINED_JPEG_ADDRESS, address);
+    return await _fetchNFTs(minedJpeg, address);
   }
 
+  const setApprovalforAll = async (contract: string) => {
+    const {getSigner} = useWallet()
+    const operator = useEnv().contract
+    const signer = await getSigner()
+    const eth = new EthereumClient(contract, config.rpc, 1, abi)
+    const tx = await eth.contract.connect(signer).setApprovalForAll(operator, true)
+  }
 
-
-  return {fetchWalletButerinCards, fetchWalletMinedJpeg}
+  return {fetchWalletButerinCards, fetchWalletMinedJpeg, setApprovalforAll}
 }
