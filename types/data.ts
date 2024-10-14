@@ -35,6 +35,7 @@ declare type Token = {
   ticker: string;
   address: string;
   icon: string;
+  decimals: number;
 }
 
 export type { TWalletCookie, LockedNFT, Contribution, SaleState, Token}

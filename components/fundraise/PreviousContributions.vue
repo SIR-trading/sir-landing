@@ -41,7 +41,7 @@ onMounted(() => {
     <div>
       {{ contributions.amountFinalNoDecimals }}
     </div>
-    <div class="flex flex-col md:flex-row items-center justify-around ring-1 w-full bg-midGray rounded-lg p-3 gap-2">
+    <div class="flex flex-col md:flex-row items-center justify-around w-full bg-midGray rounded-lg p-3 gap-2">
       <div>Contributions made within 24h</div>
       <div>{{ contributions.amountWithdrawableNoDecimals }}</div>
       <div class="text-sm">

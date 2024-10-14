@@ -30,10 +30,15 @@ const balance = ref(0)
 const handleChange = async () => {
   const {address, isConnected} = useWallet()
   if (isConnected.value && selected.value) {
-    balance.value = await fetchBalance(selected.value.address, address.value)
+    balance.value = await fetchBalance(selected.value, address.value).then((val) => {
+      console.log("Val:", val)
+
+      return ethers.formatUnits(val.toString(), selected.value.decimals)
+    })
   }
 
 }
+
 
 const amountTo = (percent: number) => {
   amount.value = Math.round(balance.value * percent / 100)
@@ -43,16 +48,22 @@ const isApproved = ref(true)
 
 const checkApproval =async  () => {
   const {isErc20Approved} = useErc20()
-  isApproved.value = await isErc20Approved(selected.value.address, amount.value)
+  isApproved.value = await isErc20Approved(selected.value, amount.value)
 }
 
-const {approveErc20} = useErc20()
+const {approveErc20,incrementUSDTAllowance, getAllowance } = useErc20()
+const approve = async () => {
 
+    await approveErc20(selected.value, 500000)
+
+}
 import {Stablecoin} from "@/types/data"
+import {ethers} from "ethers";
 const contribute = async () => {
 
   const {depositAndLockNfts} = useEthClient()
   const coins = Stablecoin;
+  console.log("Deposit")
   await depositAndLockNfts(coins[selected.value.ticker], amount.value, props.buterinCards, props.minedJpegs)
 
 }
@@ -87,7 +98,13 @@ onMounted(() => {
               </template>
             </UInputMenu>
           </div>
-          <div class="text-sm italic">Balance: ${{ balance.toLocaleString('en-US') }}</div>
+          <div class="text-sm italic">Balance: {{
+              new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+              }).format(balance)
+            }}
+          </div>
           <div class="flex flex-row gap-1 text-cyan text-sm font-semibold">
             <div role="button" @click="amountTo(25)">25%</div>
             <div role="button" @click="amountTo(25)">50%</div>
@@ -96,10 +113,13 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
-        <button role="button" @click="isApproved ? contribute : approveErc20(selected.address, amount)"
-             :aria-disabled="amount == 0" :disabled="amount == 0"
+        <button @click="contribute" v-if="isApproved"
              class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-          {{isApproved ? 'Add contribution' : 'Approve'}}
+          Add contribution
+        </button>
+        <button v-if="!isApproved" @click="approve"
+             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+           Approve
         </button>
       </div>
     </UFormGroup>

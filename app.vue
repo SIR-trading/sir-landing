@@ -7,6 +7,7 @@ import coinbaseWallet from '@web3-onboard/coinbase';
 import {type Chain,ethereum, local} from "~/web3/chains";
 
 import type {OnboardAPI} from "@web3-onboard/core";
+import {useEnv} from "~/composables/useEnv";
 
 const injected = injectedModule()
 const coinbase = coinbaseWallet()
@@ -22,17 +23,16 @@ const appMetadata: AppMetadata = {
   description: 'Project Description',
 }
 
-const chain: Chain = local
 
 web3Onboard.value = init({
   wallets: [injected, coinbase],
-  chains: [chain],
+  chains: [local, ethereum],
   appMetadata: appMetadata,
-  theme: 'dark',
   connect: {
     autoConnectLastWallet: true,
-    showSidebar: false,
-    removeWhereIsMyWalletWarning: true
+    showSidebar: true,
+    removeWhereIsMyWalletWarning: true,
+
   }
 })
 // console.log("web3Onboard", web3Onboard)

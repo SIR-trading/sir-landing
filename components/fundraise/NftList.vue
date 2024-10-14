@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useNfts } from '~/composables/useNfts';
-import { useWallet } from '~/composables/useWallet';
+import {ref} from 'vue';
+import {useNfts} from '~/composables/useNfts';
+import {useWallet} from '~/composables/useWallet';
 import SirButton from "~/components/common/SirButton.vue";
 import Modal from "~/components/common/Modal.vue";
 import ContributeForm from "~/components/fundraise/ContributeForm.vue";
@@ -9,7 +9,7 @@ import ContributeForm from "~/components/fundraise/ContributeForm.vue";
 // Initialize composables
 const nfts = useNfts();
 const wallet = useWallet();
-const { address, isConnected } = wallet;
+const {address, isConnected} = wallet;
 
 // Reactive variables
 const btList = ref([]);
@@ -26,7 +26,7 @@ if (isConnected) {
 
 // Method to handle selection
 const toggleSelection = (collection: string, nft: number) => {
-  const nftObject = { collection: collection, id: nft };
+  const nftObject = {collection: collection, id: nft};
   const index = btList.value.findIndex((item) => item.collection === nftObject.collection && item.id === nftObject.id);
   if (index === -1) {
     if (btList.value.length >= 5) {
@@ -51,7 +51,7 @@ const isSelected = (collection: string, nft: number) => {
 
 const isModalOpen: Ref<boolean> = ref(false)
 
-const toggleModal= () => {
+const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value
 }
 
@@ -59,41 +59,43 @@ const toggleModal= () => {
 
 <template>
   <div class="flex flex-col items-center justify-center w-full bg-midGray rounded-lg p-3 gap-2">
-    <div class="flex flex-col w-full gap-2 justify-center items-center rounded-md bg-softGray p-2">
-      <div>Buterin Cards</div>
-      <div v-for="tokenId in bt" :key="`BT-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-        <div class="flex flex-row gap-3 w-full justify-around">
-          <div>{{ tokenId }}</div>
-          <UCheckbox
-              :model-value="isSelected('BT', tokenId)"
-              @update:model-value="() => toggleSelection('BT', tokenId)"
-              :name="`BT-${tokenId}`"
-              label="Add to contribution"
-              :disabled="totalSelected >= 5 && !isSelected('BT', tokenId)"
-          />
+    <div class="flex flex-col  md:flex-row gap-2 w-full">
+      <div class="flex flex-col w-full gap-2 items-center rounded-md bg-softGray p-3">
+        <div>Buterin Cards</div>
+        <div v-for="tokenId in bt" :key="`BT-${tokenId}`" class="flex flex-col items-center justify-center w-full">
+          <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11]">
+            <div>{{ tokenId }}</div>
+            <UCheckbox
+                :model-value="isSelected('BT', tokenId)"
+                @update:model-value="() => toggleSelection('BT', tokenId)"
+                :name="`BT-${tokenId}`"
+                :disabled="totalSelected >= 5 && !isSelected('BT', tokenId)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col w-full gap-2  items-center rounded-md bg-softGray p-3">
+        <div class="flex justify-start">Mined Jpeg</div>
+        <div v-for="tokenId in mj" :key="`MJ-${tokenId}`" class="flex flex-col items-center justify-center w-full">
+          <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11]">
+            <div>{{ tokenId }}</div>
+            <UCheckbox
+                size="lg"
+                :model-value="isSelected('MJ', tokenId)"
+                @update:model-value="() => toggleSelection('MJ', tokenId)"
+                :name="`MJ-${tokenId}`"
+                :disabled="totalSelected >= 5 && !isSelected('MJ', tokenId)"
+            />
+
+          </div>
         </div>
       </div>
     </div>
-    <UDivider />
-    <div class="flex flex-col w-full gap-2 justify-center items-center rounded-md bg-softGray p-2">
-    <div>Mined Jpeg</div>
-    <div v-for="tokenId in mj" :key="`MJ-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-      <div class="flex flex-row gap-3 w-full justify-around">
-        <div>{{ tokenId }}</div>
-        <UCheckbox
-            :model-value="isSelected('MJ', tokenId)"
-            @update:model-value="() => toggleSelection('MJ', tokenId)"
-            :name="`MJ-${tokenId}`"
-            label="Add to contribution"
-            :disabled="totalSelected >= 5 && !isSelected('MJ', tokenId)"
-        />
 
-      </div>
-    </div>
-    </div>
-    <div>Bonus reached {{totalSelected}}/5</div>
+    <div>Bonus reached {{ totalSelected }}/5</div>
     <div class="flex flex-row gap-2 justify-center items-center rounded-md bg-softGray p-2">
-      <div v-for="item in btList" :key="`BT-${item}`" class="flex flex-col items-center justify-center w-full rounded-md bg-primary p-1">
+      <div v-for="item in btList" :key="`BT-${item}`"
+           class="flex flex-col items-center justify-center w-full rounded-md bg-primary p-1">
         <div class="flex flex-col items-center justify-center w-[50px] text-black text-sm font-bold ">
           <span>{{ item.collection }}</span>
           <span>{{ item.id }}</span>
@@ -103,16 +105,17 @@ const toggleModal= () => {
     <div class="p-2 flex justify-center items-center">
       <SirButton label="Contribute" @click="toggleModal"></SirButton>
     </div>
-    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal" modal-background-color="bg-black-russian-950" class-list="sm:w-full md:w-[600px]" >
+    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal"
+           modal-background-color="bg-black-russian-950" class-list="sm:w-full md:w-[600px]">
       <div class="flex flex-col items-center justify-center w-full">
         <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
-          <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]" >Contribute</h1>
+          <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>
           <p class="flex flex-col">
             <span>You can withdraw your contribution within 24h</span>
             <span> if you change your mind. After that it’s locked in.</span>
           </p>
         </div>
-        <ContributeForm :mined-jpegs="[]" :buterin-cards="[]" />
+        <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>
       </div>
     </Modal>
   </div>

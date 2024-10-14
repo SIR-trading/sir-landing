@@ -5,7 +5,7 @@ import {useWallet} from "~/composables/useWallet";
 import {ethers} from "ethers";
 import {log} from "node:util";
 import type {Contribution, LockedNFT} from "~/types";
-import {Stablecoin} from "~/types/data";
+import {Stablecoin, SaleState} from "~/types/data";
 import {l} from "vite/dist/node/types.d-aGj9QkWt";
 
 
@@ -46,12 +46,14 @@ export const useEthClient = () => {
    * @returns {Promise<void>} Transaction response.
    */
   async function depositAndLockNfts(stablecoin: Stablecoin, amountNoDecimals: number, buterinCardIds: Array<number>, minedJpegIds: Array<number>) {
+    console.log("DEPOSIT....")
+
     try {
       const {getSigner} = useWallet()
       const {contract} = ethClient
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
-      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
+      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds, { gasLimit: 700000})
       // const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
       //   stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
       // ])
