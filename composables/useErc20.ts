@@ -3,6 +3,7 @@ import {useEnv} from "~/composables/useEnv";
 
 import abi from "assets/erc20_abi.json"
 import {ethers} from "ethers";
+import {log} from "node:util";
 export const useErc20 = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
@@ -29,10 +30,23 @@ export const useErc20 = () => {
   }
 
   const approveErc20 = async (contract: string, amount: number) => {
-    const eth = new EthereumClient(contract, config.rpc, 1, abi)
+    const eth = new EthereumClient(contract, config.rpc, chain.id, abi)
     try {
       const spender = env.contract
-      const tx = await eth.contract.connect(await getSigner()).approve(spender, ethers.parseUnits(amount.toString(), 18), {gasLimit: 100000000})
+      console.log({spender, amount: ethers.parseUnits(amount.toString(), 6)})
+      const signer = await getSigner()
+      const data = eth.contract.interface.encodeFunctionData('approve', [spender, ethers.parseUnits(amount.toString(), 6)])
+      const rawTx: ethers.TransactionRequest = {
+        data: data,
+        to: await eth.contract.getAddress(),
+        nonce: await signer?.getNonce(),
+      }
+      const gasLimit =await  eth.provider.estimateGas(rawTx)
+      if (!ethers.isAddress(spender)) new Error('Invalid spender address, check the .env file')
+      if (!ethers.isAddress(contract)) new Error('Invalid contract address, check the .env file')
+      // const tx = await signer?.sendTransaction({...rawTx, gasLimit: gasLimit * 10n ** 3n})
+      console.log('gasLimit', gasLimit, gasLimit * 10n ** 3n)
+      const tx = await eth.contract.connect(await getSigner()).approve(spender, ethers.parseUnits(amount.toString(), 6), {gasLimit: 700000})
       await tx.wait()
       console.log('Approved ERC20 token transfer successfully')
     } catch (error) {

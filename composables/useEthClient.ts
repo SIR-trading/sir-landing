@@ -50,21 +50,25 @@ export const useEthClient = () => {
       const {getSigner} = useWallet()
       const {contract} = ethClient
       const signer = await getSigner()
-      // const mutableContract = contract.connect(signer)
-      // const tx = await mutableContract.depositAndLockNfts(0, 1000, [], [], {gasLimit: 7000000})
-      const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
-        stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
-      ])
+      const mutableContract = contract.connect(signer)
+      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
+      // const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
+      //   stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
+      // ])
 
-      const rawTx: ethers.TransactionRequest = {
-        data: data,
-        to: await contract.getAddress(),
-        gasLimit: 100000000,
-        nonce: await signer?.getNonce(),
-      }
+      // const rawTx: ethers.TransactionRequest = {
+      //   data: data,
+      //   to: await contract.getAddress(),
+      //   gasLimit: 100000000,
+      //   nonce: await signer?.getNonce(),
+      // }
+      //
+      // const tx = await signer.sendTransaction(rawTx).then(tx => {
+      //   console.log('Transaction successful:', tx);
+      //   return tx
+      // })
 
-      const tx = await signer.sendTransaction(rawTx)
-      console.log('Transaction successful:', tx);
+      return tx.hash
     } catch (error) {
       console.error('Transaction failed:', error);
     }

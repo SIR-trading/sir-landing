@@ -96,10 +96,11 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
-        <div role="button" @click="contribute"
+        <button role="button" @click="isApproved ? contribute : approveErc20(selected.address, amount)"
+             :aria-disabled="amount == 0" :disabled="amount == 0"
              class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
           {{isApproved ? 'Add contribution' : 'Approve'}}
-        </div>
+        </button>
       </div>
     </UFormGroup>
   </div>
