@@ -2,7 +2,7 @@ import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import {useWallet} from "~/composables/useWallet";
-import {ethers} from "ethers";
+import {ethers, TransactionRequest} from "ethers";
 import {Stablecoin, SaleState} from "~/types/data";
 
 
@@ -50,7 +50,17 @@ export const useEthClient = () => {
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
       // todo: setup dynamic gasLimit for depositAndLockNfts
-      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds, { gasLimit: 700000})
+      const to = await contract.getAddress()
+        const from = await contract.getAddress()
+      const data = contract.interface.encodeFunctionData("depositAndLockNfts", [stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds]);
+      const txReq: TransactionRequest  = {
+        to: to,
+        from: from,
+        data: data
+      }
+
+      // const gasLimit = await ethClient.provider.estimateGas(txReq)
+      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
       // const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
       //   stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
       // ])

@@ -27,16 +27,15 @@ const blackRussian = {
 
 const {fetchBalance} = useErc20()
 const balance = ref(0)
+
 const handleChange = async () => {
   const {address, isConnected} = useWallet()
+
   if (isConnected.value && selected.value) {
     balance.value = await fetchBalance(selected.value, address.value).then((val) => {
-      console.log("Val:", val)
-
       return ethers.formatUnits(val.toString(), selected.value.decimals)
     })
   }
-
 }
 
 
@@ -53,18 +52,16 @@ const checkApproval =async  () => {
 
 const {approveErc20,incrementUSDTAllowance, getAllowance } = useErc20()
 const approve = async () => {
-    await approveErc20(selected.value, 500000)
+    await approveErc20(selected.value, amount.value)
   await checkApproval()
 }
 import {Stablecoin} from "@/types/data"
 import {ethers} from "ethers";
 const contribute = async () => {
-
   const {depositAndLockNfts} = useEthClient()
   const coins = Stablecoin;
-  console.log("Deposit")
-  await depositAndLockNfts(coins[selected.value.ticker], amount.value, props.buterinCards, props.minedJpegs)
 
+  await depositAndLockNfts(coins[selected.value.ticker], amount.value, props.buterinCards, props.minedJpegs)
 }
 
 onMounted(() => {
