@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed} from 'vue';
+import {ref} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
@@ -7,7 +7,6 @@ import {useWallet} from '~/composables/useWallet';
 import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
 
-import SirButton from "~/components/common/SirButton.vue";
 import NftList from "~/components/fundraise/NftList.vue";
 import PreviousContributions from "~/components/fundraise/PreviousContributions.vue";
 import ContributeForm from "~/components/fundraise/ContributeForm.vue";
@@ -67,7 +66,6 @@ const bullets = [
       <template #header>Contribute to the Fundraiser</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <PreviousContributions/>
-        <NftList/>
         <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">
           <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
             <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>
@@ -78,6 +76,7 @@ const bullets = [
           </div>
           <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>
         </div>
+        <NftList/>
       </div>
     </Section>
     <Section variant="background">

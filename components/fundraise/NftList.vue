@@ -2,9 +2,9 @@
 import {ref} from 'vue';
 import {useNfts} from '~/composables/useNfts';
 import {useWallet} from '~/composables/useWallet';
-import SirButton from "~/components/common/SirButton.vue";
-import Modal from "~/components/common/Modal.vue";
-import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+// import SirButton from "~/components/common/SirButton.vue";
+// import Modal from "~/components/common/Modal.vue";
+// import ContributeForm from "~/components/fundraise/ContributeForm.vue";
 
 // Initialize composables
 const nfts = useNfts();

@@ -3,10 +3,7 @@ import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import {useWallet} from "~/composables/useWallet";
 import {ethers} from "ethers";
-import {log} from "node:util";
-import type {Contribution, LockedNFT} from "~/types";
 import {Stablecoin, SaleState} from "~/types/data";
-import {l} from "vite/dist/node/types.d-aGj9QkWt";
 
 
 
@@ -20,7 +17,6 @@ export const useEthClient = () => {
   //   rpc = config.rcp
   // }
   const ethClient = new EthereumClient(contract, rpc, env.chain.id, abi)
-  const iFace: ethers.Interface = ethClient.contract.interface
   const state = async () => {
     const _state = await ethClient.contract.state()
     return {
@@ -53,6 +49,7 @@ export const useEthClient = () => {
       const {contract} = ethClient
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
+      // todo: setup dynamic gasLimit for depositAndLockNfts
       const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds, { gasLimit: 700000})
       // const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
       //   stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds

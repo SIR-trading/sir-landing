@@ -53,9 +53,8 @@ const checkApproval =async  () => {
 
 const {approveErc20,incrementUSDTAllowance, getAllowance } = useErc20()
 const approve = async () => {
-
     await approveErc20(selected.value, 500000)
-
+  await checkApproval()
 }
 import {Stablecoin} from "@/types/data"
 import {ethers} from "ethers";

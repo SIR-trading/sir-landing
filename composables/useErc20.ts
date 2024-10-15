@@ -71,7 +71,7 @@ export const useErc20 = () => {
             spender,
             0n,
             {
-              gasLimit: estimateGas * 2n
+              gasLimit: estimateGas
             },
           )
       const tx = await eth.contract.connect(signer)
@@ -79,7 +79,7 @@ export const useErc20 = () => {
           spender,
           ethers.parseUnits(amount.toString(), token.decimals),
           {
-            gasLimit: estimateGas *2n
+            gasLimit: estimateGas
           },
         )
       console.log('Approved ERC20 token transfer successfully')
