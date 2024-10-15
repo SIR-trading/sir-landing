@@ -7,9 +7,9 @@ export const useNfts = () => {
   const env = useEnv()
   const {chain,  contract } = env
   const config = useRuntimeConfig()
-  const {buterinCards, minedJpeg} = config.public
+  const {buterinCards, minedJpeg, rpc} = config.public
   const _fetchNFTs = async (contract: string, address: string) => {
-    const eth = new EthereumClient(contract, config.rpc, chain.id, abi)
+    const eth = new EthereumClient(contract, rpc, chain.id, abi)
     try {
       const amount = Number(await eth.contract.balanceOf(address));
       console.log("Items:", amount);
@@ -40,7 +40,7 @@ export const useNfts = () => {
     const {getSigner} = useWallet()
     const operator = useEnv().contract
     const signer = await getSigner()
-    const eth = new EthereumClient(contract, config.rpc, 1, abi)
+    const eth = new EthereumClient(contract, rpc, 1, abi)
     const tx = await eth.contract.connect(signer).setApprovalForAll(operator, true)
   }
 
