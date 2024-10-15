@@ -1,19 +1,31 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import {ref, computed} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
-import { useWallet } from '~/composables/useWallet';
+import {useWallet} from '~/composables/useWallet';
 import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
 
 import SirButton from "~/components/common/SirButton.vue";
 import NftList from "~/components/fundraise/NftList.vue";
 import PreviousContributions from "~/components/fundraise/PreviousContributions.vue";
+import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+import {useNfts} from "~/composables/useNfts";
 
+const {isConnected, address, hasAgreed} = useWallet();
 
+// Fetch NFTs if connected
+const nfts = useNfts();
 
-const { isConnected, address, hasAgreed } = useWallet();
+let bt = ref([]);
+let mj = ref([]);
+if (isConnected) {
+  console.log('address', address.value);
+  bt.value = await nfts.fetchWalletButerinCards(address.value);
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+
+}
 const bullets = [
   {
     i: 1,
@@ -40,22 +52,32 @@ const bullets = [
       </template>
     </SirHero>
     <Section variant="background">
-      <template #header>{{isConnected ? "Project Funding Progress" : "Contribute to the fundraiser"}}</template>
+      <template #header>{{ isConnected ? "Project Funding Progress" : "Contribute to the fundraiser" }}</template>
       <p class="section-text-block mb-3">
         Some text about what will happen when you contribute and perhaps mentioning buterin cards.
       </p>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
-        <SirProgressBar />
+        <SirProgressBar/>
       </div>
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
-        <Connect />
+        <Connect/>
       </div>
     </Section>
     <Section variant="background" v-if="isConnected">
       <template #header>Contribute to the Fundraiser</template>
-      <div class="flex flex-col gap-3 w-full">
-        <PreviousContributions />
-        <NftList />
+      <div class="flex flex-col gap-3 w-full items-center">
+        <PreviousContributions/>
+        <NftList/>
+        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">
+          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
+            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>
+            <p class="flex flex-col">
+              <span>You can withdraw your contribution within 24h</span>
+              <span> if you change your mind. After that it’s locked in.</span>
+            </p>
+          </div>
+          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>
+        </div>
       </div>
     </Section>
     <Section variant="background">
@@ -77,7 +99,7 @@ const bullets = [
             <span>for the first three years</span>
           </p>
           <div class="flex justify-center">
-            <NuxtImg src="first_years_emission.png" sizes="100vw md:300px" />
+            <NuxtImg src="first_years_emission.png" sizes="100vw md:300px"/>
           </div>
         </div>
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
@@ -86,7 +108,7 @@ const bullets = [
             <span>after three years</span>
           </p>
           <div class="flex justify-center">
-            <NuxtImg src="3_years_emission.png" sizes="100vw md:300px" />
+            <NuxtImg src="3_years_emission.png" sizes="100vw md:300px"/>
           </div>
         </div>
       </div>

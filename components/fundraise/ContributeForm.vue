@@ -75,7 +75,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col items-stretch p-4 w-full">
-    <UFormGroup label="Contribute:" class="w-full ">
+    <UFormGroup class="w-full ">
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
           <UInput v-model="amount" type="number" label="Amount" placeholder="100" variant="none"

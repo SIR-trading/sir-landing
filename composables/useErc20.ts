@@ -3,9 +3,8 @@ import {useEnv} from "~/composables/useEnv";
 
 import abi from "assets/erc20_abi.json"
 import {ethers} from "ethers";
-import {log} from "node:util";
 import type {Token} from "~/types";
-
+import tokens from "assets/token_list.json"
 export const useErc20 = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
@@ -25,6 +24,7 @@ export const useErc20 = () => {
   const getAllowance = async (token: Token) => {
     const eth = new EthereumClient(token.address, config.rpc, chain.id, abi)
     const signer = await getSigner()
+    console.log("get allowance")
     return await eth.contract.allowance(await signer.getAddress(), useEnv().contract)
   }
 
@@ -57,28 +57,29 @@ export const useErc20 = () => {
     try {
       const spender = useEnv().contract
       const signer = await getSigner()
-      const approvalTxReq = {
+      const approvalTxReq : ethers.TransactionRequest = {
         to: token.address,
+        from: await signer.getAddress(),
         data: eth.contract.interface.encodeFunctionData("approve",[spender, amount])
       }
-      const estimateGas = 7000000 // await eth.provider.estimateGas(approvalTxReq)
+      const estimateGas =  await eth.provider.estimateGas(approvalTxReq)
+      console.log("GAS: ", estimateGas)
       const allowance = await getAllowance(token)
-      if(amount > ethers.parseUnits(allowance, token.decimals) && token.ticker === 'USDT')
+      if(amount > ethers.parseUnits(allowance.toString(), token.decimals) && token.ticker === 'USDT' && allowance !== 0n)
         await eth.contract.connect(signer)
           .approve(
             spender,
             0n,
             {
-              gasLimit: estimateGas
+              gasLimit: estimateGas * 2n
             },
           )
-      console.log("GAS", estimateGas)
       const tx = await eth.contract.connect(signer)
         .approve(
           spender,
           ethers.parseUnits(amount.toString(), token.decimals),
           {
-            gasLimit: estimateGas
+            gasLimit: estimateGas *2n
           },
         )
       console.log('Approved ERC20 token transfer successfully')
@@ -86,8 +87,11 @@ export const useErc20 = () => {
     } catch (error) {
       console.error('Error approving ERC20 token transfer:', error)
     }
-
   }
 
-  return {fetchBalance, approveErc20, isErc20Approved, incrementUSDTAllowance, getAllowance}
+  const getTokenInfo = ( ticker: string): Token => {
+    return tokens.find(token => token.ticker === ticker)
+  }
+
+  return {fetchBalance, approveErc20, isErc20Approved, incrementUSDTAllowance, getAllowance, getTokenInfo}
 }
