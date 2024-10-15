@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import {ref} from "vue";
-import {useFundraiseStore} from "~/stores/fundraise";
+import {useSaleStore} from "~/stores/sale";
 import type {Contribution, Token} from "~/types";
 import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
 
-const fundraiseStore = useFundraiseStore();
+const saleStore = useSaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
@@ -13,15 +13,15 @@ const hasFetchedContributions = ref(false);
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
-  await fundraiseStore.fetchWalletContributions(address.value);
+  await saleStore.fetchWalletContributions(address.value);
   hasFetchedContributions.value = true;
-  console.log("FETCHED", fundraiseStore.getWalletContributions)
+  console.log("FETCHED", saleStore.getWalletContributions)
 };
 
 // Watch for changes in 'isConnected' to fetch contributions
 watch(isConnected, fetchContributions);
 
-const contributions = computed(() => fundraiseStore.contributions as Contribution)
+const contributions = computed(() => saleStore.contributions as Contribution)
 
 // Initially, call fetchContributions if already connected
 fetchContributions();

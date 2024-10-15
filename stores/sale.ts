@@ -3,15 +3,18 @@ import {useEthClient} from '@/composables/useEthClient';
 import {type LockedNFT, Stablecoin, Contribution} from "~/types/data";
 
 
+
 // Define the state interface
 interface FundraiseState {
   contributions: Contribution;
+  selectedItems: Array<{collection: string, id: string}>;
 }
 
-export const useFundraiseStore = defineStore<'fundraise', FundraiseState>({
-  id: 'fundraise',
+export const useSaleStore = defineStore<'sale', FundraiseState>({
+  id: 'sale',
   state: () => ({
     contributions: {} as Contribution,
+    selectedItems: []
   }),
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
@@ -33,8 +36,16 @@ export const useFundraiseStore = defineStore<'fundraise', FundraiseState>({
     timer: (state) => {
       return new Date(state.contributions.timeLastContribution)
     },
+    buterinCardsSelected: (state) => {
+      return state.selectedItems.map((item) => item.collection === "BT" ? item.id : null).filter(id => id !== null);
+    },
+    minedJpegsSelected: (state) => {
+      return state.selectedItems.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
+    }
   },
 });
+
+
 
 const formatLockedNfts = (l: any) => {
   return {

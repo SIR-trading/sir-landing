@@ -5,6 +5,7 @@ import {useWallet} from '~/composables/useWallet';
 // import SirButton from "~/components/common/SirButton.vue";
 // import Modal from "~/components/common/Modal.vue";
 import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+import {useSaleStore} from "~/stores/sale";
 
 // Initialize composables
 const nfts = useNfts();
@@ -24,6 +25,8 @@ if (isConnected) {
   mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 }
 
+const saleStore = useSaleStore()
+
 // Method to handle selection
 const toggleSelection = (collection: string, nft: number) => {
   const nftObject = {collection: collection, id: nft};
@@ -34,11 +37,13 @@ const toggleSelection = (collection: string, nft: number) => {
     }
     // Add NFT to the list
     btList.value.push(nftObject);
+    saleStore.selectedItems.push(nftObject);
     totalSelected.value += 1;
     console.log("*****************", btList.value, totalSelected.value);
   } else {
     // Remove NFT from the list
     btList.value.splice(index, 1);
+    saleStore.selectedItems.splice(nftObject);
     totalSelected.value -= 1;
   }
 };
@@ -55,7 +60,6 @@ const btSelected = computed(() => {
 const mjSelected = computed(() => {
   return btList.value.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
 })
-
 
 
 const isModalOpen: Ref<boolean> = ref(false)

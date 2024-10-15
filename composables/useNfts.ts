@@ -1,11 +1,12 @@
 import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/erc721_abi.json"
+import {string} from "yup";
 
 
 export const useNfts = () => {
   const env = useEnv()
-  const {chain,  contract } = env
+  const {chain, contract} = env
   const config = useRuntimeConfig()
   const {buterinCards, minedJpeg, rpc} = config.public
   const _fetchNFTs = async (contract: string, address: string) => {
@@ -14,8 +15,8 @@ export const useNfts = () => {
       const amount = Number(await eth.contract.balanceOf(address));
       console.log("Items:", amount);
       let ids = []
-      for(let i = 0; i < amount; i++) {
-        ids.push(eth.contract.tokenOfOwnerByIndex(address,i));
+      for (let i = 0; i < amount; i++) {
+        ids.push(eth.contract.tokenOfOwnerByIndex(address, i));
       }
 
       return await Promise.all(ids).then((res) => {
@@ -36,13 +37,19 @@ export const useNfts = () => {
     return await _fetchNFTs(minedJpeg, address);
   }
 
-  const setApprovalforAll = async (contract: string) => {
+  const setApprovalForAll = async (nftContract: string) => {
     const {getSigner} = useWallet()
-    const operator = useEnv().contract
     const signer = await getSigner()
-    const eth = new EthereumClient(contract, rpc, 1, abi)
-    const tx = await eth.contract.connect(signer).setApprovalForAll(operator, true)
+    const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
+    const tx = await eth.contract.connect(signer).setApprovalForAll(contract, true)
   }
 
-  return {fetchWalletButerinCards, fetchWalletMinedJpeg, setApprovalforAll}
+  const isApprovedForAll = async (nftContract: string, owner: string) => {
+    const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
+    const {address} = useWallet()
+    console.log("isApprovedForALl", contract, address.value)
+    return await eth.contract.isApprovedForAll(owner, contract)
+  }
+
+  return {fetchWalletButerinCards, fetchWalletMinedJpeg, setApprovalForAll, isApprovedForAll}
 }

@@ -36,7 +36,6 @@ export const useErc20 = () => {
     return Number(formattedAllowance) >= Number(amount)
   }
 
-
   const incrementUSDTAllowance = async (token: Token, amount: number) => {
     try {
       // if (token.ticker !== 'USDT') new Error('USDT specific function')

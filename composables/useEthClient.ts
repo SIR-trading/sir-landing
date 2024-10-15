@@ -29,8 +29,11 @@ export const useEthClient = () => {
     return await ethClient.contract.contributions(contributor)
   }
 
-  const lockNfts = ( buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
-    ethClient.contract.lockNfts(buterinCardsIds, minedJpegsIds)
+  const lockNfts =async ( buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
+    console.log("ID::::::",buterinCardsIds, minedJpegsIds)
+    const {getSigner} = useWallet()
+    const signer = await getSigner()
+    await ethClient.contract.connect(signer).lockNfts(buterinCardsIds, minedJpegsIds, {gasLimit: 1000000})
   }
 
   /**
