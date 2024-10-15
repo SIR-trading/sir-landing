@@ -66,16 +66,16 @@ const bullets = [
       <template #header>Contribute to the Fundraiser</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <PreviousContributions/>
-        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">
-          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
-            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>
-            <p class="flex flex-col">
-              <span>You can withdraw your contribution within 24h</span>
-              <span> if you change your mind. After that it’s locked in.</span>
-            </p>
-          </div>
-          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>
-        </div>
+<!--        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">-->
+<!--          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">-->
+<!--            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>-->
+<!--            <p class="flex flex-col">-->
+<!--              <span>You can withdraw your contribution within 24h</span>-->
+<!--              <span> if you change your mind. After that it’s locked in.</span>-->
+<!--            </p>-->
+<!--          </div>-->
+<!--          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>-->
+<!--        </div>-->
         <NftList/>
       </div>
     </Section>

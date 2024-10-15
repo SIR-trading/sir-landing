@@ -12,6 +12,10 @@ const props = defineProps({
   buterinCards: Array<number>,
 })
 
+const printNfts = () => {
+  console.log("printNfts", props.buterinCards, props.minedJpegs);
+}
+
 const amount = ref(0)
 import Array = SymbolKind.Array;
 
