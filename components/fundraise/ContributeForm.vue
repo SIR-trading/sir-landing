@@ -64,6 +64,8 @@ const contribute = async () => {
   await depositAndLockNfts(coins[selected.value.ticker], amount.value, props.buterinCards, props.minedJpegs)
 }
 
+
+
 onMounted(() => {
   handleChange()
 })
@@ -75,7 +77,8 @@ onMounted(() => {
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
           <UInput v-model="amount" type="number" label="Amount" placeholder="100" variant="none"
-                  @change="checkApproval"/>
+                  @input="checkApproval"
+          />
           {{ isApproved }}</div>
         <div class="flex flex-col gap-2 items-end w-full">
           <div class="flex flex-row gap-0  items-center justify-end bg-black-russian-950 rounded-md p-2">
