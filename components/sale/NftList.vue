@@ -67,13 +67,6 @@ const mjSelected = computed(() => {
   return btList.value.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
 })
 
-
-const isModalOpen: Ref<boolean> = ref(false)
-
-const toggleModal = () => {
-  isModalOpen.value = !isModalOpen.value
-}
-
 </script>
 
 <template>

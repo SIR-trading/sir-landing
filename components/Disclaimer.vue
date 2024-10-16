@@ -4,6 +4,8 @@ import Modal from "~/components/common/Modal.vue";
 
 import {useWallet} from "~/composables/useWallet";
 
+const emits = defineEmits(['statusChanged'])
+
 const walletStore = useWallet()
 const {isConnected, hasAgreed, address} = walletStore
 const agreed = ref(null)
@@ -18,14 +20,15 @@ const agreeToDisclaimer = () => {
   if(!isConnected.value) return;
   localStorage.setItem(`wallet-${address.value}`, JSON.stringify({at: new Date()}))
   isModalOpen.value = false
+  emits('statusChanged')
   console.log(isModalOpen.value)
 }
+
 
 </script>
 
 <template>
-  <Section variant="background">
-    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
+    <Modal class-list="" :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
       <div class="modal-content text-center md:text-left p-6 flex flex-col gap-3 text-[14px] max-w-[1000px]">
         <p class="">
           By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
@@ -66,7 +69,6 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
         </div>
       </div>
     </Modal>
-  </Section>
 </template>
 
 <style scoped>

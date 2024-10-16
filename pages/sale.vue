@@ -12,7 +12,7 @@ import PreviousContributions from "~/components/sale/PreviousContributions.vue";
 import ContributeForm from "~/components/sale/ContributeForm.vue";
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address, hasAgreed} = useWallet();
+const {isConnected, address} = useWallet();
 
 // Fetch NFTs if connected
 const nfts = useNfts();
@@ -112,7 +112,6 @@ const bullets = [
         </div>
       </div>
     </Section>
-    <Disclaimer v-if="!hasAgreed"/>
   </UContainer>
 </template>
 
