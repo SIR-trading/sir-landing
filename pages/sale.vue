@@ -7,9 +7,9 @@ import {useWallet} from '~/composables/useWallet';
 import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
 
-import NftList from "~/components/fundraise/NftList.vue";
-import PreviousContributions from "~/components/fundraise/PreviousContributions.vue";
-import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+import NftList from "~/components/sale/NftList.vue";
+import PreviousContributions from "~/components/sale/PreviousContributions.vue";
+import ContributeForm from "~/components/sale/ContributeForm.vue";
 import {useNfts} from "~/composables/useNfts";
 
 const {isConnected, address, hasAgreed} = useWallet();

@@ -4,8 +4,9 @@ import {useNfts} from '~/composables/useNfts';
 import {useWallet} from '~/composables/useWallet';
 // import SirButton from "~/components/common/SirButton.vue";
 // import Modal from "~/components/common/Modal.vue";
-import ContributeForm from "~/components/fundraise/ContributeForm.vue";
+import ContributeForm from "~/components/sale/ContributeForm.vue";
 import {useSaleStore} from "~/stores/sale";
+import Bonus from "~/components/sale/Bonus.vue";
 
 // Initialize composables
 const nfts = useNfts();
@@ -121,16 +122,8 @@ const toggleModal = () => {
         </div>
       </div>
     </div>
-
-    <div>Bonus reached {{ totalSelected }}/5</div>
-    <div class="flex flex-row gap-2 justify-center items-center rounded-md bg-softGray p-2">
-      <div v-for="item in btList" :key="`BT-${item}`"
-           class="flex flex-col items-center justify-center w-full rounded-md bg-primary p-1">
-        <div class="flex flex-col items-center justify-center w-[50px] text-black text-sm font-bold ">
-          <span>{{ item.collection }}</span>
-          <span>{{ item.id }}</span>
-        </div>
-      </div>
+    <div class="mt-2">
+      <Bonus />
     </div>
   </div>
 </template>
