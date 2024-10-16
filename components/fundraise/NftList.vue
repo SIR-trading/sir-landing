@@ -25,6 +25,11 @@ if (isConnected) {
   mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 }
 
+const fetchData = async () => {
+  bt.value = await nfts.fetchWalletButerinCards(address.value);
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+}
+
 const saleStore = useSaleStore()
 
 // Method to handle selection
@@ -80,7 +85,7 @@ const toggleModal = () => {
           <span> if you change your mind. After that it’s locked in.</span>
         </p>
       </div>
-      <ContributeForm :mined-jpegs="mjSelected" :buterin-cards="btSelected"/>
+      <ContributeForm :mined-jpegs="mjSelected" :buterin-cards="btSelected" @refresh="fetchData"/>
     </div>
     <div class="flex flex-col  md:flex-row gap-2 w-full bg-midGray rounded-lg p-3">
       <div class="flex flex-col w-full gap-2 items-center rounded-md  p-3">

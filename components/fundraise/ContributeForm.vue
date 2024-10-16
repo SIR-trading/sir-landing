@@ -11,9 +11,6 @@ import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 
 
-
-
-
 const amount = ref(0)
 
 const selected: Ref<Token> = ref(tokens[1])
@@ -48,7 +45,7 @@ const amountTo = (percent: number) => {
 
 const isApproved = ref(true)
 
-const checkApproval =async  () => {
+const checkApproval = async () => {
   isApproved.value = await isErc20Approved(selected.value, amount.value)
 }
 const nfts = useNfts()
@@ -67,34 +64,61 @@ const {buterinCards, minedJpeg} = config
 const saleStore = useSaleStore()
 const {selectedItems} = saleStore
 
+
+const emit = defineEmits(['refresh'])
+
+
 const contribute = async () => {
 
   const coins = Stablecoin;
 
   // Approve Buterin Cards if are not
   const {address} = useWallet()
-  if(saleStore.buterinCardsSelected.length > 0) {
+  if (saleStore.buterinCardsSelected.length > 0) {
     const isApproved = await isApprovedForAll(config.buterinCards, address.value)
-    if(!isApproved) {
+    if (!isApproved) {
       await setApprovalForAll(buterinCards)
     }
   }
   // Approve Mined Jpegs if are not
-  if(saleStore.minedJpegsSelected.length > 0) {
+  if (saleStore.minedJpegsSelected.length > 0) {
     const isApproved = await isApprovedForAll(config.minedJpeg, address.value)
-    if(!isApproved) {
+    if (!isApproved) {
       await setApprovalForAll(minedJpeg)
     }
   }
 
   // Deposit and Lock
   await depositAndLockNfts(coins[selected.value.ticker], amount.value, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected)
+  setTimeout(() => {
+    emit('refresh')
+    saleStore.fetchWalletContributions(address.value)
+  }, 2000)
 }
 
 // todo: fix bug on lockNFTS
 const showLockNfts = computed(() => amount.value === 0 && saleStore.selectedItems.length > 0)
 const doLockNfts = async () => {
+  // Approve Buterin Cards if are not
+  const {address} = useWallet()
+  if (saleStore.buterinCardsSelected.length > 0) {
+    const isApproved = await isApprovedForAll(config.buterinCards, address.value)
+    if (!isApproved) {
+      await setApprovalForAll(buterinCards)
+    }
+  }
+  // Approve Mined Jpegs if are not
+  if (saleStore.minedJpegsSelected.length > 0) {
+    const isApproved = await isApprovedForAll(config.minedJpeg, address.value)
+    if (!isApproved) {
+      await setApprovalForAll(minedJpeg)
+    }
+  }
   await lockNfts(saleStore.buterinCardsSelected, saleStore.minedJpegsSelected)
+  setTimeout(() => {
+    emit('refresh')
+    saleStore.fetchWalletContributions(address.value)
+  }, 2000)
 }
 onMounted(() => {
   handleChange()
@@ -143,17 +167,17 @@ onMounted(() => {
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
         <button v-if="isApproved && !showLockNfts" @click="contribute" :disabled="amount === 0"
-             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
+                class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
 
           Add contribution
         </button>
         <button v-if="!isApproved && !showLockNfts" @click="approve"
-             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-           Approve
+                class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+          Approve
         </button>
         <button v-if="showLockNfts" @click="doLockNfts"
-             class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-           Lock NFTS
+                class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+          Lock NFTS
         </button>
       </div>
     </UFormGroup>

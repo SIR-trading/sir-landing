@@ -37,7 +37,9 @@ export const useEthClient = () => {
     const {getSigner} = useWallet()
     const signer = await getSigner()
     try {
-      const result = await ethClient.contract.connect(signer).lockNfts(buterinCardsIds, minedJpegsIds);
+
+      const mutableContract = await ethClient.contract.connect(signer)
+      const result = await mutableContract.lockNfts(buterinCardsIds, minedJpegsIds);
       console.log('Direct result:', result);
     } catch (directError) {
       console.error('Direct contract call error:', directError);
