@@ -26,7 +26,7 @@ const agreeToDisclaimer = () => {
 <template>
   <Section variant="background">
     <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
-      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-3 text-[14px]">
+      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-3 text-[14px] max-w-[1000px]">
         <p class="">
           By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
         </p>
