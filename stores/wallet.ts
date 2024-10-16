@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { useErc20 } from "~/composables/useErc20";
 import { useWallet } from "~/composables/useWallet";
 import tokens from "@/assets/token_list.json"
+import {ethers} from "ethers";
+import {useOnboard} from "@web3-onboard/vue";
 
 /**
  * Defines a store for managing wallet-related state and actions.
@@ -13,7 +15,8 @@ export const useWalletStore = defineStore('wallet', {
    */
   state: () => ({
     balances: {},
-    hasAgreed: ref(false)
+    hasAgreed: ref(false),
+    chain: ""
   }),
   actions: {
     /**
@@ -51,5 +54,6 @@ export const useWalletStore = defineStore('wallet', {
      * @returns {Object} - The contributions for the wallet.
      */
     getWalletContributions: (state) => state.contributions,
+    getChainId: (state)  => state.chain
   },
 });
