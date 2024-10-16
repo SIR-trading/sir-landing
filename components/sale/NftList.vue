@@ -93,7 +93,7 @@ const toggleModal = () => {
         <div>Buterin Cards</div>
         <div class="p-3 max-h-[280px] overflow-y-auto w-full flex flex-col gap-2">
           <div v-for="tokenId in bt" :key="`BT-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11]">
+            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]" @click="toggleSelection('BT', tokenId)">
               <div>{{ tokenId }}</div>
               <UCheckbox
                   :model-value="isSelected('BT', tokenId)"
@@ -109,7 +109,7 @@ const toggleModal = () => {
         <div class="flex justify-start">Mined Jpeg</div>
         <div class="p-3 max-h-[280px] overflow-y-auto w-full flex flex-col gap-2">
           <div v-for="tokenId in mj" :key="`MJ-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11]">
+            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]" @click="toggleSelection('MJ', tokenId)">
               <div>{{ tokenId }}</div>
               <UCheckbox
                   :model-value="isSelected('MJ', tokenId)"
