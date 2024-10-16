@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Section from "~/components/common/Section.vue";
 import Modal from "~/components/common/Modal.vue";
 
 import {useWallet} from "~/composables/useWallet";
@@ -104,7 +103,4 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
   }
 }
 
-.confirm-button {
-
-}
 </style>
