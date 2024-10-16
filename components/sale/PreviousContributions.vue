@@ -4,6 +4,7 @@ import {useSaleStore} from "~/stores/sale";
 import type {Contribution, Token} from "~/types";
 import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
+import Timer from "~/components/sale/Timer.vue";
 
 const saleStore = useSaleStore();
 
@@ -40,6 +41,7 @@ const token = computed(() => {
 })
 
 
+
 </script>
 
 <template>
@@ -56,8 +58,9 @@ const token = computed(() => {
 <!--          <img :src="token.icon" class="w-5 h-5 mr-1"  :alt="token.ticker"/>-->
         </div>
       </div>
-      <div class="text-sm">
-        <UButton color="gray" @click="fetchContributions">Refresh</UButton>
+      <div class="text-sm flex flex-inline gap-1 items-center">
+        <Timer />
+        <UButton color="gray" @click="fetchContributions">Withdraw</UButton>
       </div>
     </div>
   </div>

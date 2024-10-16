@@ -34,7 +34,14 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
       return state.contributions
     },
     timer: (state) => {
-      return new Date(state.contributions.timeLastContribution)
+      const endDate = state.contributions.timeLastContribution
+      let time;
+      setInterval(() => {
+        const now = Date.now()
+        console.log(now)
+        time = endDate - now
+      }, 1000)
+      return time
     },
     buterinCardsSelected: (state) => {
       return state.selectedItems.map((item) => item.collection === "BT" ? item.id : null).filter(id => id !== null);
