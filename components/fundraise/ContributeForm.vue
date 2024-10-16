@@ -103,7 +103,6 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col items-stretch p-4 w-full">
-    <div>{{selectedItems}}</div>
     <UFormGroup class="w-full ">
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
