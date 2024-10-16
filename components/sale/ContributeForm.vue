@@ -10,8 +10,6 @@ import { Stablecoin } from "@/types/data";
 import { useNfts } from "~/composables/useNfts";
 import { useSaleStore } from "~/stores/sale";
 import { useWalletStore } from "~/stores/wallet";
-import {asyncComputed} from "@vueuse/core";
-import {useOnboard} from "@web3-onboard/vue";
 
 const amount = ref(0);
 const selected: Ref<Token> = ref(tokens[1]);

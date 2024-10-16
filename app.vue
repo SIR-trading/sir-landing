@@ -10,7 +10,6 @@ import type {OnboardAPI} from "@web3-onboard/core";
 import {useWalletStore} from "~/stores/wallet";
 import {useEnv} from "~/composables/useEnv";
 import {useToast} from "#ui/composables/useToast";
-import {ethers} from "ethers";
 import {useOnboard} from "@web3-onboard/vue";
 import {useWallet} from "~/composables/useWallet";
 

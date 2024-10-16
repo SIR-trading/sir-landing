@@ -49,6 +49,7 @@ export const useWallet = () => {
           timeout: 5000,
         })
       }).catch((error) => {
+        console.error(error)
         toast.add({
           title: 'Chain Switch Failed',
           description: `Failed to switch to ${chain.label}`,

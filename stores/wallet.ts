@@ -2,8 +2,7 @@ import { defineStore } from 'pinia';
 import { useErc20 } from "~/composables/useErc20";
 import { useWallet } from "~/composables/useWallet";
 import tokens from "@/assets/token_list.json"
-import {ethers} from "ethers";
-import {useOnboard} from "@web3-onboard/vue";
+
 
 /**
  * Defines a store for managing wallet-related state and actions.
