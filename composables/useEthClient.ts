@@ -6,11 +6,10 @@ import {ethers, TransactionRequest} from "ethers";
 import {Stablecoin, SaleState} from "~/types/data";
 
 
-
 export const useEthClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
-  const {contract } = env
+  const {contract} = env
   let rpc = 'http://127.0.0.1:8545';
   // if (import.meta.server) {
   //   console.log('RPC', config.rpc)
@@ -29,11 +28,20 @@ export const useEthClient = () => {
     return await ethClient.contract.contributions(contributor)
   }
 
-  const lockNfts =async ( buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
-    console.log("ID::::::",buterinCardsIds, minedJpegsIds)
+  /**
+   * Lock NFTs
+   * @param {Array<number>} buterinCardsIds
+   * @param {Array<number>} minedJpegsIds
+   */
+  const lockNfts = async (buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
     const {getSigner} = useWallet()
     const signer = await getSigner()
-    await ethClient.contract.connect(signer).lockNfts(buterinCardsIds, minedJpegsIds, {gasLimit: 1000000})
+    try {
+      const result = await ethClient.contract.connect(signer).lockNfts(buterinCardsIds, minedJpegsIds);
+      console.log('Direct result:', result);
+    } catch (directError) {
+      console.error('Direct contract call error:', directError);
+    }
   }
 
   /**
@@ -45,40 +53,12 @@ export const useEthClient = () => {
    * @returns {Promise<void>} Transaction response.
    */
   async function depositAndLockNfts(stablecoin: Stablecoin, amountNoDecimals: number, buterinCardIds: Array<number>, minedJpegIds: Array<number>) {
-    console.log("DEPOSIT....")
-
     try {
       const {getSigner} = useWallet()
       const {contract} = ethClient
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
-      // todo: setup dynamic gasLimit for depositAndLockNfts
-      const to = await contract.getAddress()
-        const from = await contract.getAddress()
-      const data = contract.interface.encodeFunctionData("depositAndLockNfts", [stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds]);
-      const txReq: TransactionRequest  = {
-        to: to,
-        from: from,
-        data: data
-      }
-
-      // const gasLimit = await ethClient.provider.estimateGas(txReq)
       const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
-      // const data = contract.interface.encodeFunctionData("depositAndLockNfts", [
-      //   stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds
-      // ])
-
-      // const rawTx: ethers.TransactionRequest = {
-      //   data: data,
-      //   to: await contract.getAddress(),
-      //   gasLimit: 100000000,
-      //   nonce: await signer?.getNonce(),
-      // }
-      //
-      // const tx = await signer.sendTransaction(rawTx).then(tx => {
-      //   console.log('Transaction successful:', tx);
-      //   return tx
-      // })
 
       return tx.hash
     } catch (error) {
