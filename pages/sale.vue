@@ -40,6 +40,12 @@ const bullets = [
   }
 ];
 
+const chartLegend = [
+  {label: "LPers", color: "bg-[#669ca2]"},
+  {label: "Founders", color: "bg-[#d8599f]"},
+  {label: "Treasury", color: "bg-[#dfa65c]"},
+  {label: "Pre-launch contributors", color: "bg-[#f3f3f1]"},
+]
 
 </script>
 
@@ -109,6 +115,12 @@ const bullets = [
           <div class="flex justify-center">
             <NuxtImg src="3_years_emission.png" sizes="100vw md:300px"/>
           </div>
+        </div>
+      </div>
+      <div class="flex flex-row flex-wrap justify-center items-center w-full p-6 gap-6 ">
+        <div v-for="item in chartLegend" :key="item.label" class="flex flex-inline items-center gap-1">
+          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]" />
+          {{item.label}}
         </div>
       </div>
     </Section>
