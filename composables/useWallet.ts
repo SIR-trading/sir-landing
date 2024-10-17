@@ -26,11 +26,7 @@ export const useWallet = () => {
       } catch (e) {
         console.error(e);
       }
-    },
-    hasAgreed: computed((): boolean => {
-      if (!connectedWallet.value?.accounts[0].address) return true;
-      const wallet = localStorage.getItem(`wallet-${connectedWallet.value?.accounts[0].address}`)
-      return !!wallet;
-    })
+    }
+
   };
 };

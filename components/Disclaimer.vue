@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import Section from "~/components/common/Section.vue";
 import Modal from "~/components/common/Modal.vue";
 
 import {useWallet} from "~/composables/useWallet";
+
+const emits = defineEmits(['statusChanged'])
 
 const walletStore = useWallet()
 const {isConnected, hasAgreed, address} = walletStore
@@ -18,15 +19,16 @@ const agreeToDisclaimer = () => {
   if(!isConnected.value) return;
   localStorage.setItem(`wallet-${address.value}`, JSON.stringify({at: new Date()}))
   isModalOpen.value = false
+  emits('statusChanged')
   console.log(isModalOpen.value)
 }
+
 
 </script>
 
 <template>
-  <Section variant="background">
-    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
-      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-3 text-[14px]">
+    <Modal class-list="" :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
+      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-3 text-[14px] max-w-[1000px]">
         <p class="">
           By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
         </p>
@@ -66,7 +68,6 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
         </div>
       </div>
     </Modal>
-  </Section>
 </template>
 
 <style scoped>
@@ -102,7 +103,4 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
   }
 }
 
-.confirm-button {
-
-}
 </style>
