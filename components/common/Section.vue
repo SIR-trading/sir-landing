@@ -11,7 +11,7 @@ const classes = computed(() => {
   return classLink([
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
-    props.variant === 'background' ? 'bg-black-russian-950' : '',
+    props.variant === 'background' ? 'bg-black-russian-950 shadow-sir' : '',
     'p-3 md:p-8 my-12',
     props.className ? props.className : ''
   ])

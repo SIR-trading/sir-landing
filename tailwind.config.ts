@@ -9,6 +9,7 @@ export default <Partial<Config>>{
       },
       boxShadow: {
         'md': '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        'sir': '2px 4px 10px rgba(0, 0, 0, 0.5)',
       },
       blur: {
         '12px': '12px',
