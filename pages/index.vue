@@ -165,6 +165,10 @@ const goTo = (_path: string) => {
         <p class="mt-6 p-0 md:p-12">This bonus structure allows participants to acquire up to 30% more tokens during the sale, based on their
           existing holdings and willingness to lock them for a year.</p>
       </Section>
+      <Section variant="background">
+        <template #header>Team</template>
+        <Team />
+      </Section>
     </ClientOnly>
   </UContainer>
 </template>
