@@ -68,7 +68,7 @@
     text-transform: uppercase;
     line-height: 1rem;
     text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
-    @apply font-normal text-white text-lg;
+    @apply font-normal text-white text-xl;
 }
 .text-capital {
     text-transform: uppercase;

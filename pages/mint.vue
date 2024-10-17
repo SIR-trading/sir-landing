@@ -26,7 +26,11 @@ const state = reactive({
 import abi from "@/assets/abi.json"
 import EthereumClient from "~/web3/EthereumClient";
 
-const eth = new EthereumClient(contract, chain.rpcUrl, chain.id, abi);
+const config = useRuntimeConfig()
+if (import.meta.server) {
+  console.log('API secret:', config.rpc)
+}
+const eth = new EthereumClient(contract, chain.rpcUrl , chain.id, abi);
 
 /**
  * @dev wallet composable

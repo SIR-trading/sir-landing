@@ -1,5 +1,18 @@
 <script lang="ts" setup>
-const value = 30; // Change type to number for proper ARIA handling
+
+import {useEthClient} from "~/composables/useEthClient";
+import type {SaleState} from "~/types";
+import {asyncComputed} from "@vueuse/core";
+
+const eth = useEthClient()
+
+const saleState: SaleState = await eth.state();
+const maxContribution = await eth.maxContributions();
+
+
+const value = asyncComputed(async()=> {
+  return maxContribution ? Math.round(saleState.totalContributions / maxContribution * 100) : 50000;
+}) // Change type to number for proper ARIA handling
 </script>
 
 <template>
