@@ -2,8 +2,6 @@
 import Section from '@/components/common/Section.vue'
 import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
-import SirProgressBar from "~/components/common/SirProgressBar.vue";
-import SirButton from "~/components/common/SirButton.vue";
 
 import {useRouter} from 'vue-router'
 
@@ -22,18 +20,6 @@ const goTo = (_path: string) => {
         Safer Leverage for Long-term Investors
       </template>
     </SirHero>
-<!--    <Section class-name="mb-0" variant="background">-->
-<!--      <template #header>Project founding progress</template>-->
-<!--      <div class="section-text-block mt-0 mb-3">-->
-<!--        <p>-->
-<!--          By being an early patreon you help covering development costs. In return you get SIR tokens that...-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <SirProgressBar/>-->
-<!--      <div class="mt-6 flex flex-row w-full justify-center md:justify-end">-->
-<!--        <SirButton label="Contribute" @clicked="goTo('/fundraising')"/>-->
-<!--      </div>-->
-<!--    </Section>-->
     <ClientOnly>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is SIR?</template>

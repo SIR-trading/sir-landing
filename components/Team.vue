@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 
-import {useRouter} from "vue-router";
-
 const teamMembers = [
   {name: "@Xatarrer", role: "Founder  / Smart contract dev", link: "", avatar: ""},
   {name: "@realtarpcity", role: "Fronted dev", link: "", avatar: ""},
