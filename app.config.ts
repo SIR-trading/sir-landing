@@ -23,6 +23,11 @@ export default defineAppConfig({
         }
       }
     },
+    avatar: {
+      size: {
+        '4xl': 'h-[100px] w-[100px] text-3xl',
+      }
+    },
     button: {
       color: {
         robRoy: {
