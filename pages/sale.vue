@@ -3,28 +3,27 @@ import {ref} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
-import {useWallet} from '~/composables/useWallet';
 import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
-
 import NftList from "~/components/sale/NftList.vue";
 import PreviousContributions from "~/components/sale/PreviousContributions.vue";
-import ContributeForm from "~/components/sale/ContributeForm.vue";
+import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address, hasAgreed} = useWallet();
-
-// Fetch NFTs if connected
+const {isConnected, address} = useWallet();
 const nfts = useNfts();
 
 let bt = ref([]);
 let mj = ref([]);
-if (isConnected) {
-  console.log('address', address.value);
-  bt.value = await nfts.fetchWalletButerinCards(address.value);
-  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 
-}
+// Fetch NFTs if connected
+watch(isConnected, async (newVal) => {
+  if (newVal) {
+    console.log('address', address.value);
+    bt.value = await nfts.fetchWalletButerinCards(address.value);
+    mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+  }
+})
 const bullets = [
   {
     i: 1,
@@ -53,6 +52,9 @@ const bullets = [
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
         <SirProgressBar/>
       </div>
+<!--      <div v-if="!isChainCorrect" class="flex flex-col md:flex-row items-center md:justify-end w-full">-->
+<!--        <button class="rounded-xl bg-transparent ring-1 ring-red-300 text-red-300 px-4 py-2">Wrong Network</button>-->
+<!--      </div>-->
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
         <Connect/>
       </div>
@@ -97,7 +99,6 @@ const bullets = [
         </div>
       </div>
     </Section>
-    <Disclaimer v-if="!hasAgreed"/>
   </UContainer>
 </template>
 
