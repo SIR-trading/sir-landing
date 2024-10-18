@@ -87,9 +87,9 @@ const goTo = (_path: string) => {
         </div>
         <!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
       </Section>
-      <Section variant="background">
+      <Section variant="background-p0">
         <template v-slot:header>Gentlemen & Apes</template>
-        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-between w-full">
+        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-evenly w-full">
           <SirCard image="/gentlemen_card.png" size="md">
             <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also
               rewards

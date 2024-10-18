@@ -80,7 +80,7 @@
     @apply text-lg font-bold
 }
 .section-text-block {
-    @apply max-w-[560px] flex flex-col gap-[15px];
+    @apply text-justify flex flex-col gap-[15px];
 }
 .spinner {
     border: 16px solid #333333; /* Light grey */
