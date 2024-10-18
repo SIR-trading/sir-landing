@@ -40,7 +40,7 @@ const bullets = [
 
 const chartLegend = [
   {label: "LPers", color: "bg-[#669ca2]"},
-  {label: "Founders", color: "bg-[#d8599f]"},
+  {label: "Sale", color: "bg-[#d8599f]"},
   {label: "Treasury", color: "bg-[#dfa65c]"},
   {label: "Pre-launch contributors", color: "bg-[#f3f3f1]"},
 ]
