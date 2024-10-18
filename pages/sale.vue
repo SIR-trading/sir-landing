@@ -3,7 +3,6 @@ import {ref} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
-import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
 import NftList from "~/components/sale/NftList.vue";
 import PreviousContributions from "~/components/sale/PreviousContributions.vue";
@@ -58,9 +57,6 @@ const chartLegend = [
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
         <SirProgressBar/>
       </div>
-<!--      <div v-if="!isChainCorrect" class="flex flex-col md:flex-row items-center md:justify-end w-full">-->
-<!--        <button class="rounded-xl bg-transparent ring-1 ring-red-300 text-red-300 px-4 py-2">Wrong Network</button>-->
-<!--      </div>-->
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
         <Connect/>
       </div>
@@ -90,24 +86,24 @@ const chartLegend = [
             <span>Token issuance</span>
             <span>for the first three years</span>
           </p>
-          <div class="flex justify-center">
-            <NuxtImg src="first_years_emission.png" sizes="100vw md:300px"/>
-          </div>
+          <picture class="max-w-[345px]">
+            <img alt="Emissions for the first 3 years" src="/first_years_emission.png" class="mix-w-[300px]"/>
+          </picture>
         </div>
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
           <p class="flex flex-col font-bold">
             <span>Token issuance</span>
             <span>after three years</span>
           </p>
-          <div class="flex justify-center">
-            <NuxtImg src="3_years_emission.png" sizes="100vw md:300px"/>
-          </div>
+          <picture class="max-w-[345px]">
+            <img alt="Emissions after the 3rd year" src="/3_years_emission.png" class="mix-w-[300px]"/>
+          </picture>
         </div>
       </div>
       <div class="flex flex-row flex-wrap justify-center items-center w-full p-6 gap-6 ">
         <div v-for="item in chartLegend" :key="item.label" class="flex flex-inline items-center gap-1">
-          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]" />
-          {{item.label}}
+          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]"/>
+          {{ item.label }}
         </div>
       </div>
     </Section>
