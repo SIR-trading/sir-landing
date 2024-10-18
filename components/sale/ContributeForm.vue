@@ -159,6 +159,8 @@ const doLockNfts = async () => {
 onMounted(() => {
   handleChange();
 });
+
+
 </script>
 
 <template>

@@ -3,27 +3,26 @@ import {ref} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
-import {useWallet} from '~/composables/useWallet';
-import SirHero from '~/components/common/SirHero.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
-
 import NftList from "~/components/sale/NftList.vue";
 import PreviousContributions from "~/components/sale/PreviousContributions.vue";
+import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
 const {isConnected, address} = useWallet();
-
-// Fetch NFTs if connected
 const nfts = useNfts();
 
 let bt = ref([]);
 let mj = ref([]);
-if (isConnected) {
-  console.log('address', address.value);
-  bt.value = await nfts.fetchWalletButerinCards(address.value);
-  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 
-}
+// Fetch NFTs if connected
+watch(isConnected, async (newVal) => {
+  if (newVal) {
+    console.log('address', address.value);
+    bt.value = await nfts.fetchWalletButerinCards(address.value);
+    mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+  }
+})
 const bullets = [
   {
     i: 1,
@@ -39,16 +38,17 @@ const bullets = [
   }
 ];
 
+const chartLegend = [
+  {label: "LPers", color: "bg-[#669ca2]"},
+  {label: "Founders", color: "bg-[#d8599f]"},
+  {label: "Treasury", color: "bg-[#dfa65c]"},
+  {label: "Pre-launch contributors", color: "bg-[#f3f3f1]"},
+]
 
 </script>
 
 <template>
   <UContainer>
-    <SirHero image="hero_image_optimized.png">
-      <template #title>
-        Be part of making SIR a reality
-      </template>
-    </SirHero>
     <Section variant="background">
       <template #header>{{ isConnected ? "Project Funding Progress" : "Contribute to the fundraiser" }}</template>
       <p class="section-text-block mb-3">
@@ -65,16 +65,6 @@ const bullets = [
       <template #header>Contribute to the Fundraiser</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <PreviousContributions/>
-        <!--        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">-->
-        <!--          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">-->
-        <!--            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>-->
-        <!--            <p class="flex flex-col">-->
-        <!--              <span>You can withdraw your contribution within 24h</span>-->
-        <!--              <span> if you change your mind. After that it’s locked in.</span>-->
-        <!--            </p>-->
-        <!--          </div>-->
-        <!--          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>-->
-        <!--        </div>-->
         <NftList/>
       </div>
     </Section>
@@ -110,15 +100,12 @@ const bullets = [
           </picture>
         </div>
       </div>
-<<<<<<< Updated upstream
-=======
       <div class="flex flex-row flex-wrap justify-center items-center w-full p-6 gap-6 ">
         <div v-for="item in chartLegend" :key="item.label" class="flex flex-inline items-center gap-1">
           <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]"/>
           {{ item.label }}
         </div>
       </div>
->>>>>>> Stashed changes
     </Section>
   </UContainer>
 </template>
