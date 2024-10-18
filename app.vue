@@ -7,6 +7,11 @@ import coinbaseWallet from '@web3-onboard/coinbase';
 import {ethereum, local} from "~/web3/chains";
 
 import type {OnboardAPI} from "@web3-onboard/core";
+import {useWalletStore} from "~/stores/wallet";
+import {useEnv} from "~/composables/useEnv";
+import {useToast} from "#ui/composables/useToast";
+import {useOnboard} from "@web3-onboard/vue";
+import {useWallet} from "~/composables/useWallet";
 
 const injected = injectedModule()
 const coinbase = coinbaseWallet()
@@ -22,7 +27,6 @@ const appMetadata: AppMetadata = {
   description: 'Project Description',
 }
 
-
 web3Onboard.value = init({
   wallets: [injected, coinbase],
   chains: [local, ethereum],
@@ -32,7 +36,6 @@ web3Onboard.value = init({
     autoConnectLastWallet: true,
     showSidebar: true,
     removeWhereIsMyWalletWarning: true,
-
   }
 })
 // console.log("web3Onboard", web3Onboard)
@@ -43,6 +46,46 @@ useSeoMeta({
   ogDescription: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
   ogImage: '/twitter_image.png',
   twitterCard: '/twitter_image.png',
+})
+const {connectedWallet} = useOnboard()
+const walletStore = useWalletStore()
+const {chain} = useEnv()
+const {changeChain} = useWallet()
+/**
+ * @dev check if chain is correct.
+ */
+const isChainCorrect = computed(() => {
+
+  console.log("chain.id.toString() === walletStore.getChainId.toString()", chain.id.toString() === walletStore.getChainId.toString())
+  if (!chain) return false
+  if (useWalletStore().getChainId)
+    return chain.id.toString() === walletStore.getChainId.toString()
+})
+
+
+const toast = useToast()
+/**
+ * @dev watch for chain change and change-action on notification.
+ */
+
+watch(isChainCorrect, (val) => {
+  console.log("ChainCorrect::", val)
+  if (!val) {
+    toast.add({
+      title: 'Wrong Chain',
+      description: `Please switch to ${chain.label}`,
+      color: 'yellow',
+      timeout: 60000,
+      actions: [
+        {
+          label: 'Switch',
+          onClick: () => changeChain()
+        }
+      ]
+    })
+  } else {
+    toast.remove('Wrong Chain')
+  }
 })
 </script>
 <template>
