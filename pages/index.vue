@@ -54,9 +54,8 @@ const goTo = (_path: string) => {
           </div>
           <div class="flex flex-col w-full justify-center items-center">
             <EthSirChart/>
-            <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5
-              leverage
-              versus
+            <p class="text-xs italic mt-2">Example of simulated ETH/USDC position in SIR with perfect constant x1.5
+              leverage versus
               <a href="https://www.opyn.co/squeeth?ct=IT" class="underline">Squeeth from Opyn</a>
             </p>
           </div>
@@ -123,7 +122,8 @@ const goTo = (_path: string) => {
       </Section>
       <Section variant="background">
         <template v-slot:header>SIR Token Sale</template>
-        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start h-full lg:justify-between w-full">
+        <div
+            class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start h-full lg:justify-between w-full">
           <div class="flex flex-col gap-3 md:gap-6 w-full h-full items-center p-0 md:p-3 justify-center text-center">
             <p class="p-header">Token Allocation and Fundraising Goal</p>
             <p>
@@ -149,20 +149,21 @@ const goTo = (_path: string) => {
             </ul>
           </div>
           <div class="flex flex-col gap-3 md:gap-6 w-full h-full items-center p-0 md:p-3  justify-center text-center">
-          <p class="p-header">Bonus for Existing Community Members</p>
+            <p class="p-header">Bonus for Existing Community Members</p>
             <p>
               To reward our loyal community members, we're offering a special bonus for holders of
               <a class="underline" href="https://opensea.io/collection/mined-jpeg">Mined JPEG(MJ)</a> or
               <a class="underline" href="https://opensea.io/collection/buterin-cards">Buterin Cards(BC)</a>:
             </p>
             <ul class="flex flex-col gap-y-3 p-x-0 w-full text-center list-outside">
-            <li>Lock your MJ or BC for one year to receive extra tokens</li>
+              <li>Lock your MJ or BC for one year to receive extra tokens</li>
               <li>Earn 5% additional tokens for each locked MJ or BC</li>
               <li>Maximum bonus capped at 30%</li>
             </ul>
           </div>
         </div>
-        <p class="mt-6 p-0 md:p-12">This bonus structure allows participants to acquire up to 30% more tokens during the sale, based on their
+        <p class="mt-6 p-0 md:p-12">This bonus structure allows participants to acquire up to 30% more tokens during the
+          sale, based on their
           existing holdings and willingness to lock them for a year.</p>
       </Section>
     </ClientOnly>
