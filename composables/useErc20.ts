@@ -38,14 +38,9 @@ export const useErc20 = () => {
 
   const incrementUSDTAllowance = async (token: Token, amount: number) => {
     try {
-      // if (token.ticker !== 'USDT') new Error('USDT specific function')
       const eth = new EthereumClient(token.address, rpc, chain.id, abi)
-      const mutableContract = await eth.contract.connect(signer)
       const signer = await getSigner()
-      const saleContract = useEnv().contract;
-      // await  eth.contract.connect(signer).approve(saleContract, 0)
-      const tx = await eth.contract.connect(signer).approve(spender, ethers.utils.parseUnits(amount.toString(), token.decimals));
-
+      await eth.contract.connect(signer).approve(spender, ethers.utils.parseUnits(amount.toString(), token.decimals));
     } catch (error) {
 
     }
@@ -58,14 +53,13 @@ export const useErc20 = () => {
       const signer = await getSigner()
       const allowance = await getAllowance(token)
 
-      console.log(amount > ethers.parseUnits(allowance.toString(), token.decimals) && token.ticker === 'USDT' && allowance !== 0n)
       console.log(ethers.parseUnits(amount.toString(), token.decimals),allowance, ethers.parseUnits(amount.toString(), token.decimals) > allowance)
       // USDT specific case
-      if (token.ticker === 'USDT' && allowance !== 0n) {
+      if (token.ticker === 'USDT' && allowance !== BigInt(0)) {
         await eth.contract.connect(signer)
           .approve(
             spender,
-            0n
+            BigInt(0)
           )
       }
 
