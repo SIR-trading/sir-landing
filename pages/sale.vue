@@ -65,16 +65,16 @@ const bullets = [
       <template #header>Contribute to the Fundraiser</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <PreviousContributions/>
-<!--        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">-->
-<!--          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">-->
-<!--            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>-->
-<!--            <p class="flex flex-col">-->
-<!--              <span>You can withdraw your contribution within 24h</span>-->
-<!--              <span> if you change your mind. After that it’s locked in.</span>-->
-<!--            </p>-->
-<!--          </div>-->
-<!--          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>-->
-<!--        </div>-->
+        <!--        <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">-->
+        <!--          <div class="flex flex-col gap-2 w-full items-center justify-center p-2">-->
+        <!--            <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>-->
+        <!--            <p class="flex flex-col">-->
+        <!--              <span>You can withdraw your contribution within 24h</span>-->
+        <!--              <span> if you change your mind. After that it’s locked in.</span>-->
+        <!--            </p>-->
+        <!--          </div>-->
+        <!--          <ContributeForm :mined-jpegs="[]" :buterin-cards="[]"/>-->
+        <!--        </div>-->
         <NftList/>
       </div>
     </Section>
@@ -96,20 +96,29 @@ const bullets = [
             <span>Token issuance</span>
             <span>for the first three years</span>
           </p>
-          <div class="flex justify-center">
-            <NuxtImg src="first_years_emission.png" sizes="100vw md:300px"/>
-          </div>
+          <picture class="max-w-[345px]">
+            <img alt="Emissions for the first 3 years" src="/first_years_emission.png" class="mix-w-[300px]"/>
+          </picture>
         </div>
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
           <p class="flex flex-col font-bold">
             <span>Token issuance</span>
             <span>after three years</span>
           </p>
-          <div class="flex justify-center">
-            <NuxtImg src="3_years_emission.png" sizes="100vw md:300px"/>
-          </div>
+          <picture class="max-w-[345px]">
+            <img alt="Emissions after the 3rd year" src="/3_years_emission.png" class="mix-w-[300px]"/>
+          </picture>
         </div>
       </div>
+<<<<<<< Updated upstream
+=======
+      <div class="flex flex-row flex-wrap justify-center items-center w-full p-6 gap-6 ">
+        <div v-for="item in chartLegend" :key="item.label" class="flex flex-inline items-center gap-1">
+          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]"/>
+          {{ item.label }}
+        </div>
+      </div>
+>>>>>>> Stashed changes
     </Section>
   </UContainer>
 </template>
