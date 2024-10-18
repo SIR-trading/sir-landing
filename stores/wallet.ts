@@ -3,6 +3,7 @@ import { useErc20 } from "~/composables/useErc20";
 import { useWallet } from "~/composables/useWallet";
 import tokens from "@/assets/token_list.json"
 
+
 /**
  * Defines a store for managing wallet-related state and actions.
  */
@@ -13,7 +14,8 @@ export const useWalletStore = defineStore('wallet', {
    */
   state: () => ({
     balances: {},
-    hasAgreed: ref(false)
+    hasAgreed: ref(false),
+    chain: ""
   }),
   actions: {
     /**
@@ -52,5 +54,6 @@ export const useWalletStore = defineStore('wallet', {
      * @returns {Object} - The contributions for the wallet.
      */
     getWalletContributions: (state) => state.contributions,
+    getChainId: (state)  => state.chain
   },
 });

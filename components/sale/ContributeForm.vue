@@ -160,6 +160,8 @@ onMounted(() => {
   handleChange();
   checkAgreed()
 });
+
+
 </script>
 
 <template>
