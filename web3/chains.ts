@@ -18,8 +18,7 @@ export const ethereum: Chain = {
 export const local: Chain = {
   id: '0x539',
   token: 'ETH',
-  label: 'Ethereum',
-  rpcUrl: "http://127.0.0.1:8545"
+  label: 'Ethereum'
 }
 
 
@@ -28,6 +27,5 @@ export function isChain(obj: any): obj is Chain {
     obj !== null &&
     typeof obj.id === 'string' &&
     typeof obj.token === 'string' &&
-    typeof obj.label === 'string' &&
-    typeof obj.rpcUrl === 'string'
+    typeof obj.label === 'string'
 }

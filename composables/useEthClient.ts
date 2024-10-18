@@ -8,14 +8,9 @@ import {Stablecoin, SaleState} from "~/types/data";
 
 export const useEthClient = () => {
   const env = useEnv()
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig().public
   const {contract} = env
-  let rpc = 'http://127.0.0.1:8545';
-  // if (import.meta.server) {
-  //   console.log('RPC', config.rpc)
-  //   rpc = config.rcp
-  // }
-  const ethClient = new EthereumClient(contract, rpc, env.chain.id, abi)
+  const ethClient = new EthereumClient(contract, config.rpc, env.chain.id, abi)
   const state = async () => {
     const _state = await ethClient.contract.state()
     return {
