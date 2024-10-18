@@ -45,6 +45,10 @@ const chartLegend = [
   {label: "Pre-launch contributors", color: "bg-[#f3f3f1]"},
 ]
 
+onMounted(() => {
+  useWalletStore().checkAgreed()
+})
+
 </script>
 
 <template>
