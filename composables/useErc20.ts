@@ -58,14 +58,13 @@ export const useErc20 = () => {
       const signer = await getSigner()
       const allowance = await getAllowance(token)
 
-      console.log(amount > ethers.parseUnits(allowance.toString(), token.decimals) && token.ticker === 'USDT' && allowance !== 0n)
       console.log(ethers.parseUnits(amount.toString(), token.decimals),allowance, ethers.parseUnits(amount.toString(), token.decimals) > allowance)
       // USDT specific case
-      if (token.ticker === 'USDT' && allowance !== 0n) {
+      if (token.ticker === 'USDT' && allowance !== BigInt(0)) {
         await eth.contract.connect(signer)
           .approve(
             spender,
-            0n
+            BigInt(0)
           )
       }
 
