@@ -10,7 +10,7 @@ export const useEthClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig()
   const {contract} = env
-  let rpc = 'http://127.0.0.1:8545';
+  let rpc = 'http://127.0.0.1:8546';
   // if (import.meta.server) {
   //   console.log('RPC', config.rpc)
   //   rpc = config.rcp
