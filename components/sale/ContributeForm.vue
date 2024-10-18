@@ -125,7 +125,7 @@ const contribute = async () => {
 /**
  * Determines if NFTs should be locked.
  */
-const showLockNfts = computed(() => amount.value === 0 && saleStore.selectedItems.length > 0);
+const showLockNfts = computed(() => (amount.value < 1 || amount.value == null) && saleStore.selectedItems.length > 0);
 
 /**
  * Locks the selected NFTs.
@@ -158,7 +158,6 @@ const doLockNfts = async () => {
  */
 onMounted(() => {
   handleChange();
-  checkAgreed()
 });
 
 
@@ -211,19 +210,23 @@ onMounted(() => {
             <span class="inline-block">Agree to Terms</span>
           </button>
         </div>
-        <div class="flex w-full gap-3 mt-3 justify-center items-center" v-else>
-          <button v-if="isApproved.value && !showLockNfts" @click="contribute" :disabled="amount.value === 0"
-                  class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
-            Add contribution
-          </button>
-          <button v-if="!isApproved.value && !showLockNfts" @click="approve"
-                  class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-            Approve
-          </button>
-          <button v-if="showLockNfts.value" @click="doLockNfts"
-                  class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-            Lock NFTS
-          </button>
+        <div  v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+          <div v-if="showLockNfts" class="flex w-full gap-3 mt-3 justify-center items-center">
+            <button @click="doLockNfts"
+                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+              Lock NFTS
+            </button>
+          </div>
+          <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+            <button v-if="isApproved" @click="contribute" :disabled="amount.value > 0"
+                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
+              Add contribution
+            </button>
+            <button v-if="!isApproved" @click="approve"
+                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+              Approve
+            </button>
+          </div>
         </div>
       </div>
     </UFormGroup>
