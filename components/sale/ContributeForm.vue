@@ -158,6 +158,7 @@ const doLockNfts = async () => {
  */
 onMounted(() => {
   handleChange();
+  checkAgreed()
 });
 
 
@@ -204,18 +205,18 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full gap-3 mt-3 justify-center items-center">
-        <div v-if="!hasAgreed.value" class="flex w-full gap-3 mt-3 justify-center items-center">
+        <div v-if="!hasAgreed" class="flex w-full gap-3 mt-3 justify-center items-center">
           <button @click="getAgreement"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-full text-center">
             <span class="inline-block">Agree to Terms</span>
           </button>
         </div>
         <div class="flex w-full gap-3 mt-3 justify-center items-center" v-else>
-          <button v-if="isApproved.value && !showLockNfts.value" @click="contribute" :disabled="amount.value === 0"
+          <button v-if="isApproved.value && !showLockNfts" @click="contribute" :disabled="amount.value === 0"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
             Add contribution
           </button>
-          <button v-if="!isApproved.value && !showLockNfts.value" @click="approve"
+          <button v-if="!isApproved.value && !showLockNfts" @click="approve"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
             Approve
           </button>

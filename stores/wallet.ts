@@ -43,6 +43,7 @@ export const useWalletStore = defineStore('wallet', {
       const wallet = localStorage.getItem(`wallet-${address.value}`);
       console.log("WALLET_AGG", wallet);
       this.hasAgreed = !!wallet;
+      console.log("Has agreed!!", this.hasAgreed);
       return !!wallet;
     }
   },
