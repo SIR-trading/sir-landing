@@ -1,6 +1,3 @@
-import {SymbolKind} from "vscode-languageserver-types";
-import Number = SymbolKind.Number;
-
 export declare type Chain = {
   id: string,
   token: string,
