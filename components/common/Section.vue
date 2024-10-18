@@ -2,7 +2,7 @@
 
 const props = defineProps<{
   className?: string,
-  variant?: 'ring' | 'background' | 'none'
+  variant?: 'ring' | 'background' | 'background-p0' | 'none'
 }>()
 
 const {classLink} = helpers()
@@ -12,6 +12,8 @@ const classes = computed(() => {
     'rounded-lg',
     props.variant === 'ring' ? 'ring-2 ring-gray-800' : '',
     props.variant === 'background' ? 'bg-black-russian-950 shadow-sir' : '',
+    'p-3 md:p-8 my-12',
+    props.variant === 'background-p0' ? 'bg-black-russian-950 shadow-sir p-3 md:px-0 md:py-8' : '',
     'p-3 md:p-8 my-12',
     props.className ? props.className : ''
   ])
