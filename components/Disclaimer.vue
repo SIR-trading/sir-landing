@@ -6,10 +6,11 @@ import {useWallet} from "~/composables/useWallet";
 const emits = defineEmits(['statusChanged'])
 
 const walletStore = useWallet()
-const {isConnected, hasAgreed, address} = walletStore
+const {isConnected, address} = walletStore
+const {hasAgreed} = useWalletStore()
 const agreed = ref(null)
 
-const isModalOpen: Ref<boolean> = ref(!hasAgreed.value)
+const isModalOpen: Ref<boolean> = ref(!hasAgreed )
 
 const toggleModal= () => {
   isModalOpen.value = !isModalOpen.value
@@ -19,6 +20,7 @@ const agreeToDisclaimer = () => {
   if(!isConnected.value) return;
   localStorage.setItem(`wallet-${address.value}`, JSON.stringify({at: new Date()}))
   isModalOpen.value = false
+  agreed.value = true
   emits('statusChanged')
   console.log(isModalOpen.value)
 }
