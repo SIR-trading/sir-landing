@@ -9,7 +9,6 @@ export const ethereum: Chain = {
   id: '0x1',
   token: 'ETH',
   label: 'Ethereum',
-  rpcUrl: "https://eth.llamarpc.com"
 }
 
 export const local: Chain = {
