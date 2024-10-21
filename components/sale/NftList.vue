@@ -101,7 +101,7 @@ const mjSelected = computed(() => {
                 @click="toggleSelection('BT', tokenId)">
               <div class="flex flex-col gap-y-1">
                 <span>BT</span>
-                <span>#{{ tokenId }}</span>
+                <span>#{{ tokenId + 1 }}</span>
               </div>
               <UCheckbox
                   :model-value="isSelected('BT', tokenId)"
@@ -123,7 +123,7 @@ const mjSelected = computed(() => {
               @click="toggleSelection('MJ', tokenId)">
             <div class="flex flex-col gap-y-1">
               <span>MJ</span>
-              <span>#{{ tokenId }}</span>
+              <span>#{{ tokenId + 1 }}</span>
             </div>
               <UCheckbox
                   :model-value="isSelected('MJ', tokenId)"

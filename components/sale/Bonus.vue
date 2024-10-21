@@ -27,7 +27,7 @@ const progressBlocks = computed(() => {
       <div v-for="n in 5" :key="n" :class="[n <= progressBlocks ? 'progress-active' : '', 'rounded-lg', 'flex justify-center items-center']">
         <div v-if="n <= progressBlocks" class="text-black font-bold text-xs flex flex-col gap-1 justify-center items-center">
           <span>{{ lockedNFTs[n-1].split('-')[0]}}</span>
-          <span>{{ lockedNFTs[n-1].split('-')[1]}}</span>
+          <span>{{ Number(lockedNFTs[n-1].split('-')[1]) + 1}}</span>
         </div>
       </div>
     </div>
