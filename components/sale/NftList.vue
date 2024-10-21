@@ -84,10 +84,16 @@ const mjSelected = computed(() => {
     <div class="flex flex-col  md:flex-row gap-2 w-full bg-midGray rounded-lg p-3">
       <div class="flex flex-col w-full gap-2 items-center rounded-md  p-3">
         <div>Buterin Cards</div>
-        <div class="p-3 max-h-[280px] overflow-y-auto w-full flex flex-col gap-2">
-          <div v-for="tokenId in bt" :key="`BT-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]" @click="toggleSelection('BT', tokenId)">
-              <div>{{ tokenId }}</div>
+        <div class="p-1 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+          <div v-for="tokenId in bt" :key="`BT-${tokenId}`"
+               class="flex flex-col items-center justify-center w-[75px] h-[100px]">
+            <div
+                class="flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]"
+                @click="toggleSelection('BT', tokenId)">
+              <div class="flex flex-col gap-y-1">
+                <span>BT</span>
+                <span>#{{ tokenId }}</span>
+              </div>
               <UCheckbox
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
@@ -100,10 +106,16 @@ const mjSelected = computed(() => {
       </div>
       <div class="flex flex-col w-full gap-2  items-center rounded-md p-3">
         <div class="flex justify-start">Mined Jpeg</div>
-        <div class="p-3 max-h-[280px] overflow-y-auto w-full flex flex-col gap-2">
-          <div v-for="tokenId in mj" :key="`MJ-${tokenId}`" class="flex flex-col items-center justify-center w-full">
-            <div class="flex flex-row gap-3 w-full justify-between rounded-md p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]" @click="toggleSelection('MJ', tokenId)">
-              <div>{{ tokenId }}</div>
+        <div class="p-1 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+        <div v-for="tokenId in mj" :key="`MJ-${tokenId}`"
+             class="flex flex-col items-center justify-center w-[75px] h-[100px]">
+          <div
+              class="flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]"
+              @click="toggleSelection('MJ', tokenId)">
+            <div class="flex flex-col gap-y-1">
+              <span>MJ</span>
+              <span>#{{ tokenId }}</span>
+            </div>
               <UCheckbox
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
@@ -116,7 +128,7 @@ const mjSelected = computed(() => {
       </div>
     </div>
     <div class="mt-2">
-      <Bonus />
+      <Bonus/>
     </div>
   </div>
 </template>
