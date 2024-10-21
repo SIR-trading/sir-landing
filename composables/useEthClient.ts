@@ -54,9 +54,7 @@ export const useEthClient = () => {
       const {contract} = ethClient
       const signer = await getSigner()
       const mutableContract = contract.connect(signer)
-      const data = contract.interface.encodeFunctionData("depositAndLockNfts", [stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds])
-      const gas = await ethClient.provider.estimateGas({to: contract, from: await signer?.getAddress(), data: data})
-      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds, {gasLimit: gas} )
+      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
 
       return tx.hash
     } catch (error) {
