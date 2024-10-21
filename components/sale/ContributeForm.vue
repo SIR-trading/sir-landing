@@ -29,14 +29,24 @@ const balance = ref(0);
 const { address, isConnected } = useWallet();
 const { checkAgreed } = useWalletStore();
 
+const setBalance = async () => {
+  balance.value = await fetchBalance(selected.value, address.value).then((val) => {
+    return ethers.formatUnits(val.toString(), selected.value.decimals);
+  });
+}
+
+watch(address, async (address) => {
+  if(address) {
+    await setBalance();
+  }
+})
+
 /**
  * Handles change in selected token and updates the balance.
  */
 const handleChange = async () => {
   if (isConnected.value && selected.value) {
-    balance.value = await fetchBalance(selected.value, address.value).then((val) => {
-      return ethers.formatUnits(val.toString(), selected.value.decimals);
-    });
+    await setBalance()
   }
 };
 
@@ -81,7 +91,16 @@ const saleStore = useSaleStore();
  * Displays agreement modal.
  */
 const getAgreement = () => {
+  console.log("AGG", showModal.value)
+  if(showModal.value) {
+    showModal.value = false;
+  }
   showModal.value = true;
+}
+
+const handleClose = () => {
+  console.log("close");
+  showModal.value = false;
 }
 
 const hasAgreed = computed(() => {
@@ -230,6 +249,6 @@ onMounted(() => {
         </div>
       </div>
     </UFormGroup>
-    <Disclaimer v-if="showModal" @status-changed="checkAgreed"/>
+    <Disclaimer v-if="showModal" @status-changed="checkAgreed" @close="handleClose"/>
   </div>
 </template>
