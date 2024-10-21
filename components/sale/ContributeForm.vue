@@ -81,7 +81,16 @@ const saleStore = useSaleStore();
  * Displays agreement modal.
  */
 const getAgreement = () => {
+  console.log("AGG", showModal.value)
+  if(showModal.value) {
+    showModal.value = false;
+  }
   showModal.value = true;
+}
+
+const handleClose = () => {
+  console.log("close");
+  showModal.value = false;
 }
 
 const hasAgreed = computed(() => {
@@ -230,6 +239,6 @@ onMounted(() => {
         </div>
       </div>
     </UFormGroup>
-    <Disclaimer v-if="showModal" @status-changed="checkAgreed"/>
+    <Disclaimer v-if="showModal" @status-changed="checkAgreed" @close="handleClose"/>
   </div>
 </template>

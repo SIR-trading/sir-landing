@@ -19,6 +19,7 @@ export default <Partial<Config>>{
         md: '1.125rem',
         lg: '1.5rem',
         xl: '2rem',
+        '1/2xl': '2.5rem',
         '2xl': '3rem',
         '3xl': '3.5rem',
         '4xl': '4rem'
