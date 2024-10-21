@@ -6,7 +6,8 @@ The following environment variables are required to be set in a `.env` file in t
 ```dotenv
 NUXT_TESTNET_CONTRACT= #ADD YOUR TESTNET CONTRACT ADDRESS
 NUXT_MAINNET_CONTRACT= #ADD YOUR MAINNET CONTRACT ADDRESS
-NUX_ENV= #ADD YOUR ENVIRONMENT (production, development)
+NUXT_ENV= #ADD YOUR ENVIRONMENT (production, development)
+NUXT_RPC= #ADD YOUR RPC ENTRY-POINT
 ```
 - _The contract addresses are used to interact with the contract on the respective networks_
 - _The environment variable is used to determine the network to interact with_
