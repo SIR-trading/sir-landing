@@ -29,14 +29,24 @@ const balance = ref(0);
 const { address, isConnected } = useWallet();
 const { checkAgreed } = useWalletStore();
 
+const setBalance = async () => {
+  balance.value = await fetchBalance(selected.value, address.value).then((val) => {
+    return ethers.formatUnits(val.toString(), selected.value.decimals);
+  });
+}
+
+watch(address, async (address) => {
+  if(address) {
+    await setBalance();
+  }
+})
+
 /**
  * Handles change in selected token and updates the balance.
  */
 const handleChange = async () => {
   if (isConnected.value && selected.value) {
-    balance.value = await fetchBalance(selected.value, address.value).then((val) => {
-      return ethers.formatUnits(val.toString(), selected.value.decimals);
-    });
+    await setBalance()
   }
 };
 

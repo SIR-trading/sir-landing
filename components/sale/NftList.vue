@@ -20,16 +20,25 @@ const totalSelected = ref(0);
 // Fetch NFTs if connected
 let bt = ref([]);
 let mj = ref([]);
+
+const fetchData = async () => {
+  bt.value = await nfts.fetchWalletButerinCards(address.value);
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+}
+
+watch([isConnected, address], async ([connected, address]) => {
+  if(connected || address) {
+    await fetchData();
+  }
+})
+
 if (isConnected.value) {
   console.log('address', address.value);
   bt.value = await nfts.fetchWalletButerinCards(address.value);
   mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 }
 
-const fetchData = async () => {
-  bt.value = await nfts.fetchWalletButerinCards(address.value);
-  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
-}
+
 
 const saleStore = useSaleStore()
 
