@@ -35,11 +35,10 @@ const agreeToDisclaimer = () => {
 </script>
 
 <template>
-    <Modal class-list="" :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
-
-      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md max-w-[1000px]">
+    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
+      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md max-w-[800px]">
         <h1 class="text-[2.5rem] sir-text-shadow section-header mb-4">Disclaimer</h1>
-        <p class="">
+        <p>
           By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
         </p>
         <p class="flex flex-col">
@@ -113,4 +112,26 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
   }
 }
 
+/* For the whole scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #333333; /* Color of the track */
+  border-radius: 6px;
+}
+
+/* Handle (the scroll handle) */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scroll handle */
+  border-radius: 6px; /* Roundness of the handle */
+  border: 0 transparent; /* Adds a border around the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color on hover */
+}
 </style>

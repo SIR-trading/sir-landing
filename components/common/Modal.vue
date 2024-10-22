@@ -4,7 +4,7 @@
    <div v-if="isVisible" class="modal-overlay" @click="$emit('close')">
      <div :class="['modal-content', background, maxWidth, minWidth, classList]" @click.stop>
        <button class="close-button" @click="$emit('close')">
-         x
+         <UIcon class="text-white hover:text-red-300" name="material-symbols-light:cancel-outline" dynamic />
        </button>
        <slot></slot>
      </div>
@@ -19,7 +19,7 @@ const props = defineProps<{
   modalBackgroundColor?: string,
   maxWidth?: string,
   minWidth?: string,
-  classList: string[] | string
+  classList?: string[] | string
 }>()
 
 defineEmits(["click", "close"]);
