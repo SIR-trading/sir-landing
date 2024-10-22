@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { type Ref, ref, computed, onMounted } from 'vue';
-import { ethers } from "ethers";
+import {type Ref, ref, computed, onMounted} from 'vue';
+import {ethers} from "ethers";
 import tokens from "@/assets/token_list.json";
-import { useWallet } from "~/composables/useWallet";
-import { useErc20 } from "~/composables/useErc20";
-import { useEthClient } from "~/composables/useEthClient";
-import { Stablecoin } from "@/types/data";
-import { useNfts } from "~/composables/useNfts";
-import { useSaleStore } from "~/stores/sale";
-import { useWalletStore } from "~/stores/wallet";
+import {useWallet} from "~/composables/useWallet";
+import {useErc20} from "~/composables/useErc20";
+import {useEthClient} from "~/composables/useEthClient";
+import {Stablecoin} from "@/types/data";
+import {useNfts} from "~/composables/useNfts";
+import {useSaleStore} from "~/stores/sale";
+import {useWalletStore} from "~/stores/wallet";
 
 const amount = ref(0);
 const selected: Ref<Token> = ref(tokens[1]);
@@ -22,11 +22,11 @@ const blackRussian = {
 };
 
 const erc20 = useErc20();
-const { approveErc20, isErc20Approved, fetchBalance } = erc20;
+const {approveErc20, isErc20Approved, fetchBalance} = erc20;
 const balance = ref(0);
 
-const { address, isConnected } = useWallet();
-const { checkAgreed } = useWalletStore();
+const {address, isConnected} = useWallet();
+const {checkAgreed} = useWalletStore();
 
 const setBalance = async () => {
   balance.value = await fetchBalance(selected.value, address.value).then((val) => {
@@ -35,7 +35,7 @@ const setBalance = async () => {
 }
 
 watch(address, async (address) => {
-  if(address) {
+  if (address) {
     await setBalance();
   }
 })
@@ -65,14 +65,14 @@ const isApproved = ref(true);
 const checkApproval = async () => {
   const saleState = await useEthClient().state();
   const amountLeft = 500000 - saleState.totalContributions
-  if(amount.value > amountLeft) {
+  if (amount.value > amountLeft) {
     amount.value = amountLeft
   }
   isApproved.value = await isErc20Approved(selected.value, amount.value);
 };
 
 const nfts = useNfts();
-const { setApprovalForAll, isApprovedForAll } = nfts;
+const {setApprovalForAll, isApprovedForAll} = nfts;
 
 /**
  * Approves the selected ERC20 token.
@@ -84,10 +84,10 @@ const approve = async () => {
 
 const showModal: Ref<boolean> = ref(false);
 
-const { depositAndLockNfts, lockNfts } = useEthClient();
+const {depositAndLockNfts, lockNfts} = useEthClient();
 const config = useRuntimeConfig().public;
 
-const { buterinCards, minedJpeg } = config;
+const {buterinCards, minedJpeg} = config;
 const saleStore = useSaleStore();
 
 
@@ -96,7 +96,7 @@ const saleStore = useSaleStore();
  */
 const getAgreement = () => {
   console.log("AGG", showModal.value)
-  if(showModal.value) {
+  if (showModal.value) {
     showModal.value = false;
   }
   showModal.value = true;
@@ -123,7 +123,7 @@ const contribute = async () => {
   if (hasAgreed.value) {
     const coins = Stablecoin;
     // Approve Buterin Cards if not already approved
-    const { address } = useWallet();
+    const {address} = useWallet();
     if (saleStore.buterinCardsSelected.length > 0) {
       const isApproved = await isApprovedForAll(config.buterinCards, address.value);
       if (!isApproved) {
@@ -157,7 +157,7 @@ const showLockNfts = computed(() => (amount.value < 1 || amount.value == null) &
  */
 const doLockNfts = async () => {
   // Approve Buterin Cards if not already approved
-  const { address } = useWallet();
+  const {address} = useWallet();
   if (saleStore.buterinCardsSelected.length > 0) {
     const isApproved = await isApprovedForAll(config.buterinCards, address.value);
     if (!isApproved) {
@@ -190,13 +190,13 @@ const lockMenuInput = computed(() => {
   return !!contributions
 })
 
-if(lockMenuInput.value) {
+if (lockMenuInput.value) {
   console.log("If menuInputLocked", selected.value);
   selected.value = tokens[contributions.stablecoin];
 }
 
 watch(isConnected, (isConnected) => {
-  if(isConnected) {
+  if (isConnected) {
     useWalletStore().checkAgreed()
     console.log("agreed!!!", useWalletStore().hasAgreed)
   }
@@ -220,10 +220,14 @@ const enoughBalance = computed(() => {
     <UFormGroup class="w-full">
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
-          <input  v-model="amount" type="number" placeholder="0"
-                  @input="checkApproval" :class="[!enoughBalance ? 'text-red-300' : '','no-arrows bg-transparent focus:outline-0 w-full text-lg p-3']"
+          <input v-model="amount" type="number" placeholder="0"
+                 @input="checkApproval"
+                 :class="[
+                      !enoughBalance ? 'text-red-400' : '',
+                      'no-arrows bg-transparent focus:outline-0 w-full text-lg p-3'
+                  ]"
           />
-          <div class="text-left text-sm text-red-300">
+          <div class="text-left text-sm text-red-400">
             <label class="p-3" v-if="!enoughBalance">Insuficent funds</label>
           </div>
 
@@ -268,7 +272,7 @@ const enoughBalance = computed(() => {
             <span class="inline-block">Agree to Terms</span>
           </button>
         </div>
-        <div  v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
           <div v-if="showLockNfts" class="flex w-full gap-3 mt-3 justify-center items-center">
             <button @click="doLockNfts"
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
