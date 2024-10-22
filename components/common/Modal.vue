@@ -19,7 +19,7 @@ const props = defineProps<{
   modalBackgroundColor?: string,
   maxWidth?: string,
   minWidth?: string,
-  classList: string[] | string
+  classList?: string[] | string
 }>()
 
 defineEmits(["click", "close"]);

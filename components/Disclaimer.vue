@@ -35,8 +35,8 @@ const agreeToDisclaimer = () => {
 </script>
 
 <template>
-    <Modal class-list="" :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal" max-width="[800px]">
-      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md">
+    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
+      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md max-w-[800px]">
         <h1 class="text-[2.5rem] sir-text-shadow section-header mb-4">Disclaimer</h1>
         <p>
           By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
@@ -127,7 +127,7 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
 ::-webkit-scrollbar-thumb {
   background-color: #888; /* Color of the scroll handle */
   border-radius: 6px; /* Roundness of the handle */
-  border: 0px transparent; /* Adds a border around the handle */
+  border: 0 transparent; /* Adds a border around the handle */
 }
 
 /* Handle on hover */
