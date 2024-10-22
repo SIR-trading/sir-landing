@@ -105,7 +105,7 @@ const mjSelected = computed(() => {
               </div>
               <UCheckbox
                   @click="toggleSelection('BT', tokenId)"
-                  class="z-100"
+                  class="z-100 custom-checkbox"
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
                   :name="`BT-${tokenId}`"
@@ -129,7 +129,7 @@ const mjSelected = computed(() => {
             </div>
               <UCheckbox
                   @click="toggleSelection('MJ', tokenId)"
-                  class="z-100"
+                  class="z-100 custom-checkbox"
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
                   :name="`MJ-${tokenId}`"
@@ -146,4 +146,17 @@ const mjSelected = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.custom-checkbox {
+  cursor: pointer;
+}
+
+/* Optionally, to ensure the ghost 'clicking hand' icon on the checkbox */
+.custom-checkbox::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+</style>
