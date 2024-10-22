@@ -24,8 +24,11 @@ const progressBlocks = computed(() => {
   <div class="flex flex-col gap-2">
     <label class="font-bold">Bonus level reached {{ progressBlocks }} / 5</label>
     <div id="progress-container" class="bg-softGray p-2 rounded-xl flex flex-row gap-3">
-      <div v-for="n in 5" :key="n" :class="[n <= progressBlocks ? 'progress-active' : '', 'rounded-lg', 'flex justify-center items-center']">
-        <div v-if="n <= progressBlocks" class="text-black font-bold text-xs flex flex-col gap-1 justify-center items-center">
+      <div v-for="n in 5"
+           :key="n"
+           :class="[n <= progressBlocks ? 'progress-active' : '', 'rounded-lg', 'flex justify-center items-center']">
+        <div v-if="n <= progressBlocks"
+             class="text-black font-bold text-xs flex flex-col gap-1 justify-center items-center rounded-lg">
           <span>{{ lockedNFTs[n-1].split('-')[0]}}</span>
           <span>{{ Number(lockedNFTs[n-1].split('-')[1]) + 1}}</span>
         </div>
