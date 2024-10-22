@@ -10,7 +10,7 @@ import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import {useWalletStore} from "~/stores/wallet";
 
-const amount = ref(0);
+const amount: Ref<null | number> = ref(null);
 const selected: Ref<Token> = ref(tokens[1]);
 
 const blackRussian = {
@@ -29,9 +29,10 @@ const {address, isConnected} = useWallet();
 const {checkAgreed} = useWalletStore();
 
 const setBalance = async () => {
-  balance.value = await fetchBalance(selected.value, address.value).then((val) => {
-    return ethers.formatUnits(val.toString(), selected.value.decimals);
-  });
+  balance.value = await fetchBalance(selected.value, address.value)
+      .then((val) => {
+        return ethers.formatUnits(val.toString(), selected.value.decimals);
+      });
 }
 
 watch(address, async (address) => {
@@ -150,7 +151,10 @@ const contribute = async () => {
 /**
  * Determines if NFTs should be locked.
  */
-const showLockNfts = computed(() => (amount.value < 1 || amount.value == null) && saleStore.selectedItems.length > 0);
+const showLockNfts = computed(() => {
+  return (amount.value === 0 || amount.value == "") && saleStore.selectedItems.length > 0
+
+});
 
 /**
  * Locks the selected NFTs.

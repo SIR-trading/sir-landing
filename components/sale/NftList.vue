@@ -58,7 +58,7 @@ const toggleSelection = (collection: string, nft: number) => {
   } else {
     // Remove NFT from the list
     btList.value.splice(index, 1);
-    saleStore.selectedItems.splice(nftObject);
+    saleStore.selectedItems.splice(nftObject, 1);
     totalSelected.value -= 1;
   }
 };
