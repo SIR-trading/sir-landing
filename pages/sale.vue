@@ -66,7 +66,7 @@ onMounted(() => {
       </div>
     </Section>
     <Section variant="background" v-if="isConnected">
-      <template #header>Contribute to the Fundraiser</template>
+      <template #header>Contribute to SIR's Sale</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <PreviousContributions/>
         <NftList/>

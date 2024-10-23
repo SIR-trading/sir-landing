@@ -58,7 +58,7 @@ const toggleSelection = (collection: string, nft: number) => {
   } else {
     // Remove NFT from the list
     btList.value.splice(index, 1);
-    saleStore.selectedItems.splice(nftObject);
+    saleStore.selectedItems.splice(nftObject, 1);
     totalSelected.value -= 1;
   }
 };
@@ -93,19 +93,19 @@ const mjSelected = computed(() => {
     <div class="flex flex-col  md:flex-row gap-6 w-full rounded-lg p-2">
       <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md  p-4">
         <div class="flex justify-start section-header">Buterin Cards</div>
-        <div class="p-1 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+        <div class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
           <div v-for="tokenId in bt" :key="`BT-${tokenId}`"
                class="flex flex-col items-center justify-center w-[75px] h-[100px]">
             <div
                 class="flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]"
                 @click="toggleSelection('BT', tokenId)">
               <div class="flex flex-col gap-y-1">
-                <span>CARD</span>
+                <span>Card</span>
                 <span>#{{ tokenId + 1 }}</span>
               </div>
               <UCheckbox
                   @click="toggleSelection('BT', tokenId)"
-                  class="z-100"
+                  class="z-100 custom-checkbox"
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
                   :name="`BT-${tokenId}`"
@@ -117,7 +117,7 @@ const mjSelected = computed(() => {
       </div>
       <div class="flex flex-col w-full gap-2  items-center rounded-md bg-midGray p-4">
         <div class="flex justify-start section-header">MINED JPEG</div>
-        <div class="p-1 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+        <div class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
         <div v-for="tokenId in mj" :key="`MJ-${tokenId}`"
              class="flex flex-col items-center justify-center w-[75px] h-[100px]">
           <div
@@ -129,7 +129,7 @@ const mjSelected = computed(() => {
             </div>
               <UCheckbox
                   @click="toggleSelection('MJ', tokenId)"
-                  class="z-100"
+                  class="z-100 custom-checkbox"
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
                   :name="`MJ-${tokenId}`"
@@ -146,4 +146,17 @@ const mjSelected = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.custom-checkbox {
+  cursor: pointer;
+}
+
+/* Optionally, to ensure the ghost 'clicking hand' icon on the checkbox */
+.custom-checkbox::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+</style>
