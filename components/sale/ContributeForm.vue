@@ -55,7 +55,9 @@ const handleChange = async () => {
  * @param {number} percent - The percentage of the balance to set as the amount.
  */
 const amountTo = (percent: number) => {
-  amount.value = Math.round(balance.value * percent / 100);
+  const amountLeft = 500000 - saleStore.saleState.totalContributions
+  const calculatedAmount = Math.round(balance.value * percent / 100);
+  amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
 };
 
 const isApproved = ref(true);
