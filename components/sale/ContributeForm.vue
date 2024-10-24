@@ -11,7 +11,7 @@ import {useSaleStore} from "~/stores/sale";
 import {useWalletStore} from "~/stores/wallet";
 
 const amount: Ref<null | number> = ref(null);
-const selected: Ref<Token> = ref(tokens[1]);
+const selected: Ref<Token> = ref(tokens[0]);
 
 const blackRussian = {
   color: {
@@ -140,9 +140,11 @@ const contribute = async () => {
     }
     // Deposit and Lock
     await depositAndLockNfts(coins[selected.value.ticker], amount.value, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
-    setTimeout(() => {
+    setTimeout(async () => {
       emit('refresh');
       saleStore.fetchWalletContributions(address.value);
+      saleStore.fetchSaleState()
+      await setBalance()
       amount.value = 0;
     }, 2000);
   }
@@ -152,9 +154,16 @@ const contribute = async () => {
  * Determines if NFTs should be locked.
  */
 const showLockNfts = computed(() => {
-  return (amount.value === 0 || amount.value == "") && saleStore.selectedItems.length > 0
-
+  return (amount.value === 0 || amount.value == "" || amount.value == null) && saleStore.selectedItems.length > 0
 });
+
+/**
+ * Fetch contributions
+ */
+await saleStore.fetchWalletContributions(address.value);
+const contributions = ref(saleStore.getWalletContributions);
+console.log("contributions::", contributions)
+
 
 /**
  * Locks the selected NFTs.
@@ -179,30 +188,31 @@ const doLockNfts = async () => {
   setTimeout(() => {
     emit('refresh');
     saleStore.fetchWalletContributions(address.value);
+    contributions.value = saleStore.getWalletContributions;
   }, 2000);
 };
 
 
-/**
- * Fetch contributions
- */
-await saleStore.fetchWalletContributions(address.value);
-const contributions = await saleStore.getWalletContributions;
-console.log(contributions)
-
 const lockMenuInput = computed(() => {
-  return !!contributions
+  console.log("Contribution::", saleStore.contributions, "locked?", saleStore.contributions.timeLastContribution > 0)
+  return !!saleStore.contributions.timeLastContribution > 0;
 })
 
 if (lockMenuInput.value) {
-  console.log("If menuInputLocked", selected.value);
-  selected.value = tokens[contributions.stablecoin];
+  console.log("If menuInputLocked", selected.value, contributions.value.stablecoin, lockMenuInput.value);
+  selected.value = tokens[contributions.value.stablecoin];
+  console.log("after menuInputLocked", selected.value);
 }
 
-watch(isConnected, (isConnected) => {
+watch([isConnected, contributions], (isConnected, contributions) => {
   if (isConnected) {
     useWalletStore().checkAgreed()
     console.log("agreed!!!", useWalletStore().hasAgreed)
+  }
+
+  if (contributions) {
+    console.log("watch", "CONTRIBUTIONS:", contributions, selected.value);
+    selected.value = tokens[contributions.value.stablecoin];
   }
 })
 
@@ -241,26 +251,32 @@ const enoughBalance = computed(() => {
             <picture>
               <NuxtImg v-if="selected" :src="selected.icon" width="32" height="32"/>
             </picture>
-            <UInputMenu v-model="selected" :options="tokens" option-attribute="name" class="max-w-[150px]"
-                        :uiMenu="{ background: 'bg-white dark:bg-black-russian-950' }"
-                        :variant="'none'"
-                        :ui="blackRussian"
-                        @change="handleChange"
-                        :disabled="lockMenuInput"
+            <UTooltip
+                text="Contributions must all use the same stablecoin."
+                :prevent="!lockMenuInput" :popper="{ placement: 'top', offsetDistance: 16, arrow: true }"
             >
-              <template #option="{ option: token }">
-                <NuxtImg :src="token.icon" width="16" height="16"/>
-                <span class="truncate">{{ token.name }}</span>
-              </template>
-            </UInputMenu>
+              <UInputMenu v-model="selected" :options="tokens" option-attribute="name" class="max-w-[150px]"
+                          :uiMenu="{ background: 'bg-white dark:bg-black-russian-950' }"
+                          :variant="'none'"
+                          :ui="blackRussian"
+                          @change="handleChange"
+                          :disabled="lockMenuInput"
+                          :trailing-icon="!lockMenuInput ? 'i-heroicons-chevron-down-20-solid': 'i-heroicons-exclamation-circle-16-solid'"
+              >
+                <template #option="{ option: token }">
+                  <NuxtImg :src="token.icon" width="16" height="16"/>
+                  <span class="truncate">{{ token.name }}</span>
+                </template>
+              </UInputMenu>
+            </UTooltip>
           </div>
-          <div class="text-sm italic flex flex-inline gap-2 justify-center items-center">Balance: {{
+          <div class="text-sm italic flex flex-inline gap-1 justify-center items-center">Balance: {{
               new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD'
-              }).format(balance)
+              }).format(balance).replace('$', '')
             }}
-            <NuxtImg :src="selected.icon" width="16" height="16"/>
+            <span>{{selected.ticker}}</span>
           </div>
           <div class="flex flex-row gap-1 text-cyan text-sm font-semibold">
             <div role="button" @click="amountTo(25)">25%</div>

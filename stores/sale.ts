@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {useEthClient} from '@/composables/useEthClient';
-import {type LockedNFT, Stablecoin, Contribution} from "~/types/data";
+import {type LockedNFT, Stablecoin, Contribution, SaleState} from "~/types/data";
 
 
 
@@ -14,7 +14,8 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
   id: 'sale',
   state: () => ({
     contributions: {} as Contribution,
-    selectedItems: []
+    selectedItems: [],
+    saleState: {} as SaleState
   }),
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
@@ -28,6 +29,10 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
         console.error("Failed to fetch wallet contributions:", error);
       }
     },
+    async fetchSaleState(){
+      const eth = useEthClient();
+      this.saleState =  await eth.state()
+    }
   },
   getters: {
     getWalletContributions: (state) => {
@@ -48,6 +53,9 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
     },
     minedJpegsSelected: (state) => {
       return state.selectedItems.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
+    },
+    getTotalContributions: (state) => {
+      return state.saleState.totalContributions
     }
   },
 });
