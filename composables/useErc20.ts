@@ -11,7 +11,7 @@ export const useErc20 = () => {
   const {rpc} = useRuntimeConfig().public
   const {chain, contract} = env
   const {getSigner} = useWallet()
-  const fetchBalance = async (token: Token, address: string) => {
+  const fetchBalance = async (token: Token, address: string): Promise<number> => {
     const eth = new EthereumClient(token.address, rpc, chain.id, abi)
     console.log("CCCC", token.address)
     try {
@@ -59,7 +59,10 @@ export const useErc20 = () => {
         await eth.contract.connect(signer)
           .approve(
             spender,
-            BigInt(0)
+            BigInt(0),
+            {
+              nonce: await signer?.provider?.getTransactionCount(await signer?.getAddress())
+            }
           )
       }
 
