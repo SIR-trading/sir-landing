@@ -166,6 +166,10 @@ const goTo = (_path: string) => {
           sale, based on their
           existing holdings and willingness to lock them for a year.</p>
       </Section>
+      <Section variant="background">
+        <template #header>Team</template>
+        <Team />
+      </Section>
     </ClientOnly>
   </UContainer>
 </template>
