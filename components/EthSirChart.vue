@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="w-full h-[250px] md:w-[700px] md:h-[400px] bg-lighter flex items-center justify-center p-1 md:p-3 rounded-md">
+    <div class="w-full h-[250px] md:w-[700px] md:h-[400px] bg-lighter  flex items-center justify-center p-1 md:p-3 rounded-md">
       <Line v-if="chartData" type="line" :data="chartData" :options="chartOptions"/>
       <div v-else class="flex items-center justify-center">
         <div class="spinner"></div>
@@ -54,6 +54,9 @@ const chartOptions = ref({
   },
   scales: {
     x: {
+      grid: {
+        color: "rgba(0, 0, 0, 0)",
+      },
       ticks: {
         // For a category axis, the val is the index so the lookup via getLabelForValue is needed
         callback: function (val, index) {
@@ -64,6 +67,9 @@ const chartOptions = ref({
       }
     },
     y: {
+      grid: {
+        color: "rgba(0, 0, 0, 0)",
+      },
       ticks: {
         // For a category axis, the val is the index so the lookup via getLabelForValue is needed
         callback: function (val) {
@@ -73,7 +79,8 @@ const chartOptions = ref({
         color: 'rgba(255, 255, 255, 1)'
 
       }
-    }
+    },
+
   }
 });
 
@@ -100,6 +107,6 @@ onMounted(() => {
 
 <style scoped>
 .bg-lighter  {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 255, 255, 10%);
 }
 </style>

@@ -2,6 +2,8 @@
 import Section from '@/components/common/Section.vue'
 import SirHero from "~/components/common/SirHero.vue";
 import SirCard from "~/components/common/SirCard.vue";
+import SirProgressBar from "~/components/common/SirProgressBar.vue";
+import SirButton from "~/components/common/SirButton.vue";
 
 import {useRouter} from 'vue-router'
 
@@ -20,6 +22,18 @@ const goTo = (_path: string) => {
         Safer Leverage for Long-term Investors
       </template>
     </SirHero>
+    <Section class-name="mb-0" variant="background">
+      <template #header>Project founding progress</template>
+      <div class="section-text-block mt-0 mb-3">
+        <p>
+          By being an early patreon you help covering development costs. In return you get SIR tokens that...
+        </p>
+      </div>
+      <SirProgressBar/>
+      <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
+        <SirButton label="Contribute" @clicked="goTo('/sale')"/>
+      </div>
+    </Section>
     <ClientOnly>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is SIR?</template>
@@ -40,9 +54,8 @@ const goTo = (_path: string) => {
           </div>
           <div class="flex flex-col w-full justify-center items-center">
             <EthSirChart/>
-            <p class="text-xs italic mt-2">Example of ETH/USDC position in SIR with simulated perfect constant x1.5
-              leverage
-              versus
+            <p class="text-xs italic mt-2">Example of simulated ETH/USDC position in SIR with perfect constant x1.5
+              leverage versus
               <a href="https://www.opyn.co/squeeth?ct=IT" class="underline">Squeeth from Opyn</a>
             </p>
           </div>
@@ -74,9 +87,9 @@ const goTo = (_path: string) => {
         </div>
         <!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
       </Section>
-      <Section variant="background">
+      <Section variant="background-p0">
         <template v-slot:header>Gentlemen & Apes</template>
-        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-between w-full">
+        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-evenly w-full">
           <SirCard image="/gentlemen_card.png" size="md">
             <p><b>Gentlemen</b> provide liquidity to the protocol. They earn fees for doing so and potentially also
               rewards
@@ -109,7 +122,8 @@ const goTo = (_path: string) => {
       </Section>
       <Section variant="background">
         <template v-slot:header>SIR Token Sale</template>
-        <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start h-full lg:justify-between w-full">
+        <div
+            class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start h-full lg:justify-between w-full">
           <div class="flex flex-col gap-3 md:gap-6 w-full h-full items-center p-0 md:p-3 justify-center text-center">
             <p class="p-header">Token Allocation and Fundraising Goal</p>
             <p>
@@ -135,20 +149,21 @@ const goTo = (_path: string) => {
             </ul>
           </div>
           <div class="flex flex-col gap-3 md:gap-6 w-full h-full items-center p-0 md:p-3  justify-center text-center">
-          <p class="p-header">Bonus for Existing Community Members</p>
+            <p class="p-header">Bonus for Existing Community Members</p>
             <p>
               To reward our loyal community members, we're offering a special bonus for holders of
               <a class="underline" href="https://opensea.io/collection/mined-jpeg">Mined JPEG(MJ)</a> or
               <a class="underline" href="https://opensea.io/collection/buterin-cards">Buterin Cards(BC)</a>:
             </p>
             <ul class="flex flex-col gap-y-3 p-x-0 w-full text-center list-outside">
-            <li>Lock your MJ or BC for one year to receive extra tokens</li>
+              <li>Lock your MJ or BC for one year to receive extra tokens</li>
               <li>Earn 5% additional tokens for each locked MJ or BC</li>
               <li>Maximum bonus capped at 30%</li>
             </ul>
           </div>
         </div>
-        <p class="mt-6 p-0 md:p-12">This bonus structure allows participants to acquire up to 30% more tokens during the sale, based on their
+        <p class="mt-6 p-0 md:p-12">This bonus structure allows participants to acquire up to 30% more tokens during the
+          sale, based on their
           existing holdings and willingness to lock them for a year.</p>
       </Section>
       <Section variant="background">

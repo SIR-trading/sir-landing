@@ -1,10 +1,13 @@
 import { useOnboard } from "@web3-onboard/vue";
 import { ethers } from "ethers";
 import { computed } from "vue";
+import {useWalletStore} from "~/stores/wallet";
+import {useEnv} from "~/composables/useEnv";
+import {useToast} from "#ui/composables/useToast";
 
 export const useWallet = () => {
   const { connectedWallet } = useOnboard();
-
+  const toast = useToast()
   return {
     isConnected: computed(() => {
       return !!connectedWallet.value?.accounts[0].address;
@@ -27,10 +30,33 @@ export const useWallet = () => {
         console.error(e);
       }
     },
-    hasAgreed: computed((): boolean => {
-      if (!connectedWallet.value?.accounts[0].address) return true;
-      const wallet = localStorage.getItem(`wallet-${connectedWallet.value?.accounts[0].address}`)
-      return !!wallet;
-    })
+    isChainCorrect: computed(() => {
+      const {chain} = useEnv()
+      console.log("chain.id.toString() === walletStore.getChainId.toString()", chain.id.toString() === connectedWallet.value?.chains[0].id.toString())
+      if (!chain) return false
+      if (useWalletStore().getChainId)
+        return chain.id.toString() === connectedWallet.value?.chains[0].id.toString()
+    }),
+    changeChain: async () => {
+
+      const {chain} = useEnv()
+      const provider = connectedWallet.value?.provider as ethers.Eip1193Provider
+      provider.request({method: 'wallet_switchEthereumChain', params: [{chainId: chain.id}]}).then(() => {
+        toast.add({
+          title: 'Chain Switched',
+          description: `Switched to ${chain.label}`,
+          color: 'green',
+          timeout: 5000,
+        })
+      }).catch((error) => {
+        console.error(error)
+        toast.add({
+          title: 'Chain Switch Failed',
+          description: `Failed to switch to ${chain.label}`,
+          color: 'red',
+          timeout: 5000,
+        })
+      })
+    }
   };
 };

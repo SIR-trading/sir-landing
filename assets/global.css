@@ -15,7 +15,7 @@
         line-height: 1.5rem;
         @apply text-base;
         /* assets/css/main.css */
-        background-image: url('/public/background.png');
+        background-image: url('/public/background_tile.png');
         background-repeat: repeat;
         background-size: auto; /* Optional: To cover the entire screen */
         background-position: center; /* Optional: To center the image */
@@ -68,7 +68,7 @@
     text-transform: uppercase;
     line-height: 1rem;
     text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
-    @apply font-normal text-white text-lg;
+    @apply font-normal text-white text-xl;
 }
 .text-capital {
     text-transform: uppercase;
@@ -80,7 +80,7 @@
     @apply text-lg font-bold
 }
 .section-text-block {
-    @apply max-w-[560px] flex flex-col gap-[15px];
+    @apply text-justify flex flex-col gap-[15px];
 }
 .spinner {
     border: 16px solid #333333; /* Light grey */
@@ -104,4 +104,16 @@
     border-radius: 6px;
     background: linear-gradient(90deg, rgba(122, 91, 46, 0.50) 0%, rgba(191, 155, 103, 0.50) 23.23%, rgba(255, 255, 255, 0.50) 50.56%, rgba(191, 155, 103, 0.50) 75.59%, rgba(122, 91, 46, 0.50) 100.12%), #F2C46A;
     filter: blur(12px);
+}
+
+/* Hide arrows for Chrome, Safari, Edge, and Opera */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide arrows for Firefox */
+.no-arrows[type=number] {
+    -moz-appearance: textfield;
 }

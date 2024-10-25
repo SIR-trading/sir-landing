@@ -9,6 +9,7 @@ export default <Partial<Config>>{
       },
       boxShadow: {
         'md': '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        'sir': '2px 4px 10px rgba(0, 0, 0, 0.5)',
       },
       blur: {
         '12px': '12px',
@@ -18,6 +19,7 @@ export default <Partial<Config>>{
         md: '1.125rem',
         lg: '1.5rem',
         xl: '2rem',
+        '1/2xl': '2.5rem',
         '2xl': '3rem',
         '3xl': '3.5rem',
         '4xl': '4rem'
@@ -43,6 +45,9 @@ export default <Partial<Config>>{
         primary: 'white',
         gray: 'cool',
         darkGray: '#0A0A0F',
+        midGray: '#25213C',
+        softGray: '#414158',
+        cyan: '#26DEC8',
         'gradient-start': 'rgba(122, 91, 46, 0.5)',
         'gradient-mid': 'rgba(191, 155, 103, 0.5)',
         'gradient-end': 'rgba(255, 255, 255, 0.5)',

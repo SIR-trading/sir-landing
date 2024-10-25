@@ -32,7 +32,7 @@ export default defineAppConfig({
       color: {
         robRoy: {
           outline: 'ring-1 ring-inset ring-current text-gray-900 dark:text-white hover:bg-white dark:hover:bg-rob-roy-300 dark:hover:text-black focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-rob-roy-500 dark:focus-visible:ring-primary-400',
-          solid: 'shadow-lg ring-1 ring-inset ring-gray-300 dark:ring-gray-700 text-gray-900 dark:text-gray-900 bg-white hover:bg-gray-50 disabled:bg-white aria-disabled:bg-white dark:bg-5-color-gradient dark:hover:bg-gray-800/50 dark:disabled:bg-gray-900 dark:aria-disabled:bg-gray-900 focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400'
+          solid: 'dark:bg-rob-roy-300 hover:bg-white dark:hover:bg-rob-roy-200 dark:text-black dark:hover:text-black focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-rob-roy-500 dark:focus-visible:ring-primary-400',
         }
       },
       variant: {
