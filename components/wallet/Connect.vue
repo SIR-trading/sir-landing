@@ -7,7 +7,6 @@ import {useWallet} from "~/composables/useWallet";
 
 
 const {chain} = useEnv()
-const {isChainCorrect} = useWallet()
 const {connectWallet, disconnectConnectedWallet, connectedWallet} = useOnboard()
 
 const connect = async () => {
@@ -15,13 +14,12 @@ const connect = async () => {
 }
 
 const {toast} = useToast()
-const {isConnected, address, changeChain} = useWallet()
+const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 
-watch(isConnected, async (value) => {
-  if (value) {
 
-
+watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
+  if (isConnected) {
     console.log("Connected Wallet: ", connectedWallet.value)
     const provider = connectedWallet.value?.provider as EIP1193Provider
     await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
@@ -33,11 +31,20 @@ watch(isConnected, async (value) => {
       console.log("Accounts Changed: ", accounts)
     })
 
-    provider.on('chainChanged', (_chainId: string[]) => {
+    provider.on('chainChanged', async (_chainId: string[]) => {
       console.log("Chain Changed: ", _chainId)
       useWalletStore().chain = _chainId
     })
-
+  }
+  if(isChainCorrect) {
+    toast({
+      title: 'Connected to the correct chain',
+      description: `Connected to ${chain.value}`,
+      status: 'success',
+      duration: 5000
+    })
+  }else {
+    console.log("Connected to the wrong chain")
   }
 })
 </script>

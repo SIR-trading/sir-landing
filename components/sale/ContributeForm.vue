@@ -272,7 +272,7 @@ const enoughBalance = computed(() => {
               </UInputMenu>
             </UTooltip>
           </div>
-          <div class="text-sm italic flex flex-inline gap-1 justify-center items-center">Balance: {{
+          <div class="text-xs p-1 italic flex flex-inline gap-1 justify-center items-center">Balance: {{
               new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD'
