@@ -50,14 +50,17 @@ const handleChange = async () => {
   }
 };
 
+const amountLeft = computed(() => {
+  return 500000 - saleStore.saleState.totalContributions;
+})
+
 /**
  * Sets the amount based on a percentage of the balance.
  * @param {number} percent - The percentage of the balance to set as the amount.
  */
 const amountTo = (percent: number) => {
-  const amountLeft = 500000 - saleStore.saleState.totalContributions
   const calculatedAmount = Math.round(balance.value * percent / 100);
-  amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
+  amount.value = calculatedAmount > amountLeft ? amountLeft.value : calculatedAmount
 };
 
 const isApproved = ref(true);
@@ -140,8 +143,10 @@ const contribute = async () => {
         await setApprovalForAll(minedJpeg);
       }
     }
+    // Check amount
+    const finalAmount = amount.value > amountLeft.value ? amountLeft.value : amount.value;
     // Deposit and Lock
-    await depositAndLockNfts(coins[selected.value.ticker], amount.value, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
+    await depositAndLockNfts(coins[selected.value.ticker], finalAmount, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
     setTimeout(async () => {
       emit('refresh');
       saleStore.fetchWalletContributions(address.value);
