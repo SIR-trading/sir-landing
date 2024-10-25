@@ -89,13 +89,13 @@ const goTo = (_path: string) => {
         <div class="section-text-block">
           <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
             <div
-                class="bullet-point">
+                class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               1
             </div>
             <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
           </div>
           <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
-            <div class="bullet-point">
+            <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               2
             </div>
             <p>Like Uniswap,
@@ -105,7 +105,7 @@ const goTo = (_path: string) => {
               with fixed parameters, eliminating risks from unexpected changes.</p>
           </div>
           <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
-            <div class="bullet-point">
+            <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               3
             </div>
             <p>After its beta phase, SIR's unstoppable code will be
@@ -117,7 +117,6 @@ const goTo = (_path: string) => {
           <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
             lego' in the DeFi ecosystem.</p>
         </div>
-        <!--        <div class="h-64 bg-gray-400 my-6 rounded-lg"></div>-->
       </Section>
       <Section variant="background-p0">
         <template v-slot:header>Gentlemen & Apes</template>
