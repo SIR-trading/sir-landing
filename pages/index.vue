@@ -152,6 +152,10 @@ const goTo = (_path: string) => {
           </p>
         </div>
       </Section>
+      <Section variant="background">
+        <template #header>Team</template>
+        <Team />
+      </Section>
     </ClientOnly>
   </UContainer>
 </template>
