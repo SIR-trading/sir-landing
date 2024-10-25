@@ -117,3 +117,7 @@
 .no-arrows[type=number] {
     -moz-appearance: textfield;
 }
+
+.bullet-point {
+    @apply rounded-xl font-black text-rob-roy-300 ring-2 ring-rob-roy-300 text-center py-3 px-4;
+}
