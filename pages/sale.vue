@@ -21,6 +21,7 @@ watch(isConnected, async (newVal) => {
     console.log('address', address.value);
     bt.value = await nfts.fetchWalletButerinCards(address.value);
     mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+    console.log("isChainCorrect", useWallet().isChainCorrect.value)
   }
 })
 const bullets = [
@@ -48,6 +49,7 @@ const chartLegend = [
 onMounted(() => {
   useWalletStore().checkAgreed()
 })
+
 
 </script>
 
