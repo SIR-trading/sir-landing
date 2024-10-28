@@ -54,14 +54,7 @@ const amountLeft = computed(() => {
   return 500000 - saleStore.saleState.totalContributions;
 })
 
-/**
- * Sets the amount based on a percentage of the balance.
- * @param {number} percent - The percentage of the balance to set as the amount.
- */
-const amountTo = (percent: number) => {
-  const calculatedAmount = Math.round(balance.value * percent / 100);
-  amount.value = calculatedAmount > amountLeft ? amountLeft.value : calculatedAmount
-};
+
 
 const isApproved = ref(true);
 
@@ -75,6 +68,17 @@ const checkApproval = async () => {
     amount.value = amountLeft
   }
   isApproved.value = await isErc20Approved(selected.value, amount.value);
+};
+
+/**
+ * * @param {number} percent - The percentage of the balance to set as the amount.
+ */
+const amountTo = (percent: number) => {
+
+  const amountLeft = 500000 - saleStore.saleState.totalContributions
+  const calculatedAmount = Math.round(balance.value * percent / 100);
+  amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
+  checkApproval()
 };
 
 const nfts = useNfts();
@@ -283,7 +287,7 @@ const enoughBalance = computed(() => {
                 currency: 'USD'
               }).format(balance).replace('$', '')
             }}
-            <span>{{selected.ticker}}</span>
+            <span>{{ selected.ticker }}</span>
           </div>
           <div class="flex flex-row gap-1 text-cyan text-sm font-semibold">
             <div role="button" @click="amountTo(25)">25%</div>
