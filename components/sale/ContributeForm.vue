@@ -149,7 +149,7 @@ const contribute = async () => {
     }
 
     // Deposit and Lock
-    await depositAndLockNfts(coins[selected.value.ticker], amount.value, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
+    await depositAndLockNfts(coins[selected.value.ticker], amount.value as Number, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
     setTimeout(async () => {
       emit('refresh');
       saleStore.fetchWalletContributions(address.value);
