@@ -4,6 +4,7 @@ import abi from "@/assets/erc721_abi.json"
 import {string} from "yup";
 
 
+
 export const useNfts = () => {
   const env = useEnv()
   const {chain, contract} = env
@@ -41,6 +42,9 @@ export const useNfts = () => {
     const {getSigner} = useWallet()
     const signer = await getSigner()
     const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
+    console.log("SET_APPROVAL_FOR_ALL", "_-".repeat(100))
+
+    // @ts-ignore
     const tx = await eth.contract.connect(signer).setApprovalForAll(contract, true)
   }
 

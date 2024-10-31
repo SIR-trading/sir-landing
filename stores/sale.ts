@@ -1,19 +1,32 @@
 import {defineStore} from 'pinia';
 import {useEthClient} from '@/composables/useEthClient';
-import {type LockedNFT, Stablecoin, Contribution, SaleState} from "~/types/data";
-
+import type {LockedNFT, Stablecoin, Contribution, SaleState} from "~/types/data";
 
 
 // Define the state interface
 interface FundraiseState {
   contributions: Contribution;
-  selectedItems: Array<{collection: string, id: string}>;
+  selectedItems: Array<{ collection: string, id: string }>;
+  saleState: SaleState;
 }
 
 export const useSaleStore = defineStore<'sale', FundraiseState>({
   id: 'sale',
   state: () => ({
-    contributions: {} as Contribution,
+    contributions: {
+      lockedButerinCards: {
+        amount: 0,
+        ids: []
+      },
+      lockedMinedJpegs: {
+        amount: 0,
+        ids: []
+      },
+      stablecoin: 0,
+      amountFinalNoDecimals: 0,
+      amountWithdrawableNoDecimals: 0,
+      timeLastContribution: 0,
+    } as Contribution,
     selectedItems: [],
     saleState: {} as SaleState
   }),
@@ -29,9 +42,9 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
         console.error("Failed to fetch wallet contributions:", error);
       }
     },
-    async fetchSaleState(){
+    async fetchSaleState() {
       const eth = useEthClient();
-      this.saleState =  await eth.state()
+      this.saleState = await eth.state()
     }
   },
   getters: {
@@ -48,8 +61,8 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
       }, 1000)
       return time
     },
-    buterinCardsSelected: (state) => {
-      return state.selectedItems.map((item) => item.collection === "BT" ? item.id : null).filter(id => id !== null);
+    buterinCardsSelected: (state): (string | null)[] => {
+      return state.selectedItems.map((item): string | null => item.collection === "BT" ? item.id : null).filter(id => id !== null);
     },
     minedJpegsSelected: (state) => {
       return state.selectedItems.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
@@ -61,11 +74,10 @@ export const useSaleStore = defineStore<'sale', FundraiseState>({
 });
 
 
-
 const formatLockedNfts = (l: any) => {
   return {
     amount: Number(l[0]),
-    ids: l[1].map( id => Number(id))
+    ids: l[1].map((id: string) => Number(id))
   } as LockedNFT
 }
 

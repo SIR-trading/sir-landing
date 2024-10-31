@@ -9,7 +9,7 @@ import PreviousContributions from "~/components/sale/PreviousContributions.vue";
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address} = useWallet();
+const {isConnected, address, isChainCorrect} = useWallet();
 const nfts = useNfts();
 
 let bt = ref([]);
@@ -48,6 +48,10 @@ const chartLegend = [
 
 onMounted(() => {
   useWalletStore().checkAgreed()
+  if (isConnected.value) {
+
+  }
+
 })
 
 
@@ -70,7 +74,10 @@ onMounted(() => {
     <Section variant="background" v-if="isConnected">
       <template #header>Contribute to SIR's Sale</template>
       <div class="flex flex-col gap-3 w-full items-center">
-        <PreviousContributions/>
+        <p class="flex flex-col">
+          <span>You can withdraw your contribution within 24h</span>
+          <span> if you change your mind. After that it’s locked in.</span>
+        </p>
         <NftList/>
       </div>
     </Section>
