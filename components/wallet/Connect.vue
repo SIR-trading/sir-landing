@@ -17,12 +17,10 @@ const {toast} = useToast()
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {
-    console.log("Connected Wallet: ", connectedWallet.value)
     const provider = connectedWallet.value?.provider as EIP1193Provider
     await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
       useWalletStore().chain = _chainId
     })
-    console.log("Provider: ", provider)
 
     provider.on('accountsChanged', (accounts: string[]) => {
       console.log("Accounts Changed: ", accounts)
@@ -63,7 +61,7 @@ onMounted(async () => {
     <SirButton v-if="!isConnected" label="Connect wallet" @click="connect" />
     <UContainer v-else>
       <div class="flex flex-col md:flex-row items-center md:gap-3">
-        <div class="text-sm mr-1">{{ formatAddress(address) }}</div>
+        <div class="text-sm mr-1">{{ formatAddress(address as string) }}</div>
         <SirButton v-if="isChainCorrect" @click="disconnectConnectedWallet" label="Disconnect" />
         <UButton v-else color="red" variant="outline" label="Wrong Chain" @click="changeChain"/>
       </div>

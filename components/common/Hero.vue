@@ -13,12 +13,11 @@ const props = defineProps<{
 
 const {classLink} = helpers()
 
-console.log(props.links)
 
 </script>
 
 <template>
-  <div :class="classLink(['w-full rounded-lg p-12', backgroundColor, className ? className : ''])">
+  <div :class="classLink(['w-full rounded-lg p-12', backgroundColor as string, className ? className : ''])">
     <div class="flex items-start justify-center w-100 font-['Pixi']  ">
       <div class="flex flex-row lg:gap-2 lg:items-center">
         <NuxtImg :src="icon" alt="Logo" width="100" height="100"/>

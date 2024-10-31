@@ -26,7 +26,6 @@ export const useNfts = () => {
       }
 
       return await Promise.all(ids).then((res) => {
-        console.log(res)
         return res.map((id: Awaited<BigInt>) => Number(id));
       });
 

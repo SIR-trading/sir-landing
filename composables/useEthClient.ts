@@ -11,6 +11,7 @@ declare interface SaleContract extends ethers.Contract {
   contributions: BaseContractMethod<any[], any, any>
   MAX_CONTRIBUTIONS_NO_DECIMALS: BaseContractMethod<any[], any, any>
   depositAndLockNfts: BaseContractMethod<any[], any, any>
+  withdraw: BaseContractMethod<any[], any, any>
 }
 
 
@@ -64,17 +65,38 @@ export const useEthClient = () => {
       const signer = await getSigner() as JsonRpcSigner
       const mutableContract = contract.connect(signer) as SaleContract;
       const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
-
-      return tx.hash
+      const receipt = await tx.wait();
+      console.log('Receipt:', receipt);
+      const {$event} = useNuxtApp();
+      $event('sale:update');
+      const saleStore = useSaleStore();
+      await saleStore.fetchWalletContributions(useWallet().address.value as string);
+      return receipt.transactionHash;
     } catch (error) {
       console.error('Transaction failed:', error);
     }
   }
 
+  const withdraw = async () => {
+    const {getSigner} = useWallet()
+    const signer = await getSigner() as JsonRpcSigner
+    try {
+      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
+      const tx = await mutableContract.withdraw();
+      const receipt = await tx.wait();
 
+       const saleStore = useSaleStore();
+       await saleStore.fetchWalletContributions(useWallet().address.value as string);
+      const {$event} = useNuxtApp();
+      $event('sale:update');
+       return receipt.transactionHash
+    } catch (directError) {
+      console.error('Direct contract call error:', directError);
+    }
+  }
   const maxContributions = async () => {
     return Number(await (ethClient.contract as SaleContract).MAX_CONTRIBUTIONS_NO_DECIMALS())
   }
 
-  return {ethClient, state, contributions, maxContributions, lockNfts, depositAndLockNfts}
+  return {ethClient, state, contributions, maxContributions, lockNfts, depositAndLockNfts, withdraw}
 }

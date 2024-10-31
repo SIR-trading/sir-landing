@@ -44,6 +44,7 @@ export const useSaleStore = defineStore('sale', {
         const eth = useEthClient();
         const contributions = await eth.contributions(address);
         this.contributions = formatContribution(contributions);
+        console.log("contributions", this.contributions);
       } catch (error) {
         console.error("Failed to fetch wallet contributions:", error);
       }

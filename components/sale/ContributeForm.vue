@@ -4,15 +4,24 @@ import {ethers} from "ethers";
 import {useWallet} from "~/composables/useWallet";
 import {useErc20} from "~/composables/useErc20";
 import {useEthClient} from "~/composables/useEthClient";
-import {Stablecoin} from "@/types/data";
+import {Stablecoin, type Contribution} from "@/types/data";
 import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import {useWalletStore} from "~/stores/wallet";
 import type {Token} from "~/types/data";
 
-const amount: Ref<null | number> = ref(null);
+const amount: Ref<string | number> = ref(0);
 const {tokenList} = useEnv();
 const selected: Ref<Token> = ref(tokenList[0]);
+
+/**
+ * Converts string ticker to Stablecoin enum.
+ * @param {string} ticker - The ticker string to convert.
+ * @returns {Stablecoin} The corresponding Stablecoin enum value.
+ */
+function convertTickerToStablecoin(ticker: string): Stablecoin {
+  return Stablecoin[ticker as keyof typeof Stablecoin];
+}
 
 const blackRussian = {
   color: {
@@ -142,13 +151,13 @@ const contribute = async () => {
     if(!isApproved.value) {
       await approve()
     }
+    const stablecoin = convertTickerToStablecoin(selected.value.ticker);    // Deposit and Lock
 
-    // Deposit and Lock
-    await depositAndLockNfts(coins[selected.value.ticker], amount.value as Number, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
+    await depositAndLockNfts(stablecoin, amount.value as number, saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number));
     setTimeout(async () => {
       emit('refresh');
-      saleStore.fetchWalletContributions(address.value);
-      saleStore.fetchSaleState()
+      await saleStore.fetchWalletContributions(address.value as string);
+      await saleStore.fetchSaleState()
       await setBalance()
       amount.value = 0;
       saleStore.selectedItems = []
@@ -160,15 +169,14 @@ const contribute = async () => {
  * Determines if NFTs should be locked.
  */
 const showLockNfts = computed(() => {
-  return (amount.value === 0 || amount.value == "" || amount.value == null) && saleStore.selectedItems.length > 0
+  return (amount.value === 0 || amount.value == null) && saleStore.selectedItems.length > 0
 });
 
 /**
  * Fetch contributions
  */
-await saleStore.fetchWalletContributions(address.value);
-const contributions = ref(saleStore.getWalletContributions);
-console.log("contributions::", contributions)
+await saleStore.fetchWalletContributions(address.value as string);
+const contributions: Ref<Contribution> = ref(saleStore.getWalletContributions);
 
 
 /**
@@ -178,22 +186,22 @@ const doLockNfts = async () => {
   // Approve Buterin Cards if not already approved
   const {address} = useWallet();
   if (saleStore.buterinCardsSelected.length > 0) {
-    const isApproved = await isApprovedForAll(config.buterinCards, address.value);
+    const isApproved = await isApprovedForAll(config.buterinCards, address.value as string);
     if (!isApproved) {
       await setApprovalForAll(buterinCards);
     }
   }
   // Approve Mined Jpegs if not already approved
   if (saleStore.minedJpegsSelected.length > 0) {
-    const isApproved = await isApprovedForAll(config.minedJpeg, address.value);
+    const isApproved = await isApprovedForAll(config.minedJpeg, address.value as string);
     if (!isApproved) {
       await setApprovalForAll(minedJpeg);
     }
   }
-  await lockNfts(saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
+  await lockNfts(saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number));
   setTimeout(() => {
     emit('refresh');
-    saleStore.fetchWalletContributions(address.value);
+    saleStore.fetchWalletContributions(address.value as string);
     contributions.value = saleStore.getWalletContributions;
     saleStore.selectedItems = []
   }, 2000);
@@ -201,25 +209,20 @@ const doLockNfts = async () => {
 
 
 const lockMenuInput = computed(() => {
-  console.log("Contribution::", saleStore.contributions, "locked?", saleStore.contributions.timeLastContribution > 0)
-  return !!saleStore.contributions.timeLastContribution > 0;
+  return saleStore.contributions.timeLastContribution > 0
 })
 
 if (lockMenuInput.value) {
-  console.log("If menuInputLocked", selected.value, contributions.value.stablecoin, lockMenuInput.value);
   selected.value = tokenList[contributions.value.stablecoin];
-  console.log("after menuInputLocked", selected.value);
 }
 
-watch([isConnected, contributions], (isConnected, contributions) => {
+watch([isConnected, contributions], ([isConnected, contributions]) => {
   if (isConnected) {
     useWalletStore().checkAgreed()
-    console.log("agreed!!!", useWalletStore().hasAgreed)
   }
 
   if (contributions) {
-    console.log("watch", "CONTRIBUTIONS:", contributions, selected.value);
-    selected.value = tokenList[contributions.value.stablecoin];
+    selected.value = tokenList[contributions.stablecoin];
   }
 })
 
@@ -228,18 +231,25 @@ watch([isConnected, contributions], (isConnected, contributions) => {
  */
 onMounted(() => {
   handleChange();
+  const {$listen} = useNuxtApp();
+  $listen('sale:update', async () => {
+    await setBalance();
+    await saleStore.fetchSaleState();
+    await saleStore.fetchWalletContributions(useWallet().address.value as string);
+    contributions.value = saleStore.getWalletContributions;
+  })
 });
 
-const enoughBalance = computed(() => {
+const enoughBalance = computed((): boolean => {
   return balance.value >= amount.value;
 })
 
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full rounded-lg">
+  <div class="flex flex-col items-center w-full rounded-lg bg-[#ffffff15]">
     <UFormGroup class="w-full">
-      <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
+      <div class="w-full flex flex-row gap-3  rounded-md p-3">
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="number" placeholder="0"
                  @input="checkApproval"
@@ -253,7 +263,7 @@ const enoughBalance = computed(() => {
           </div>
 
         </div>
-        <div class="flex flex-col gap-2 items-end w-full">
+        <div class="flex flex-col gap-1 items-end w-full">
           <div class="flex flex-row gap-0 items-center justify-end bg-black-russian-950 rounded-md p-2">
             <picture>
               <NuxtImg v-if="selected" :src="selected.icon" width="32" height="32"/>
@@ -281,7 +291,7 @@ const enoughBalance = computed(() => {
               new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD'
-              }).format(balance).replace('$', '')
+              }).format(balance as number).replace('$', '')
             }}
             <span>{{ selected.ticker }}</span>
           </div>
@@ -292,7 +302,7 @@ const enoughBalance = computed(() => {
           </div>
         </div>
       </div>
-      <div class="flex w-full flex-col gap-3 mt-3 justify-center items-center">
+      <div class="flex w-full flex-col gap-3 justify-center items-center p-3">
         <div v-if="!hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
           <button @click="getAgreement"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">

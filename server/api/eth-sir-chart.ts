@@ -5,6 +5,5 @@ import { join } from 'path';
 export default defineEventHandler(async (event) => {
   const filePath = join(process.cwd(), 'assets/chart_data.json');
   const fileContent = await fs.readFile(filePath, 'utf-8');
-  console.log(fileContent)
   return JSON.parse(fileContent);
 });

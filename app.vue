@@ -38,7 +38,6 @@ web3Onboard.value = init({
     removeWhereIsMyWalletWarning: true,
   }
 })
-// console.log("web3Onboard", web3Onboard)
 useSeoMeta({
   title: 'Sir.trading',
   ogTitle: 'Sir.trading',

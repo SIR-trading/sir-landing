@@ -10,11 +10,11 @@ const saleStore = useSaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
-
+const {withdraw} = useEthClient()
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
-  await saleStore.fetchWalletContributions(address.value);
+  await saleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
   console.log("FETCHED", saleStore.getWalletContributions)
 };
@@ -63,24 +63,47 @@ const bonusAllocation = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full bg-midGray rounded-lg gap-1 p-4">
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full  rounded-lg gap-1">
+  <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
       <div>Total locked contributions:</div>
-      <div>{{ contributions.amountFinalNoDecimals }}</div>
+      <div><span class="font-semibold text-md"> {{ contributions.amountFinalNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+    <div v-if="contributions.amountWithdrawableNoDecimals > 0"
+        class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Withdrawable balance:</div>
-      <div>{{ contributions.amountWithdrawableNoDecimals }}</div>
+      <div role="button"
+           class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950" @click="withdraw"
+      >
+        withdraw
+        <Timer />
+      </div>
+      <div><span class="font-semibold text-md"> {{ contributions.amountWithdrawableNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
-      <div>{{ tokenAllocation + bonusAllocation }}</div>
+      <div><span class="font-semibold text-md"> {{ tokenAllocation }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
-      <div>{{ itemsLocked}}</div>
+      <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.withdraw-btn {
+  display: inline-flex;
+  border-radius: 5px;
+  padding: 5px;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 600;
+  color: #fca5a5;
+
+  &:hover {
+    background-color: #f87171;
+    color: #090522;
+
+  }
+}
+</style>

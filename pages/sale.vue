@@ -12,16 +12,14 @@ import {useNfts} from "~/composables/useNfts";
 const {isConnected, address, isChainCorrect} = useWallet();
 const nfts = useNfts();
 
-let bt = ref([]);
-let mj = ref([]);
+let bt: Ref<Array<number>> = ref([]);
+let mj: Ref<Array<number>> = ref([]);
 
 // Fetch NFTs if connected
 watch(isConnected, async (newVal) => {
   if (newVal) {
-    console.log('address', address.value);
-    bt.value = await nfts.fetchWalletButerinCards(address.value);
-    mj.value = await nfts.fetchWalletMinedJpeg(address.value);
-    console.log("isChainCorrect", useWallet().isChainCorrect.value)
+    bt.value = await nfts.fetchWalletButerinCards(address.value as string) as Array<number>
+    mj.value = await nfts.fetchWalletMinedJpeg(address.value as string) as Array<number>
   }
 })
 const bullets = [
