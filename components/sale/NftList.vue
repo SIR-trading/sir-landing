@@ -7,6 +7,7 @@ import {useWallet} from '~/composables/useWallet';
 import ContributeForm from "~/components/sale/ContributeForm.vue";
 import {useSaleStore} from "~/stores/sale";
 import Bonus from "~/components/sale/Bonus.vue";
+import PreviousContributions from "~/components/sale/PreviousContributions.vue";
 
 // Initialize composables
 const nfts = useNfts();
@@ -42,6 +43,12 @@ if (isConnected.value) {
 
 const saleStore = useSaleStore()
 
+const totalLocked = computed(() => {
+  const bt = !!saleStore.contributions.lockedButerinCards ? saleStore.contributions.lockedButerinCards.amount : 0;
+  const mj = !!saleStore.contributions.lockedMinedJpegs ? saleStore.contributions.lockedMinedJpegs.amount : 0;
+  return  mj + bt
+})
+
 // Method to handle selection
 const toggleSelection = (collection: string, nft: number) => {
   const nftObject = {collection: collection, id: nft};
@@ -76,29 +83,31 @@ const mjSelected = computed(() => {
   return btList.value.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
 })
 
+const isCheckboxDisabled = computed(() => {
+  return ((totalLocked.value + totalSelected.value) >= 5)
+})
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full rounded-lg p-3 gap-2">
-    <div class="flex flex-col w-full md:flex-row items-center justify-center p-6">
-      <div class="flex flex-col gap-2 w-full items-center justify-center p-2">
-        <h1 class="section-header sir-text-shadow font-bold text-xl mb-[24px]">Contribute</h1>
-        <p class="flex flex-col">
-          <span>You can withdraw your contribution within 24h</span>
-          <span> if you change your mind. After that it’s locked in.</span>
-        </p>
-      </div>
+  <div class="flex flex-col items-center justify-center w-full rounded-lg p-1 md:p-3 gap-3">
+    <div v-if="isConnected" class="flex flex-col flex-grow w-full md:flex-row items-center justify-center md:justify-start md:items-start p-1 md:p-3 gap-3 md:gap-6 rounded-lg">
       <ContributeForm :mined-jpegs="mjSelected" :buterin-cards="btSelected" @refresh="fetchData"/>
+      <PreviousContributions />
     </div>
-    <div class="flex flex-col  md:flex-row gap-6 w-full rounded-lg p-2">
-      <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md  p-4">
-        <div class="flex justify-start section-header">Buterin Cards</div>
-        <div class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+
+    <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
+      <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md p-4">
+        <div class="flex justify-start section-header text-lg">Buterin Cards</div>
+        <div v-if="bt.length > 0"
+             class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
           <div v-for="tokenId in bt" :key="`BT-${tokenId}`"
                class="flex flex-col items-center justify-center w-[75px] h-[100px]">
             <div
-                class="flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]"
-                @click="toggleSelection('BT', tokenId)">
+                :class="[
+                    'flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] hover:bg-[#ffffff55]',
+                    !(isCheckboxDisabled && !isSelected('BT', tokenId)) ? 'cursor-pointer' : 'cursor-not-allowed',
+                ]"
+                @click="!(isCheckboxDisabled && !isSelected('BT', tokenId)) ? toggleSelection('BT', tokenId) : null">
               <div class="flex flex-col gap-y-1">
                 <span>Card</span>
                 <span>#{{ tokenId + 1 }}</span>
@@ -109,20 +118,27 @@ const mjSelected = computed(() => {
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
                   :name="`BT-${tokenId}`"
-                  :disabled="totalSelected >= 5 && !isSelected('BT', tokenId)"
+                  :disabled="isCheckboxDisabled && !isSelected('BT', tokenId)"
               />
             </div>
           </div>
         </div>
+        <div v-else class="flex flex-col gap-2 items-center justify-center w-full h-full italic text-gray-suit-600">
+          No cards found.
+        </div>
       </div>
       <div class="flex flex-col w-full gap-2  items-center rounded-md bg-midGray p-4">
-        <div class="flex justify-start section-header">MINED JPEG</div>
-        <div class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
+        <div class="flex justify-start section-header text-lg">MINED JPEG</div>
+        <div v-if="mj.length > 0"
+            class="px-1 py-4 max-h-[280px] w-full overflow-y-auto flex flex-row flex-wrap gap-2 justify-start items-start">
         <div v-for="tokenId in mj" :key="`MJ-${tokenId}`"
              class="flex flex-col items-center justify-center w-[75px] h-[100px]">
           <div
-              class="flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] cursor-pointer hover:bg-[#ffffff55]"
-              @click="toggleSelection('MJ', tokenId)">
+              :class="[
+                    'flex flex-col gap-3 w-full justify-center  items-center rounded-tr-lg rounded-br-lg rounded-tl-lg h-[129px] p-2 bg-[#ffffff11] hover:bg-[#ffffff55]',
+                    !(isCheckboxDisabled && !isSelected('MJ', tokenId)) ? 'cursor-pointer' : 'cursor-not-allowed',
+                ]"
+              @click="!(isCheckboxDisabled && !isSelected('MJ', tokenId)) ? toggleSelection('MJ', tokenId) : null">
             <div class="flex flex-col gap-y-1">
               <span>MJ</span>
               <span>#{{ tokenId + 1 }}</span>
@@ -133,12 +149,16 @@ const mjSelected = computed(() => {
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
                   :name="`MJ-${tokenId}`"
-                  :disabled="totalSelected >= 5 && !isSelected('MJ', tokenId)"
+                  :disabled="isCheckboxDisabled && !isSelected('MJ', tokenId)"
               />
             </div>
           </div>
         </div>
+        <div v-else class="flex flex-col gap-2 items-center justify-center w-full h-full italic text-gray-suit-600">
+          No Mined JPEGs
+        </div>
       </div>
+
     </div>
     <div class="mt-2">
       <Bonus/>

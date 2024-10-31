@@ -16,10 +16,7 @@ const connect = async () => {
 const {toast} = useToast()
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
-
-
-watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
-  if (isConnected) {
+const manageChain = async () => {
     console.log("Connected Wallet: ", connectedWallet.value)
     const provider = connectedWallet.value?.provider as EIP1193Provider
     await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
@@ -31,20 +28,32 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
       console.log("Accounts Changed: ", accounts)
     })
 
-    provider.on('chainChanged', async (_chainId: string[]) => {
+    provider.on('chainChanged', async (_chainId: string) => {
       console.log("Chain Changed: ", _chainId)
       useWalletStore().chain = _chainId
     })
+
+}
+
+watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
+  if(isConnected) {
+    await manageChain()
   }
   if(isChainCorrect) {
-    toast({
+    useToast().add({
       title: 'Connected to the correct chain',
       description: `Connected to ${chain.value}`,
-      status: 'success',
-      duration: 5000
+      timeout: 3000,
+      color: 'green'
     })
   }else {
     console.log("Connected to the wrong chain")
+  }
+})
+
+onMounted(async () => {
+  if(isConnected) {
+    await manageChain()
   }
 })
 </script>

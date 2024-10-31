@@ -40,28 +40,45 @@ const token = computed(() => {
   return getTokenInfo(ticker) as Token;
 })
 
+const itemsLocked = computed(() => {
+  const mj = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
+  const bt = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
+  return +mj + +bt;
+})
+
+const tokenAllocation = computed(() => {
+  const contributed = contributions.value.amountFinalNoDecimals;
+  const withdrawable = contributions.value.amountWithdrawableNoDecimals;
+  return (contributed + withdrawable) * 12.09
+})
+
+const bonusAllocation = computed(() => {
+  const contributed = contributions.value.amountFinalNoDecimals;
+  const withdrawable = contributions.value.amountWithdrawableNoDecimals;
+
+  return 0.7254 * (contributed + withdrawable) * itemsLocked.value
+})
 
 
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full bg-midGray rounded-lg p-3 gap-2">
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full bg-midGray rounded-lg p-3 gap-2">
-      <div>Locked contributions</div>
+  <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full bg-midGray rounded-lg gap-1 p-4">
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full  rounded-lg gap-1">
+      <div>Total locked contributions:</div>
       <div>{{ contributions.amountFinalNoDecimals }}</div>
     </div>
-    <div class="flex flex-col md:flex-row items-center justify-between w-full bg-midGray rounded-lg p-3 gap-2">
-      <div>Contributions made within 24h</div>
-      <div class="flex flex-inline gap-1">
-        {{ contributions.amountWithdrawableNoDecimals }}
-        <div class="flex flex-inline gap-1 justify-center items-center">
-<!--          <img :src="token.icon" class="w-5 h-5 mr-1"  :alt="token.ticker"/>-->
-        </div>
-      </div>
-      <div class="text-sm flex flex-inline gap-1 items-center">
-        <Timer />
-        <UButton color="gray" @click="fetchContributions">Withdraw</UButton>
-      </div>
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+      <div>Withdrawable balance:</div>
+      <div>{{ contributions.amountWithdrawableNoDecimals }}</div>
+    </div>
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+      <div>Current token allocation:</div>
+      <div>{{ tokenAllocation + bonusAllocation }}</div>
+    </div>
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1">
+      <div>Number of locked NFTs:</div>
+      <div>{{ itemsLocked}}</div>
     </div>
   </div>
 </template>

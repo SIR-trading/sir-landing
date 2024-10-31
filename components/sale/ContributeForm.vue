@@ -9,6 +9,7 @@ import {Stablecoin} from "@/types/data";
 import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import {useWalletStore} from "~/stores/wallet";
+import type {Token} from "~/types/data";
 
 const amount: Ref<null | number> = ref(null);
 const selected: Ref<Token> = ref(tokens[0]);
@@ -23,13 +24,13 @@ const blackRussian = {
 
 const erc20 = useErc20();
 const {approveErc20, isErc20Approved, fetchBalance} = erc20;
-const balance = ref(0);
+const balance: Ref<number|string> = ref(0);
 
 const {address, isConnected} = useWallet();
 const {checkAgreed} = useWalletStore();
 
 const setBalance = async () => {
-  balance.value = await fetchBalance(selected.value, address.value)
+  balance.value = await fetchBalance(selected.value, address.value as string)
       .then((val) => {
         return ethers.formatUnits(val.toString(), selected.value.decimals);
       });
@@ -62,12 +63,7 @@ const isApproved = ref(true);
  * Checks whether the selected token amount is approved for the specified amount.
  */
 const checkApproval = async () => {
-  const saleState = await useEthClient().state();
-  const amountLeft = 500000 - saleState.totalContributions
-  if (amount.value > amountLeft) {
-    amount.value = amountLeft
-  }
-  isApproved.value = await isErc20Approved(selected.value, amount.value);
+  isApproved.value = await isErc20Approved(selected.value, amount.value as number);
 };
 
 /**
@@ -76,7 +72,7 @@ const checkApproval = async () => {
 const amountTo = (percent: number) => {
 
   const amountLeft = 500000 - saleStore.saleState.totalContributions
-  const calculatedAmount = Math.round(balance.value * percent / 100);
+  const calculatedAmount = Math.round(balance.value as number * percent / 100);
   amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
   checkApproval()
 };
@@ -88,7 +84,7 @@ const {setApprovalForAll, isApprovedForAll} = nfts;
  * Approves the selected ERC20 token.
  */
 const approve = async () => {
-  await approveErc20(selected.value, amount.value);
+  await approveErc20(selected.value, amount.value as number);
   await checkApproval();
 };
 
@@ -135,28 +131,32 @@ const contribute = async () => {
     // Approve Buterin Cards if not already approved
     const {address} = useWallet();
     if (saleStore.buterinCardsSelected.length > 0) {
-      const isApproved = await isApprovedForAll(config.buterinCards, address.value);
+      const isApproved = await isApprovedForAll(config.buterinCards, address.value as string);
       if (!isApproved) {
         await setApprovalForAll(buterinCards);
       }
     }
     // Approve Mined Jpegs if not already approved
     if (saleStore.minedJpegsSelected.length > 0) {
-      const isApproved = await isApprovedForAll(config.minedJpeg, address.value);
+      const isApproved = await isApprovedForAll(config.minedJpeg, address.value as string);
       if (!isApproved) {
         await setApprovalForAll(minedJpeg);
       }
     }
-    // Check amount
-    const finalAmount = amount.value > amountLeft.value ? amountLeft.value : amount.value;
+    // Check ERC20 approved
+    if(!isApproved.value) {
+      await approve()
+    }
+
     // Deposit and Lock
-    await depositAndLockNfts(coins[selected.value.ticker], finalAmount, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
+    await depositAndLockNfts(coins[selected.value.ticker], amount.value, saleStore.buterinCardsSelected, saleStore.minedJpegsSelected);
     setTimeout(async () => {
       emit('refresh');
       saleStore.fetchWalletContributions(address.value);
       saleStore.fetchSaleState()
       await setBalance()
       amount.value = 0;
+      saleStore.selectedItems = []
     }, 2000);
   }
 };
@@ -200,6 +200,7 @@ const doLockNfts = async () => {
     emit('refresh');
     saleStore.fetchWalletContributions(address.value);
     contributions.value = saleStore.getWalletContributions;
+    saleStore.selectedItems = []
   }, 2000);
 };
 
@@ -241,7 +242,7 @@ const enoughBalance = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-stretch p-4 w-full">
+  <div class="flex flex-col items-center w-full rounded-lg">
     <UFormGroup class="w-full">
       <div class="w-full flex flex-row gap-3 bg-softGray rounded-md p-3">
         <div class="flex flex-col gap-2">
@@ -297,27 +298,23 @@ const enoughBalance = computed(() => {
         </div>
       </div>
       <div class="flex w-full flex-col gap-3 mt-3 justify-center items-center">
-        <div v-if="!hasAgreed" class="flex w-full gap-3 mt-3 justify-center items-center">
+        <div v-if="!hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
           <button @click="getAgreement"
-                  class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-full text-center">
+                  class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
             <span class="inline-block">Agree to Terms</span>
           </button>
         </div>
         <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
-          <div v-if="showLockNfts" class="flex w-full gap-3 mt-3 justify-center items-center">
+          <div v-if="showLockNfts" class="flex w-full gap-3 mt-0 justify-center items-center">
             <button @click="doLockNfts"
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
               Lock NFTs
             </button>
           </div>
-          <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
-            <button v-if="isApproved" @click="contribute" :disabled="!enoughBalance"
+          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
+            <button @click="contribute" :disabled="!enoughBalance"
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
               {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
-            </button>
-            <button v-if="!isApproved" @click="approve" :disabled="!enoughBalance"
-                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
-              Approve
             </button>
           </div>
         </div>

@@ -15,7 +15,7 @@ export const useWallet = () => {
     address: computed(() => {
       return connectedWallet.value?.accounts[0].address;
     }),
-    getSigner: async (): Promise<ethers.JsonRpcSigner | null> => {
+    getSigner: async (): Promise<ethers.JsonRpcSigner|null|undefined> => {
       if (!connectedWallet.value) {
         console.error('No connected wallet');
         return null; // Return null instead of throwing an error
@@ -38,7 +38,6 @@ export const useWallet = () => {
         return chain.id.toString() === connectedWallet.value?.chains[0].id.toString()
     }),
     changeChain: async () => {
-
       const {chain} = useEnv()
       const provider = connectedWallet.value?.provider as ethers.Eip1193Provider
       provider.request({method: 'wallet_switchEthereumChain', params: [{chainId: chain.id}]}).then(() => {
