@@ -2,7 +2,16 @@ import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import {useWallet} from "~/composables/useWallet";
-import {Stablecoin, SaleState} from "~/types/data";
+import {Stablecoin, type  SaleState} from "~/types/data";
+import {type BaseContractMethod, ethers, type JsonRpcSigner} from "ethers";
+
+declare interface SaleContract extends ethers.Contract {
+  lockNfts: BaseContractMethod<any[], any, any>
+  state: BaseContractMethod<any[], any, any>
+  contributions: BaseContractMethod<any[], any, any>
+  MAX_CONTRIBUTIONS_NO_DECIMALS: BaseContractMethod<any[], any, any>
+  depositAndLockNfts: BaseContractMethod<any[], any, any>
+}
 
 
 export const useEthClient = () => {
@@ -18,7 +27,7 @@ export const useEthClient = () => {
     } as SaleState
   }
 
-  const contributions = async (contributor) => {
+  const contributions = async (contributor: string) => {
     return await ethClient.contract.contributions(contributor)
   }
 
@@ -29,10 +38,10 @@ export const useEthClient = () => {
    */
   const lockNfts = async (buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
     const {getSigner} = useWallet()
-    const signer = await getSigner()
+    const signer = await getSigner() as JsonRpcSigner
     try {
 
-      const mutableContract = await ethClient.contract.connect(signer)
+      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
       const result = await mutableContract.lockNfts(buterinCardsIds, minedJpegsIds);
       console.log('Direct result:', result);
     } catch (directError) {
@@ -52,8 +61,8 @@ export const useEthClient = () => {
     try {
       const {getSigner} = useWallet()
       const {contract} = ethClient
-      const signer = await getSigner()
-      const mutableContract = contract.connect(signer)
+      const signer = await getSigner() as JsonRpcSigner
+      const mutableContract = contract.connect(signer) as SaleContract;
       const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
 
       return tx.hash
@@ -64,7 +73,7 @@ export const useEthClient = () => {
 
 
   const maxContributions = async () => {
-    return Number(await ethClient.contract.MAX_CONTRIBUTIONS_NO_DECIMALS())
+    return Number(await (ethClient.contract as SaleContract).MAX_CONTRIBUTIONS_NO_DECIMALS())
   }
 
   return {ethClient, state, contributions, maxContributions, lockNfts, depositAndLockNfts}

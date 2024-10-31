@@ -42,7 +42,7 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
   if(isChainCorrect) {
     useToast().add({
       title: 'Connected to the correct chain',
-      description: `Connected to ${chain.value}`,
+      description: `Connected to ${chain.label}`,
       timeout: 3000,
       color: 'green'
     })

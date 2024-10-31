@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {type Ref, ref, computed, onMounted} from 'vue';
 import {ethers} from "ethers";
-import tokens from "@/assets/token_list.json";
 import {useWallet} from "~/composables/useWallet";
 import {useErc20} from "~/composables/useErc20";
 import {useEthClient} from "~/composables/useEthClient";
@@ -12,7 +11,8 @@ import {useWalletStore} from "~/stores/wallet";
 import type {Token} from "~/types/data";
 
 const amount: Ref<null | number> = ref(null);
-const selected: Ref<Token> = ref(tokens[0]);
+const {tokenList} = useEnv();
+const selected: Ref<Token> = ref(tokenList[0]);
 
 const blackRussian = {
   color: {
@@ -23,17 +23,18 @@ const blackRussian = {
 };
 
 const erc20 = useErc20();
-const {approveErc20, isErc20Approved, fetchBalance} = erc20;
+const {fetchBalance, isERC20Approved, approveERC20} = erc20;
 const balance: Ref<number|string> = ref(0);
 
 const {address, isConnected} = useWallet();
 const {checkAgreed} = useWalletStore();
 
 const setBalance = async () => {
-  balance.value = await fetchBalance(selected.value, address.value as string)
-      .then((val) => {
-        return ethers.formatUnits(val.toString(), selected.value.decimals);
-      });
+  const rawBal = await fetchBalance(selected.value, address.value as string) as bigint
+  balance.value = ethers.formatUnits(
+      rawBal.toString(),
+      selected.value.decimals);
+
 }
 
 watch(address, async (address) => {
@@ -51,19 +52,13 @@ const handleChange = async () => {
   }
 };
 
-const amountLeft = computed(() => {
-  return 500000 - saleStore.saleState.totalContributions;
-})
-
-
-
 const isApproved = ref(true);
 
 /**
  * Checks whether the selected token amount is approved for the specified amount.
  */
 const checkApproval = async () => {
-  isApproved.value = await isErc20Approved(selected.value, amount.value as number);
+  isApproved.value = await isERC20Approved(selected.value, amount.value as number);
 };
 
 /**
@@ -84,7 +79,7 @@ const {setApprovalForAll, isApprovedForAll} = nfts;
  * Approves the selected ERC20 token.
  */
 const approve = async () => {
-  await approveErc20(selected.value, amount.value as number);
+  await approveERC20(selected.value, amount.value as number);
   await checkApproval();
 };
 
@@ -212,7 +207,7 @@ const lockMenuInput = computed(() => {
 
 if (lockMenuInput.value) {
   console.log("If menuInputLocked", selected.value, contributions.value.stablecoin, lockMenuInput.value);
-  selected.value = tokens[contributions.value.stablecoin];
+  selected.value = tokenList[contributions.value.stablecoin];
   console.log("after menuInputLocked", selected.value);
 }
 
@@ -224,7 +219,7 @@ watch([isConnected, contributions], (isConnected, contributions) => {
 
   if (contributions) {
     console.log("watch", "CONTRIBUTIONS:", contributions, selected.value);
-    selected.value = tokens[contributions.value.stablecoin];
+    selected.value = tokenList[contributions.value.stablecoin];
   }
 })
 
@@ -267,7 +262,7 @@ const enoughBalance = computed(() => {
                 text="Contributions must all use the same stablecoin."
                 :prevent="!lockMenuInput" :popper="{ placement: 'top', offsetDistance: 16, arrow: true }"
             >
-              <UInputMenu v-model="selected" :options="tokens" option-attribute="name" class="max-w-[150px]"
+              <UInputMenu v-model="selected" :options="tokenList" option-attribute="name" class="max-w-[150px]"
                           :uiMenu="{ background: 'bg-white dark:bg-black-russian-950' }"
                           :variant="'none'"
                           :ui="blackRussian"

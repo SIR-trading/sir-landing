@@ -1,87 +1,75 @@
 import EthereumClient from "~/web3/EthereumClient";
-import {useEnv} from "~/composables/useEnv";
+import { useEnv } from "~/composables/useEnv";
+import abi from "assets/erc20_abi.json";
+import {ethers, JsonRpcSigner, Contract, type BaseContractMethod} from "ethers";
+import type { Token } from "~/types";
 
-import abi from "assets/erc20_abi.json"
-import {ethers} from "ethers";
-import type {Token} from "~/types";
-import tokens from "assets/token_list.json"
+// Opting for PascalCase for interface names following TypeScript conventions
+declare interface ERC20Contract extends Contract {
+  approve: BaseContractMethod<any[], any, any>;
+  allowance: BaseContractMethod<any[], any, any>;
+  balanceOf: BaseContractMethod<any[], any, any>;
+}
+
+declare interface ERC20Client extends EthereumClient {
+  contract: ERC20Contract;
+}
 
 export const useErc20 = () => {
-  const env = useEnv()
-  const {rpc} = useRuntimeConfig().public
-  const {chain, contract} = env
-  const {getSigner} = useWallet()
-  const fetchBalance = async (token: Token, address: string): Promise<number> => {
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi)
-    console.log("CCCC", token.address)
+  const env = useEnv();
+  const { rpc } = useRuntimeConfig().public;
+  const { chain } = env;
+  const { getSigner } = useWallet();
+
+  const fetchBalance = async (token: Token, address: string): Promise<bigint | undefined> => {
+    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
     try {
-      const balance = await eth.contract.balanceOf(address);
-      console.log({token: contract, balance: balance})
-      return balance
+      return await eth.contract.balanceOf(address);
     } catch (error) {
       console.error("Error fetching erc20 token balance:", error);
     }
-  }
-  const getAllowance = async (token: Token) => {
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi)
-    const signer = await getSigner()
-    console.log("get allowance")
-    return await eth.contract.allowance(await signer.getAddress(), useEnv().contract)
-  }
+  };
 
-  const isErc20Approved = async (token: Token, amount: number) => {
-    const allowance = await getAllowance(token)
-    const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals)
-    console.log(Number(formattedAllowance), Number(amount))
-    return Number(formattedAllowance) >= Number(amount)
-  }
+  const getAllowance = async (token: Token): Promise<bigint> => {
+    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
+    const signer = await getSigner() as JsonRpcSigner;
+    return await eth.contract.allowance(await signer.getAddress(), env.contract);
+  };
 
-  const incrementUSDTAllowance = async (token: Token, amount: number) => {
+  const isERC20Approved = async (token: Token, amount: number): Promise<boolean> => {
+    const allowance = await getAllowance(token);
+    const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals);
+    console.log(Number(formattedAllowance), Number(amount));
+    return Number(formattedAllowance) >= Number(amount);
+  };
+
+  const approveERC20 = async (token: Token, amount: number) => {
+    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
     try {
-      const eth = new EthereumClient(token.address, rpc, chain.id, abi)
-      const signer = await getSigner()
-      await eth.contract.connect(signer).approve(spender, ethers.utils.parseUnits(amount.toString(), token.decimals));
-    } catch (error) {
+      const spender = env.contract;
+      const signer = await getSigner() as JsonRpcSigner;
+      const allowance = await getAllowance(token);
 
-    }
-  }
-  const approveErc20 = async (token: Token, amount: number) => {
-    console.log("TOKEN", token)
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi)
-    try {
-      const spender = useEnv().contract
-      const signer = await getSigner()
-      const allowance = await getAllowance(token)
+      const contract = (eth.contract).connect(signer) as ERC20Contract;
 
-      console.log(ethers.parseUnits(amount.toString(), token.decimals),allowance, ethers.parseUnits(amount.toString(), token.decimals) > allowance)
       // USDT specific case
       if (token.ticker === 'USDT' && allowance !== BigInt(0)) {
-        await eth.contract.connect(signer)
-          .approve(
-            spender,
-            BigInt(0),
-            {
-              nonce: await signer?.provider?.getTransactionCount(await signer?.getAddress())
-            }
-          )
+        await contract.approve(spender, BigInt(0), {
+          nonce: await signer.provider?.getTransactionCount(await signer.getAddress())
+        });
       }
 
-      await eth.contract.connect(signer)
-        .approve(
-          spender,
-          ethers.parseUnits("500000", token.decimals)
-        )
+      await contract.approve(spender, ethers.parseUnits("500000", token.decimals));
 
-
-      console.log('Approved ERC20 token transfer successfully')
+      console.log('Approved ERC20 token transfer successfully');
     } catch (error) {
-      console.error('Error approving ERC20 token transfer:', error)
+      console.error('Error approving ERC20 token transfer:', error);
     }
-  }
+  };
 
-  const getTokenInfo = (ticker: string): Token => {
-    return tokens.find(token => token.ticker === ticker)
-  }
+  const getTokenInfo = (ticker: string): Token | undefined => {
+    return env.tokenList.find(token => token.ticker === ticker);
+  };
 
-  return {fetchBalance, approveErc20, isErc20Approved, incrementUSDTAllowance, getAllowance, getTokenInfo}
-}
+  return { fetchBalance, approveERC20, isERC20Approved, getAllowance, getTokenInfo };
+};
