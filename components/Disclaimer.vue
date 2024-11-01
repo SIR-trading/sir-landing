@@ -8,7 +8,7 @@ const emits = defineEmits(['statusChanged', 'close'])
 const {isConnected, address} = useWallet()
 
 const walletStore = useWalletStore()
-const agreed = ref(null)
+const agreed = ref(false)
 
 const hasAgreed = computed(() => {
   return walletStore.hasAgreed

@@ -2,7 +2,7 @@
 <template>
  <teleport to="body">
    <div v-if="isVisible" class="modal-overlay" @click="$emit('close')">
-     <div :class="['modal-content', background, maxWidth, minWidth, classList]" @click.stop>
+     <div :class="['modal-content',classList, background, maxWidth,  minWidth]" @click.stop>
        <button class="close-button" @click="$emit('close')">
          <UIcon class="text-white hover:text-red-300" name="material-symbols-light:cancel-outline" dynamic />
        </button>
@@ -15,11 +15,11 @@
 <script lang="ts" setup>
 
 const props = defineProps<{
-  isVisible,
+  isVisible: boolean,
   modalBackgroundColor?: string,
   maxWidth?: string,
   minWidth?: string,
-  classList?: string[] | string
+  classList?: string
 }>()
 
 defineEmits(["click", "close"]);
@@ -27,6 +27,12 @@ defineEmits(["click", "close"]);
 const background = computed(() => {
   const {modalBackgroundColor} = props;
   return modalBackgroundColor ? modalBackgroundColor : 'bg-darkGray'
+})
+
+const classList = computed(() => {
+  const {classList} = props;
+  console.log("classList", classList)
+  return classList
 })
 
 const maxWidth = computed(() => {
@@ -47,17 +53,17 @@ const minWidth = computed(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: auto;
 }
 .modal-content {
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -69,6 +75,7 @@ const minWidth = computed(() => {
 
 .close-button {
   position: absolute;
+  z-index: 3;
   top: 10px;
   right: 50px;
   background: none;

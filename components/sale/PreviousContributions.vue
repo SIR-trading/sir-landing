@@ -10,7 +10,16 @@ const saleStore = useSaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
+
 const {withdraw} = useEthClient()
+const isWithdrawing: Ref<boolean> = ref(false);
+const withdrawFromWallet= async () => {
+  isWithdrawing.value = true;
+  await withdraw().then(() => {
+    isWithdrawing.value = false;
+  })
+}
+
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
@@ -68,15 +77,15 @@ const bonusAllocation = computed(() => {
       <div>Total locked contributions:</div>
       <div><span class="font-semibold text-md"> {{ contributions.amountFinalNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
-    <div v-if="contributions.amountWithdrawableNoDecimals > 0"
+    <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Withdrawable balance:</div>
-      <div role="button"
-           class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950" @click="withdraw"
+      <UButton :loading="isWithdrawing" color="red" variant="outline"  v-if="contributions.amountWithdrawableNoDecimals > 0"
+           class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950" @click="withdrawFromWallet"
       >
         withdraw
         <Timer />
-      </div>
+      </UButton>
       <div><span class="font-semibold text-md"> {{ contributions.amountWithdrawableNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">

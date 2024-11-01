@@ -13,7 +13,7 @@ const connect = async () => {
   await connectWallet()
 }
 
-const {toast} = useToast()
+
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {

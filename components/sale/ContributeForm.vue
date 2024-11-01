@@ -9,6 +9,7 @@ import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import {useWalletStore} from "~/stores/wallet";
 import type {Token} from "~/types/data";
+import Modal from "~/components/common/Modal.vue";
 
 const amount: Ref<string | number> = ref(0);
 const {tokenList} = useEnv();
@@ -33,7 +34,7 @@ const blackRussian = {
 
 const erc20 = useErc20();
 const {fetchBalance, isERC20Approved, approveERC20} = erc20;
-const balance: Ref<number|string> = ref(0);
+const balance: Ref<number | string> = ref(0);
 
 const {address, isConnected} = useWallet();
 const {checkAgreed} = useWalletStore();
@@ -57,24 +58,25 @@ watch(address, async (address) => {
  */
 const handleChange = async () => {
   if (isConnected.value && selected.value) {
+    await checkApproval()
     await setBalance()
   }
 };
 
-const isApproved = ref(true);
+const isApproved = ref(false);
 
 /**
  * Checks whether the selected token amount is approved for the specified amount.
  */
 const checkApproval = async () => {
   isApproved.value = await isERC20Approved(selected.value, amount.value as number);
+  console.log(isApproved.value)
 };
 
 /**
  * * @param {number} percent - The percentage of the balance to set as the amount.
  */
 const amountTo = (percent: number) => {
-
   const amountLeft = 500000 - saleStore.saleState.totalContributions
   const calculatedAmount = Math.round(balance.value as number * percent / 100);
   amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
@@ -88,8 +90,11 @@ const {setApprovalForAll, isApprovedForAll} = nfts;
  * Approves the selected ERC20 token.
  */
 const approve = async () => {
+  isTxHelperLoading.value = true
+
   await approveERC20(selected.value, amount.value as number);
   await checkApproval();
+  isTxHelperLoading.value = false
 };
 
 const showModal: Ref<boolean> = ref(false);
@@ -124,36 +129,23 @@ const hasAgreed = computed(() => {
 
 const emit = defineEmits(['refresh']);
 
+
 /**
  * Executes the contribution process.
  */
 const contribute = async () => {
-  console.log("contribute()");
-
   if (hasAgreed.value) {
-    const coins = Stablecoin;
-    // Approve Buterin Cards if not already approved
-    const {address} = useWallet();
-    if (saleStore.buterinCardsSelected.length > 0) {
-      const isApproved = await isApprovedForAll(config.buterinCards, address.value as string);
-      if (!isApproved) {
-        await setApprovalForAll(buterinCards);
-      }
-    }
-    // Approve Mined Jpegs if not already approved
-    if (saleStore.minedJpegsSelected.length > 0) {
-      const isApproved = await isApprovedForAll(config.minedJpeg, address.value as string);
-      if (!isApproved) {
-        await setApprovalForAll(minedJpeg);
-      }
-    }
-    // Check ERC20 approved
-    if(!isApproved.value) {
-      await approve()
-    }
     const stablecoin = convertTickerToStablecoin(selected.value.ticker);    // Deposit and Lock
-
-    await depositAndLockNfts(stablecoin, amount.value as number, saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number));
+    isTxHelperLoading.value = true
+    await depositAndLockNfts(stablecoin, amount.value as number, saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number)).then(async () => {
+      toast.update("contribute:erc20", {
+        title: "Deposited and Locked",
+        color: "harlequin",
+        timeout: 5000,
+      })
+    })
+    isTxHelperLoading.value = false
+    showTxHelper.value = false
     setTimeout(async () => {
       emit('refresh');
       await saleStore.fetchWalletContributions(address.value as string);
@@ -169,7 +161,7 @@ const contribute = async () => {
  * Determines if NFTs should be locked.
  */
 const showLockNfts = computed(() => {
-  return (amount.value === 0 || amount.value == null) && saleStore.selectedItems.length > 0
+  return (amount.value === 0 || amount.value == "" || amount.value == null) && saleStore.selectedItems.length > 0
 });
 
 /**
@@ -183,33 +175,23 @@ const contributions: Ref<Contribution> = ref(saleStore.getWalletContributions);
  * Locks the selected NFTs.
  */
 const doLockNfts = async () => {
-  // Approve Buterin Cards if not already approved
-  const {address} = useWallet();
-  if (saleStore.buterinCardsSelected.length > 0) {
-    const isApproved = await isApprovedForAll(config.buterinCards, address.value as string);
-    if (!isApproved) {
-      await setApprovalForAll(buterinCards);
-    }
-  }
-  // Approve Mined Jpegs if not already approved
-  if (saleStore.minedJpegsSelected.length > 0) {
-    const isApproved = await isApprovedForAll(config.minedJpeg, address.value as string);
-    if (!isApproved) {
-      await setApprovalForAll(minedJpeg);
-    }
-  }
+  isTxHelperLoading.value = true
+  console.log("After Approvals")
   await lockNfts(saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number));
+  isTxHelperLoading.value = false
+  showTxHelper.value = false
   setTimeout(() => {
     emit('refresh');
     saleStore.fetchWalletContributions(address.value as string);
     contributions.value = saleStore.getWalletContributions;
     saleStore.selectedItems = []
   }, 2000);
+
 };
 
 
 const lockMenuInput = computed(() => {
-  return saleStore.contributions.timeLastContribution > 0
+  return saleStore.contributions.timeLastContribution > 0 && saleStore.contributions.amountWithdrawableNoDecimals > 0
 })
 
 if (lockMenuInput.value) {
@@ -226,6 +208,63 @@ watch([isConnected, contributions], ([isConnected, contributions]) => {
   }
 })
 
+
+const enoughBalance = computed((): boolean => {
+  return balance.value >= amount.value;
+})
+
+/**
+ * MODAL
+ */
+const isTxHelperLoading: Ref<boolean> = ref(false);
+const showTxHelper: Ref<boolean> = ref(false)
+const handleTxHelperClose = () => {
+  showTxHelper.value = false
+}
+
+/**
+ * NFTs APPROVAL
+ */
+const isBtApproved: Ref<boolean> = ref(true)
+const isMjpgApproved: Ref<boolean> = ref(true)
+
+const checkNftsApprovals = async () => {
+  const {address} = useWallet();
+  isBtApproved.value = await isApprovedForAll(config.buterinCards, address.value as string);
+  isMjpgApproved.value = await isApprovedForAll(config.minedJpeg, address.value as string);
+}
+await checkNftsApprovals()
+
+const toast = useToast()
+const approveNFTs = async () => {
+  if (!isBtApproved.value) {
+    isTxHelperLoading.value = true
+    toast.add({
+      id: "approve:bt",
+      timeout: 15000,
+      title: "Approving Buterin Cards",
+      color: "blue-bell",
+    })
+    await setApprovalForAll(buterinCards);
+    toast.remove("approve:bt")
+    isTxHelperLoading.value = false
+  }
+  if (!isMjpgApproved.value) {
+    isTxHelperLoading.value = true
+    toast.add({
+      id: "approve:mj",
+      timeout: 15000,
+      title: "Approving Mined JPEGs",
+      color: "blue-bell",
+    })
+    await setApprovalForAll(minedJpeg);
+    toast.remove("approve:mj")
+    isTxHelperLoading.value = false
+  }
+
+  await checkNftsApprovals()
+}
+
 /**
  * Lifecycle hook that runs when the component is mounted.
  */
@@ -237,13 +276,9 @@ onMounted(() => {
     await saleStore.fetchSaleState();
     await saleStore.fetchWalletContributions(useWallet().address.value as string);
     contributions.value = saleStore.getWalletContributions;
+    await checkNftsApprovals()
   })
 });
-
-const enoughBalance = computed((): boolean => {
-  return balance.value >= amount.value;
-})
-
 </script>
 
 <template>
@@ -311,13 +346,13 @@ const enoughBalance = computed((): boolean => {
         </div>
         <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
           <div v-if="showLockNfts" class="flex w-full gap-3 mt-0 justify-center items-center">
-            <button @click="doLockNfts"
+            <button @click="showTxHelper = true"
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
               Lock NFTs
             </button>
           </div>
           <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
-            <button @click="contribute" :disabled="!enoughBalance"
+            <button @click="showTxHelper = true" :disabled="!enoughBalance || Number(amount) < 1"
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
               {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
             </button>
@@ -325,6 +360,36 @@ const enoughBalance = computed((): boolean => {
         </div>
       </div>
     </UFormGroup>
+
+
+    <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
+      <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[500px]">
+        <div v-if="(!isBtApproved || !isMjpgApproved) && saleStore.selectedItems.length > 0 "
+             class="flex flex-col gap-3 justify-center items-center"
+        >
+          <UButton :loading="isTxHelperLoading" color="robRoy" @click="approveNFTs">Approve</UButton>
+        </div>
+        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+          <div v-if="showLockNfts" class="flex flex-col w-full gap-3 mt-0 justify-center items-center">
+            <div class="flex flex-col p-4">
+              <p>Your NFTs will be locked for 1 year</p>
+            </div>
+            <UButton @click="doLockNfts"
+                     :loading="isTxHelperLoading"
+                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+              Agree and Lock NFTs
+            </UButton>
+          </div>
+          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
+            <UButton :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
+            <UButton v-else @click="contribute" :loading="isTxHelperLoading"
+                    class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
+              {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
+            </UButton>
+          </div>
+        </div>
+      </div>
+    </Modal>
     <Disclaimer v-if="showModal" @status-changed="checkAgreed" @close="handleClose"/>
   </div>
 </template>

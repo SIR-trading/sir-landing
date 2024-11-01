@@ -40,10 +40,11 @@ export const useErc20 = () => {
     const allowance = await getAllowance(token);
     const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals);
     console.log(Number(formattedAllowance), Number(amount));
-    return Number(formattedAllowance) >= Number(amount);
+    return Number(formattedAllowance) >= Number(amount) && Number(formattedAllowance) > 0;
   };
 
   const approveERC20 = async (token: Token, amount: number) => {
+    const toast  = useToast();
     const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
     try {
       const spender = env.contract;
@@ -59,7 +60,19 @@ export const useErc20 = () => {
         });
       }
 
-      await contract.approve(spender, ethers.parseUnits("500000", token.decimals));
+      const tx = await contract.approve(spender, ethers.parseUnits("500000", token.decimals))
+        toast.add({
+          id: "approve:erc20",
+          timeout: 30000,
+          title: "Approving ERC20 token transfer...",
+          color: "amber",
+        })
+      await tx.wait()
+      toast.update("approve:erc20", {
+        title: "ERC20 token transfer approved",
+        color: "harlequin",
+      })
+
 
       console.log('Approved ERC20 token transfer successfully');
     } catch (error) {
