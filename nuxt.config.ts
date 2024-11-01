@@ -17,8 +17,8 @@ export default defineNuxtConfig({
       testnetContract: process.env.NUXT_TESTNET_CONTRACT,
       contract: process.env.NUXT_MAINNET_CONTRACT,
       env: process.env.NUXT_ENV,
-      buterinCards: '0x5726C14663A1EaD4A7D320E8A653c9710b2A2E89',
-      minedJpeg: '0x7cd51FA7E155805C34F333ba493608742A67Da8e',
+      buterinCards: process.env.NUXT_BUTERIN_CARDS,
+      minedJpeg: process.env.NUXT_MINED_JPEG,
       rpc: process.env.NUXT_RPC
     },
 
