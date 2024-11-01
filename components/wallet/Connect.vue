@@ -16,35 +16,42 @@ const connect = async () => {
 const {toast} = useToast()
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
-
-
-watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
-  if (isConnected) {
-    console.log("Connected Wallet: ", connectedWallet.value)
+const manageChain = async () => {
     const provider = connectedWallet.value?.provider as EIP1193Provider
     await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
       useWalletStore().chain = _chainId
     })
-    console.log("Provider: ", provider)
 
     provider.on('accountsChanged', (accounts: string[]) => {
       console.log("Accounts Changed: ", accounts)
     })
 
-    provider.on('chainChanged', async (_chainId: string[]) => {
+    provider.on('chainChanged', async (_chainId: string) => {
       console.log("Chain Changed: ", _chainId)
       useWalletStore().chain = _chainId
     })
+
+}
+
+watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
+  if(isConnected) {
+    await manageChain()
   }
   if(isChainCorrect) {
-    toast({
+    useToast().add({
       title: 'Connected to the correct chain',
-      description: `Connected to ${chain.value}`,
-      status: 'success',
-      duration: 5000
+      description: `Connected to ${chain.label}`,
+      timeout: 3000,
+      color: 'green'
     })
   }else {
     console.log("Connected to the wrong chain")
+  }
+})
+
+onMounted(async () => {
+  if(isConnected) {
+    await manageChain()
   }
 })
 </script>
@@ -54,7 +61,7 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
     <SirButton v-if="!isConnected" label="Connect wallet" @click="connect" />
     <UContainer v-else>
       <div class="flex flex-col md:flex-row items-center md:gap-3">
-        <div class="text-sm mr-1">{{ formatAddress(address) }}</div>
+        <div class="text-sm mr-1">{{ formatAddress(address as string) }}</div>
         <SirButton v-if="isChainCorrect" @click="disconnectConnectedWallet" label="Disconnect" />
         <UButton v-else color="red" variant="outline" label="Wrong Chain" @click="changeChain"/>
       </div>

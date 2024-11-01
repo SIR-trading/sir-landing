@@ -98,11 +98,6 @@ onBeforeMount(async () => {
   )
 });
 
-onMounted(() => {
-
-})
-
-
 </script>
 
 <style scoped>

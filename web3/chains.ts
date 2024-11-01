@@ -2,7 +2,7 @@ export declare type Chain = {
   id: string,
   token: string,
   label: string,
-  rpcUrl: string
+  rpcUrl?: string
 }
 
 export const ethereum: Chain = {
@@ -14,9 +14,14 @@ export const ethereum: Chain = {
 export const local: Chain = {
   id: '0x539',
   token: 'ETH',
-  label: 'Ethereum'
+  label: 'Local'
 }
 
+export const sepolia: Chain = {
+  id: '0xaa36a7',
+  token: 'ETH',
+  label: 'Sepolia',
+}
 
 export function isChain(obj: any): obj is Chain {
   return typeof obj === 'object' &&

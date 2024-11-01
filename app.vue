@@ -4,7 +4,7 @@ import {init} from '@web3-onboard/vue'
 import type {AppMetadata} from "@web3-onboard/common";
 import injectedModule from '@web3-onboard/injected-wallets'
 import coinbaseWallet from '@web3-onboard/coinbase';
-import {ethereum, local} from "~/web3/chains";
+import {ethereum, local, sepolia} from "~/web3/chains";
 
 import type {OnboardAPI} from "@web3-onboard/core";
 import {useWalletStore} from "~/stores/wallet";
@@ -29,7 +29,7 @@ const appMetadata: AppMetadata = {
 
 web3Onboard.value = init({
   wallets: [injected, coinbase],
-  chains: [local, ethereum],
+  chains: [local, ethereum, sepolia],
   appMetadata: appMetadata,
   theme: "dark",
   connect: {
@@ -38,14 +38,12 @@ web3Onboard.value = init({
     removeWhereIsMyWalletWarning: true,
   }
 })
-// console.log("web3Onboard", web3Onboard)
 useSeoMeta({
   title: 'Sir.trading',
   ogTitle: 'Sir.trading',
   description: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
   ogDescription: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
   ogImage: '/twitter_image.png',
-  twitterCard: '/twitter_image.png',
 })
 const {connectedWallet} = useOnboard()
 const walletStore = useWalletStore()

@@ -10,11 +10,11 @@ const saleStore = useSaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
-
+const {withdraw} = useEthClient()
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
-  await saleStore.fetchWalletContributions(address.value);
+  await saleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
   console.log("FETCHED", saleStore.getWalletContributions)
 };
@@ -40,30 +40,70 @@ const token = computed(() => {
   return getTokenInfo(ticker) as Token;
 })
 
+const itemsLocked = computed(() => {
+  const mj = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
+  const bt = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
+  return +mj + +bt;
+})
+
+const tokenAllocation = computed(() => {
+  const contributed = contributions.value.amountFinalNoDecimals;
+  const withdrawable = contributions.value.amountWithdrawableNoDecimals;
+  return (contributed + withdrawable) * 12.09
+})
+
+const bonusAllocation = computed(() => {
+  const contributed = contributions.value.amountFinalNoDecimals;
+  const withdrawable = contributions.value.amountWithdrawableNoDecimals;
+
+  return 0.7254 * (contributed + withdrawable) * itemsLocked.value
+})
 
 
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full bg-midGray rounded-lg p-3 gap-2">
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full bg-midGray rounded-lg p-3 gap-2">
-      <div>Locked contributions</div>
-      <div>{{ contributions.amountFinalNoDecimals }}</div>
+  <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
+      <div>Total locked contributions:</div>
+      <div><span class="font-semibold text-md"> {{ contributions.amountFinalNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
-    <div class="flex flex-col md:flex-row items-center justify-between w-full bg-midGray rounded-lg p-3 gap-2">
-      <div>Contributions made within 24h</div>
-      <div class="flex flex-inline gap-1">
-        {{ contributions.amountWithdrawableNoDecimals }}
-        <div class="flex flex-inline gap-1 justify-center items-center">
-<!--          <img :src="token.icon" class="w-5 h-5 mr-1"  :alt="token.ticker"/>-->
-        </div>
-      </div>
-      <div class="text-sm flex flex-inline gap-1 items-center">
+    <div v-if="contributions.amountWithdrawableNoDecimals > 0"
+        class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+      <div>Withdrawable balance:</div>
+      <div role="button"
+           class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950" @click="withdraw"
+      >
+        withdraw
         <Timer />
-        <UButton color="gray" @click="fetchContributions">Withdraw</UButton>
       </div>
+      <div><span class="font-semibold text-md"> {{ contributions.amountWithdrawableNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+    </div>
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+      <div>Current token allocation:</div>
+      <div><span class="font-semibold text-md"> {{ tokenAllocation }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+    </div>
+    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+      <div>Number of locked NFTs:</div>
+      <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.withdraw-btn {
+  display: inline-flex;
+  border-radius: 5px;
+  padding: 5px;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 600;
+  color: #fca5a5;
+
+  &:hover {
+    background-color: #f87171;
+    color: #090522;
+
+  }
+}
+</style>
