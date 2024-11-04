@@ -13,7 +13,7 @@ const hasFetchedContributions = ref(false);
 
 const {withdraw} = useEthClient()
 const isWithdrawing: Ref<boolean> = ref(false);
-const withdrawFromWallet= async () => {
+const withdrawFromWallet = async () => {
   isWithdrawing.value = true;
   await withdraw().then(() => {
     isWithdrawing.value = false;
@@ -43,7 +43,7 @@ onMounted(() => {
 const {getTokenInfo} = useErc20();
 const token = computed(() => {
   const listStables = Stablecoin;
-  if (!contributions.value.stablecoin) return null;
+  if (!contributions.value.stablecoin) return "";
   const tIndex = contributions.value.stablecoin;
   const ticker = listStables[tIndex] as string;
   return getTokenInfo(ticker) as Token;
@@ -68,31 +68,54 @@ const bonusAllocation = computed(() => {
   return 0.7254 * (contributed + withdrawable) * itemsLocked.value
 })
 
+const formatNumber = (value: number, digits: number = 2) => {
+  const factor = Math.pow(10, digits);
+  const roundedValue = Math.floor(value * factor) / factor;
+  return roundedValue.toLocaleString(undefined, {maximumFractionDigits: digits});
+}
 
 </script>
 
 <template>
-  <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
+  <div
+      class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
+    <div
+        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
       <div>Total locked contributions:</div>
-      <div><span class="font-semibold text-md"> {{ contributions.amountFinalNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Withdrawable balance:</div>
-      <UButton :loading="isWithdrawing" color="red" variant="outline"  v-if="contributions.amountWithdrawableNoDecimals > 0"
-           class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950" @click="withdrawFromWallet"
+      <UButton :loading="isWithdrawing" color="red" variant="outline"
+               v-if="contributions.amountWithdrawableNoDecimals > 0"
+               class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
+               @click="withdrawFromWallet"
       >
         withdraw
-        <Timer />
+        <Timer/>
       </UButton>
-      <div><span class="font-semibold text-md"> {{ contributions.amountWithdrawableNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name }}</span></div>
     </div>
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+    <div
+        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
-      <div><span class="font-semibold text-md"> {{ tokenAllocation }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md">
+          <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
+          {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}
+          <UIcon name="heroicons:question-mark-circle" class="w-4 h-4"/>
+      </UTooltip>
+      </span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">SIR</span>
+      </div>
     </div>
-    <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+    <div
+        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
