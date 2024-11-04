@@ -37,17 +37,31 @@ export const useNfts = () => {
     return await _fetchNFTs(buterinCards, address);
 
   }
-
+  
   const fetchWalletMinedJpeg = async (address: string) => {
     return await _fetchNFTs(minedJpeg, address);
   }
 
   const setApprovalForAll = async (nftContract: string) => {
+    const toast = useToast()
     const {getSigner} = useWallet()
     const signer = await getSigner() as JsonRpcSigner
     const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
-    const contract = eth.contract.connect(signer) as NftContract
-    await contract.setApprovalForAll(contract, true)
+    const mutable = eth.contract.connect(signer) as NftContract
+    const tx = await mutable.setApprovalForAll(contract, true)
+    toast.add({
+      id: "approve:erc721",
+      title: `Approving ERC721...`,
+      color: "amber",
+      timeout: 60000
+    })
+    await tx.wait()
+    toast.update("approve:erc721", {
+      title: `Approved!`,
+      color: "harlequin",
+      timeout: 5000
+    })
+    return tx
   }
 
   const isApprovedForAll = async (nftContract: string, owner: string) => {

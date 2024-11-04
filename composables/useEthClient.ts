@@ -13,7 +13,7 @@ declare interface SaleContract extends ethers.Contract {
   depositAndLockNfts: BaseContractMethod<any[], any, any>
   withdraw: BaseContractMethod<any[], any, any>
 }
-
+``
 
 export const useEthClient = () => {
   const env = useEnv()
@@ -39,12 +39,36 @@ export const useEthClient = () => {
    */
   const lockNfts = async (buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
     const {getSigner} = useWallet()
+    const toast = useToast()
     const signer = await getSigner() as JsonRpcSigner
     try {
 
       const mutableContract = ethClient.contract.connect(signer) as SaleContract;
-      const result = await mutableContract.lockNfts(buterinCardsIds, minedJpegsIds);
-      console.log('Direct result:', result);
+      const tx = await mutableContract.lockNfts(buterinCardsIds, minedJpegsIds);
+      toast.add({
+        id: "lock:erc721",
+        timeout: 60000,
+        title: "Depositing",
+        color: "amber",
+      })
+      console.log(
+        'Transaction hash:',
+        tx.hash,
+        'waiting for confirmation...'
+      )
+      const receipt = await tx.wait();
+      toast.update("lock:erc721",{
+        title: "Deposited",
+        color: "harlequin",
+        timeout: 5000
+      })
+      console.log(
+        'Transaction complete! Block number:',
+        receipt.blockNumber,
+        'Transaction hash:',
+        receipt.transactionHash
+      )
+      console.log('Direct result:', receipt);
     } catch (directError) {
       console.error('Direct contract call error:', directError);
     }
@@ -60,12 +84,20 @@ export const useEthClient = () => {
    */
   async function depositAndLockNfts(stablecoin: Stablecoin, amountNoDecimals: number, buterinCardIds: Array<number>, minedJpegIds: Array<number>) {
     try {
+      const toast = useToast()
+
       const {getSigner} = useWallet()
       const {contract} = ethClient
       const signer = await getSigner() as JsonRpcSigner
       const mutableContract = contract.connect(signer) as SaleContract;
       const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
-      const receipt = await tx.wait();
+      toast.add({
+        id: "contribute:erc20",
+        timeout: 60000,
+        title: "Depositing",
+        color: "amber",
+      })
+      const receipt = await tx.wait()
       console.log('Receipt:', receipt);
       const {$event} = useNuxtApp();
       $event('sale:update');
@@ -79,12 +111,34 @@ export const useEthClient = () => {
 
   const withdraw = async () => {
     const {getSigner} = useWallet()
+    const toast = useToast()
     const signer = await getSigner() as JsonRpcSigner
     try {
       const mutableContract = ethClient.contract.connect(signer) as SaleContract;
       const tx = await mutableContract.withdraw();
+      toast.add({
+        id: "withdraw:erc20",
+        timeout: 60000,
+        title: "Withdrawing",
+        color: "amber",
+      })
+      console.log(
+        'Transaction hash:',
+        tx.hash,
+        'waiting for confirmation...'
+      )
       const receipt = await tx.wait();
-
+      toast.update("withdraw:erc20",{
+        title: "Withdrawn",
+        color: "harlequin",
+        timeout: 5000
+      })
+      console.log(
+        'Transaction complete! Block number:',
+        receipt.blockNumber,
+        'Transaction hash:',
+        receipt.transactionHash
+      )
        const saleStore = useSaleStore();
        await saleStore.fetchWalletContributions(useWallet().address.value as string);
       const {$event} = useNuxtApp();
