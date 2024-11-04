@@ -68,6 +68,9 @@ const bonusAllocation = computed(() => {
   return 0.7254 * (contributed + withdrawable) * itemsLocked.value
 })
 
+const formatNumber = (value: number, digits: number = 2) => {
+  return Number(value).toLocaleString(undefined, {maximumFractionDigits: digits});
+}
 
 </script>
 
@@ -75,7 +78,7 @@ const bonusAllocation = computed(() => {
   <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
       <div>Total locked contributions:</div>
-      <div><span class="font-semibold text-md"> {{ contributions.amountFinalNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div><span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
@@ -86,11 +89,11 @@ const bonusAllocation = computed(() => {
         withdraw
         <Timer />
       </UButton>
-      <div><span class="font-semibold text-md"> {{ contributions.amountWithdrawableNoDecimals }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div><span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
-      <div><span class="font-semibold text-md"> {{ tokenAllocation }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div><span class="font-semibold text-md"> {{ formatNumber(tokenAllocation) }} + {{formatNumber(bonusAllocation)}} </span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
     </div>
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
