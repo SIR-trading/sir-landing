@@ -43,7 +43,7 @@ onMounted(() => {
 const {getTokenInfo} = useErc20();
 const token = computed(() => {
   const listStables = Stablecoin;
-  if (!contributions.value.stablecoin) return null;
+  if (!contributions.value.stablecoin) return "";
   const tIndex = contributions.value.stablecoin;
   const ticker = listStables[tIndex] as string;
   return getTokenInfo(ticker) as Token;
@@ -78,7 +78,9 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
       <div>Total locked contributions:</div>
-      <div><span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{token?.name}}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
@@ -89,11 +91,15 @@ const formatNumber = (value: number, digits: number = 2) => {
         withdraw
         <Timer />
       </UButton>
-      <div><span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{token?.name}}</span></div>
     </div>
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
-      <div><span class="font-semibold text-md"> {{ formatNumber(tokenAllocation) }} + {{formatNumber(bonusAllocation)}} </span> <span class="text-xs top-2 text-gray-suit-500">SIR</span></div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(tokenAllocation) }} + {{formatNumber(bonusAllocation)}} </span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">SIR</span></div>
     </div>
     <div class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
