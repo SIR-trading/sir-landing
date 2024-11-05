@@ -191,7 +191,7 @@ const doLockNfts = async () => {
 
 
 const lockMenuInput = computed(() => {
-  return saleStore.contributions.timeLastContribution > 0 && saleStore.contributions.amountWithdrawableNoDecimals > 0
+  return saleStore.contributions.timeLastContribution > 0 && (saleStore.contributions.amountWithdrawableNoDecimals > 0 || saleStore.contributions.amountFinalNoDecimals > 0)
 })
 
 if (lockMenuInput.value) {
