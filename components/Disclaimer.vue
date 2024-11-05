@@ -22,10 +22,23 @@ const toggleModal= () => {
     emits('close');
   }
 }
-
-const agreeToDisclaimer = () => {
+const message = 'I understand and agree to the terms of the SIR protocol.'
+const signMessage = async (): Promise<string|void>  => {
   if(!isConnected.value) return;
-  localStorage.setItem(`wallet-${address.value}`, JSON.stringify({at: new Date()}))
+
+  const signer = await useWallet().getSigner()
+  return signer?.signMessage(message)
+}
+
+const agreeToDisclaimer = async () => {
+  if(!isConnected.value) return;
+  const signature = await signMessage()
+  const json= JSON.stringify({
+    address: address.value,
+    signature: signature,
+    message: message,
+  })
+  localStorage.setItem(`wallet-${address.value}`, JSON.stringify(json))
   isModalOpen.value = false
   agreed.value = true
   emits('statusChanged')

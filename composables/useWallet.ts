@@ -15,7 +15,6 @@ export const useWallet = () => {
     address: computed(() => {
       return connectedWallet.value?.accounts[0].address;
     }),
-
     getSigner: async (): Promise<ethers.JsonRpcSigner|null|undefined> => {
       if (!connectedWallet.value) {
         console.error('No connected wallet');
