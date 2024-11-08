@@ -122,8 +122,10 @@ const handleClose = () => {
   showModal.value = false;
 }
 
+useWalletStore().checkAgreed()
+
 const hasAgreed = computed(() => {
-  useWalletStore().checkAgreed()
+
   return useWalletStore().hasAgreed;
 })
 

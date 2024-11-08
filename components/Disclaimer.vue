@@ -38,6 +38,15 @@ const agreeToDisclaimer = async () => {
     signature: signature,
     message: message,
   })
+  const res = await $fetch('/api/save-wallet', {
+    method: 'POST',
+    body: {
+      wallet: address.value,
+      signature: signature,
+      message: message,
+    }
+  })
+  console.log("Result::save-wallet", res  )
   localStorage.setItem(`wallet-${address.value}`, JSON.stringify(json))
   isModalOpen.value = false
   agreed.value = true

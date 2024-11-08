@@ -10,16 +10,27 @@ export default defineEventHandler(async (event: H3Event) => {
   const body = await readBody(event);
 
   // If no wallet data is provided, initialize it with an empty object
-  const wallet = body.wallet || {};
-  const { signature, message} = body;
-  const blob = JSON.stringify({ signature, message });
-  const users = createClient({
-    url: config.USERS_REST_API_URL,
-    token: config.USERS_REST_API_TOKEN,
+  const wallet: string = body.wallet;
+  console.log("wallet", wallet)
+  if(!wallet) return new Response(JSON.stringify({success: false}), {
+    status: 400,
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
-
+  console.log(
+    "wallet",
+    wallet,
+    body.signature,
+  )
+  const { signature, message} = body;
+  const blob: string = JSON.stringify({ signature, message, wallet });
+  const users = createClient({
+    url: config.kvRestApiUrl,
+    token: config.kvRestApiToken,
+  });
   try {
-    await users.hset(wallet, {message: message, signature: signature});
+    await users.set(wallet.toLowerCase(), blob);
     return {
       statusCode: 200,
       body: { success: true },

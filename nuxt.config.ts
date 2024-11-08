@@ -12,7 +12,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-
+    kvRestApiUrl: process.env.NUXT_KV_REST_API_URL,
+    kvRestApiToken: process.env.NUXT_KV_REST_API_TOKEN,
     public: {
       testnetContract: process.env.NUXT_TESTNET_CONTRACT,
       contract: process.env.NUXT_MAINNET_CONTRACT,

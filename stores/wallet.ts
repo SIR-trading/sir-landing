@@ -58,9 +58,8 @@ export const useWalletStore = defineStore('wallet', {
     async checkAgreed(): Promise<void|boolean> {
       const { address, isConnected } = useWallet();
       if (!isConnected.value) throw new Error("Wallet not connected");
-      const wallet = localStorage.getItem(`wallet-${address.value}`);
-      this.hasAgreed = !!wallet;
-      return !!wallet;
+      this.hasAgreed = await $fetch('/api/get-wallet', {params: {wallet: address.value}})
+      return this.hasAgreed
     }
   },
   getters: {
