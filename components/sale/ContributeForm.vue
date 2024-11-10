@@ -78,7 +78,7 @@ const checkApproval = async () => {
  */
 const amountTo = (percent: number) => {
   const amountLeft = 500000 - saleStore.saleState.totalContributions
-  const calculatedAmount = Math.round(balance.value as number * percent / 100);
+  const calculatedAmount = Math.floor(balance.value as number * percent / 100);
   amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
   checkApproval()
 };
