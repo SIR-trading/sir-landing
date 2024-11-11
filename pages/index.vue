@@ -23,11 +23,13 @@ const goTo = (_path: string) => {
       </template>
     </SirHero>
     <Section class-name="mb-0" variant="background">
-      <template #header>Project founding progress</template>
+      <template #header>SIR Token Sale</template>
       <div class="section-text-block mt-0 mb-3">
         <p>
           Help us launch SIR Protocol by funding audits, deployment, and expenses.
           In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
+        </p>
+        <p>
           <span class="font-semibold text-redAccent">
             No VCs, no pre-sales, or future sales. Just one $500k sale open to all.
           </span>
@@ -41,6 +43,25 @@ const goTo = (_path: string) => {
       </div>
     </Section>
     <ClientOnly>
+      <Section variant="background">
+        <template v-slot:header>SIR: a Fee Paying Token</template>
+        <div class="section-text-block flex flex-col md:flex-row items-center">
+          <img :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
+          <div class="section-text-block">
+            <p>
+              SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
+              the SIR token issuance is immutable and part of the core protocol.
+              The SIR token is designed to have strong fundamentals,
+              <span class="font-semibold text-redAccent">rewarding its stakers with a share of the protocol's generated fees</span>.
+            </p>
+            <p>
+              The token is primarily <span class="font-semibold text-redAccent">distributed to liquidity providers</span> at a rate of 2,015 million tokens per year,
+              in perpetuity. To maintain a proportional stake in the protocol,
+              providing liquidity is necessary.
+            </p>
+          </div>
+        </div>
+      </Section>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is Synthetics Implemented Right (SIR)?</template>
         <div class="flex flex-col gap-6 w-full items-center justify-center">
@@ -51,13 +72,12 @@ const goTo = (_path: string) => {
               Unlike traditional approaches to leverage,
               <span class="font-semibold text-redAccent">
                 SIR does away with maintenance fees and removes
-              <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>.
-
-              </span>
+              <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>
+              </span>.
             </p>
             <p>
               Users
-              <span class="font-semibold text-redAccent">pay a fixed amount when they open or close a position</span> ,
+              <span class="font-semibold text-redAccent">pay a fixed amount when they open or close a position</span>,
               in contrast with many platforms that charge ongoing fees, eating into long-term returns.
             </p>
           </div>
@@ -110,8 +130,8 @@ const goTo = (_path: string) => {
             </div>
             <p>After its beta phase, SIR's unstoppable code will be
               <span class="font-semibold text-redAccent">
-                completely immutable, living on Ethereum forever.
-              </span>
+                completely immutable, living on Ethereum forever
+              </span>.
             </p>
           </div>
           <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
@@ -129,27 +149,10 @@ const goTo = (_path: string) => {
             </p>
           </SirCard>
           <SirCard image="/apes_card.png" size="md">
-            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and which leverage
-            </span>.
+            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and which leverage</span>.
               They pay upfront fees for minting and burning, but not while holding their positions.
               APE is a leveraged ERC-20 token that can be transferred and used in other protocols.</p>
           </SirCard>
-        </div>
-      </Section>
-      <Section variant="background">
-        <template v-slot:header>SIR: a Fee Paying Token</template>
-        <div class="section-text-block">
-          <p>
-            SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
-            the SIR token issuance is immutable and part of the core protocol.
-            The SIR token is designed to have strong fundamentals,
-            rewarding its stakers with a share of the protocol's generated fees.
-          </p>
-          <p>
-            The token's distribution is primarily allocated to liquidity providers (LPers) at a rate of 2,015
-            million tokens per year, in perpetuity.
-            To maintain a proportional stake in the protocol, providing liquidity is necessary.
-          </p>
         </div>
       </Section>
       <Section variant="background">

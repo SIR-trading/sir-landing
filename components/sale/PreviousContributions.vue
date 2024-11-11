@@ -58,14 +58,14 @@ const itemsLocked = computed(() => {
 const tokenAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
-  return (contributed + withdrawable) * 12.09
+  return (contributed + withdrawable) * 1209
 })
 
 const bonusAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
 
-  return 0.7254 * (contributed + withdrawable) * itemsLocked.value
+  return 72.54 * (contributed + withdrawable) * itemsLocked.value
 })
 
 const formatNumber = (value: number, digits: number = 2) => {
