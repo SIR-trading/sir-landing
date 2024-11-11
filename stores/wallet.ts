@@ -3,6 +3,7 @@ import { useErc20 } from "~/composables/useErc20";
 import { useWallet } from "~/composables/useWallet";
 import {useEnv} from "~/composables/useEnv";
 import type {Token} from "@/types";
+import type {IStatusResponse} from "~/types/server";
 
 
 declare interface IBalances {
@@ -55,11 +56,11 @@ export const useWalletStore = defineStore('wallet', {
      * Checks whether the user has agreed to terms and updates the store state.
      * @returns {Promise<void>}
      */
-    async checkAgreed(): Promise<void|boolean> {
+    async checkAgreed(): Promise<void> {
       const { address, isConnected } = useWallet();
       if (!isConnected.value) throw new Error("Wallet not connected");
-      this.hasAgreed = await $fetch('/api/get-wallet', {params: {wallet: address.value}})
-      return this.hasAgreed
+      const response: IStatusResponse = await $fetch('/api/get-wallet', {params: {wallet: address.value}})
+      this.hasAgreed = response.hasAgreed
     }
   },
   getters: {

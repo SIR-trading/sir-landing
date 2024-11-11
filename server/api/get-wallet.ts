@@ -1,35 +1,45 @@
 // server/api/save-wallet.ts
-
-import { createClient } from '@vercel/kv';
+import { createClient, type VercelKV } from '@vercel/kv';
 import type { H3Event } from 'h3';
 import { useRuntimeConfig } from '#imports';
-import {ethers} from "ethers";
+import { ethers } from "ethers";
+import type {IStatusResponse, IErrorResponse} from "~/types/server";
 
-export default defineEventHandler(async (event: H3Event) => {
-  const config = useRuntimeConfig();
-  const params = getQuery(event)
-
-  const wallet = params.wallet as string;
-  console.log("fetching wallet signature... ", wallet)
-  // If no wallet data is provided, initialize it with an empty object
-  const users = createClient({
+// Extracted function to create KV client
+const createKVClient = (config: any): VercelKV => {
+  return createClient({
     url: config.kvRestApiUrl,
     token: config.kvRestApiToken,
   });
+};
+
+
+
+// Extracted function to fetch and verify wallet signature
+const fetchAndVerifyWallet = async (wallet: string, client: VercelKV): Promise<IStatusResponse|IErrorResponse> => {
   try {
-    const response: IAgreement = await users.get(wallet.toLowerCase()) as IAgreement;
-    console.log(response)
-    const hasAgreed = verifyWalletSignature(response.wallet, response.signature, response.message)
-    return {
-      statusCode: 200,
-      body: { hasAgreed: hasAgreed },
-    };
+    const response: IAgreement = await client.get(wallet.toLowerCase()) as IAgreement;
+    console.log(response);
+    if (!response) {
+      console.log("no wallet data found");
+      return { hasAgreed: false };
+    }
+    const hasAgreed = verifyWalletSignature(response.wallet, response.signature, response.message);
+    return { hasAgreed };
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: { error: 'Failed to save wallet data' },
-    };
+    return { statusCode: 500, body: { error: 'Failed to fetch wallet data' } };
   }
+};
+
+export default defineEventHandler(async (event: H3Event) => {
+  const config = useRuntimeConfig();
+
+  // Extract query parameters and standardize wallet string
+  const wallet = (getQuery(event).wallet as string).toLowerCase();
+  console.log("fetching wallet signature... ", wallet);
+
+  const users = createKVClient(config);
+  return await fetchAndVerifyWallet(wallet, users);
 });
 
 interface IAgreement {
@@ -39,9 +49,8 @@ interface IAgreement {
 }
 
 const verifyWalletSignature = (wallet: string, signature: string, message: string): boolean => {
-  const messageBytes = ethers.toUtf8Bytes(message)
-
-  const recoveredAddress = ethers.verifyMessage(messageBytes, signature)
-  console.log("recovered: ",recoveredAddress.toLowerCase(), wallet)
-  return recoveredAddress.toLowerCase() === wallet.toLowerCase()
-}
+  const messageBytes = ethers.toUtf8Bytes(message);
+  const recoveredAddress = ethers.verifyMessage(messageBytes, signature);
+  console.log("recovered: ", recoveredAddress.toLowerCase(), wallet);
+  return recoveredAddress.toLowerCase() === wallet.toLowerCase();
+};
