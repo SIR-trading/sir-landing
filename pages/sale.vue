@@ -38,10 +38,10 @@ const bullets = [
 ];
 
 const chartLegend = [
-  {label: "LPers", color: "bg-[#669ca2]"},
-  {label: "Sale", color: "bg-[#d8599f]"},
-  {label: "Treasury", color: "bg-[#dfa65c]"},
-  {label: "Pre-launch contributors", color: "bg-[#f3f3f1]"},
+  {label: "LPers", color: "bg-[#271F59]"},
+  {label: "Sale", color: "bg-[#867ACC]"},
+  {label: "Treasury", color: "bg-[#7360E6]"},
+  {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
 ]
 
 onMounted(() => {
