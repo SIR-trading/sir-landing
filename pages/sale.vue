@@ -58,7 +58,7 @@ onMounted(() => {
 <template>
   <UContainer>
     <Section variant="background">
-      <template #header>{{ isConnected ? "Project Funding Progress" : "Contribute to the fundraiser" }}</template>
+      <template #header>SIR Token Sale</template>
       <p class="section-text-block mb-3">
         Some text about what will happen when you contribute and perhaps mentioning buterin cards.
       </p>
