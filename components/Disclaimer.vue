@@ -26,7 +26,7 @@ const message = `Welcome to the SIR token sale!
 
 Click to accept the disclaimer (https://www.sir.trading/sale_disclaimer). This request will not trigger a blockchain transaction or cost any gas fees.
 
-The Keccak256 hash of the disclaimer is c4b21f3c320c2cf0fff242fe17d6877e65c21d70f9ce3bdca085c2b55353d047.`
+The Keccak256 hash of the disclaimer is beba0750bd779f8b410310a53f2c7c698f9f50e9af53924f77559bf8a71d39c2.`
 
 const signMessage = async (): Promise<string|void>  => {
   if(!isConnected.value) return;
