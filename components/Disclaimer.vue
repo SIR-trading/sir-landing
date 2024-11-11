@@ -22,7 +22,12 @@ const toggleModal= () => {
     emits('close');
   }
 }
-const message = 'I understand and agree to the terms of the SIR protocol.'
+const message = `Welcome to the SIR token sale!
+
+Click to accept the disclaimer (https://www.sir.trading/sale_disclaimer). This request will not trigger a blockchain transaction or cost any gas fees.
+
+The Keccak256 hash of the disclaimer is c4b21f3c320c2cf0fff242fe17d6877e65c21d70f9ce3bdca085c2b55353d047.`
+
 const signMessage = async (): Promise<string|void>  => {
   if(!isConnected.value) return;
 
@@ -93,7 +98,7 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
               @click="agreeToDisclaimer" :disabled="!agreed"
               color="robRoy" variant="solid"
           >
-            Confirm
+            Confirm and sign
           </UButton>
 
         </div>
