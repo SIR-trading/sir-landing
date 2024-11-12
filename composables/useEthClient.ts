@@ -157,5 +157,54 @@ export const useEthClient = () => {
     return Number(await (ethClient.contract as SaleContract).MAX_CONTRIBUTIONS_NO_DECIMALS())
   }
 
-  return {ethClient, state, contributions, maxContributions, lockNfts, depositAndLockNfts, withdraw}
+  const withdrawNfts = async () => {
+    const {getSigner} = useWallet()
+    const toast = useToast()
+    const signer = await getSigner() as JsonRpcSigner
+    try {
+      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
+      const tx = await mutableContract.withdrawNfts();
+      toast.add({
+        id: "withdraw:erc721",
+        timeout: 60000,
+        title: "Withdrawing NFTs",
+        color: "amber",
+      })
+      console.log(
+        'Transaction hash:',
+        tx.hash,
+        'waiting for confirmation...'
+      )
+      const receipt = await tx.wait();
+      toast.update("withdraw:erc721",{
+        title: "Withdrawn",
+        color: "harlequin",
+        timeout: 5000
+      })
+      console.log(
+        'Transaction complete! Block number:',
+        receipt.blockNumber,
+        'Transaction hash:',
+        receipt.transactionHash
+      )
+      const saleStore = useSaleStore();
+      await saleStore.fetchWalletContributions(useWallet().address.value as string);
+      const {$event} = useNuxtApp();
+      $event('sale:update');
+      return receipt.transactionHash
+    } catch (directError) {
+      console.error('Direct contract call error:', directError);
+    }
+  }
+
+  return {
+    ethClient,
+    state,
+    contributions,
+    maxContributions,
+    lockNfts,
+    depositAndLockNfts,
+    withdraw,
+    withdrawNfts,
+  }
 }
