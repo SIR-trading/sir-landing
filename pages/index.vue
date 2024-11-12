@@ -24,7 +24,7 @@ const goTo = (_path: string) => {
     </SirHero>
     <Section class-name="mb-0" variant="background">
       <template #header>SIR Token Sale</template>
-      <div class="section-text-block mt-0 mb-3">
+      <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           Help us launch SIR Protocol by funding audits, deployment, and expenses.
           In return, you'll get 10-13% of SIR tokens issued over the first 3 years.

@@ -59,9 +59,19 @@ onMounted(() => {
   <UContainer>
     <Section variant="background">
       <template #header>SIR Token Sale</template>
-      <p class="section-text-block mb-3">
-        Some text about what will happen when you contribute and perhaps mentioning buterin cards.
-      </p>
+      <div class="flex flex-col section-text-block mt-0 mb-6">
+        <p>
+          Help us launch SIR Protocol by funding audits, deployment, and expenses.
+          In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
+        </p>
+        <p>
+          <span class="font-semibold text-redAccent">
+            No VCs, no pre-sales, or future sales. Just one $500k sale open to all.
+          </span>
+          Test <a class="underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
+          launch after audits are complete.
+        </p>
+      </div>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
         <SirProgressBar/>
       </div>
@@ -70,12 +80,19 @@ onMounted(() => {
       </div>
     </Section>
     <Section variant="background" v-if="isConnected">
-      <template #header>Contribute to SIR's Sale</template>
+      <template #header>Contribute</template>
       <div class="flex flex-col gap-3 w-full items-center">
-        <p class="flex flex-col">
-          <span>You can withdraw your contribution within 24h</span>
-          <span> if you change your mind. After that it’s locked in.</span>
-        </p>
+        <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:p-3">
+          <div class="flex flex-col w-full gap-2 text-left">
+            <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported stablecoins—USDT, USDC, or DAI—for your contribution.</p>
+            <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
+            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
+          </div>
+          <div class="flex flex-col w-full gap-2 text-left">
+            <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
+            <p><span class="font-semibold text-redAccent">Bonus:</span> Lock NFTs for additional SIR: If you own Buterin Cards or Mined JPEGs NFTs, you can lock them for one year to receive an additional 6% SIR token bonus for each NFT.</p>
+          </div>
+        </div>
         <NftList/>
       </div>
     </Section>
