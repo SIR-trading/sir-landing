@@ -153,6 +153,6 @@ h6 {
 }
 
 footer {
-  @apply flex flex-col items-center justify-center w-full py-10 bg-black-russian-950;
+  @apply flex flex-col items-center justify-center w-full py-10;
 }
 </style>

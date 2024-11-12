@@ -30,7 +30,7 @@ export default defineEventHandler(async (event: H3Event) => {
     token: config.kvRestApiToken,
   });
   try {
-    await users.set(wallet.toLowerCase(), blob);
+    await users.set(`c_sign_${wallet.toLowerCase()}`, blob);
     return {
       statusCode: 200,
       body: { success: true },
