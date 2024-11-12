@@ -11,7 +11,7 @@ const saleStore = useSaleStore();
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
 
-const {withdraw} = useEthClient()
+const {withdraw, withdrawNfts} = useEthClient()
 const isWithdrawing: Ref<boolean> = ref(false);
 const withdrawFromWallet = async () => {
   isWithdrawing.value = true;
@@ -19,6 +19,15 @@ const withdrawFromWallet = async () => {
     isWithdrawing.value = false;
   })
 }
+
+const withdrawNFTs = async () => {
+  isWithdrawing.value = true;
+  await withdrawNfts().then(() => {
+    isWithdrawing.value = false;
+  })
+}
+
+
 
 const fetchContributions = async () => {
   if (!isConnected.value) return;
@@ -38,15 +47,22 @@ fetchContributions();
 
 const timeLastContribution = ref(0);
 const MS_PER_SECOND = 1000;
-const timeSaleEnded = ref(new Date().getTime() * MS_PER_SECOND);
+const timeSaleEnded = ref(new Date().getTime());
 
-onMounted(async () => {
+// todo: point this to the saleStore getter after testing
+const hasSaleEnded = true
+
+onBeforeMount(async () => {
   await fetchContributions()
-  await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
-  timeLastContribution.value = saleStore.contributions.timeLastContribution * MS_PER_SECOND;
-  console.log("timeLastContribution", timeLastContribution.value)
+  timeLastContribution.value = saleStore.contributions.timeLastContribution;
+  console.log("timeLastContribution", timeLastContribution.value, timeSaleEnded.value)
+
 
 })
+
+onMounted(async () => {
+  await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
+  })
 const {getTokenInfo} = useErc20();
 const token = computed((): Token|null => {
   const listStables = Stablecoin;
@@ -124,13 +140,13 @@ const formatNumber = (value: number, digits: number = 2) => {
     <div
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
-      <UButton :loading="isWithdrawing" color="red" variant="outline"
-               v-if="contributions.amountWithdrawableNoDecimals > 0"
+      <UButton  color="red" variant="outline"
+               v-if="hasSaleEnded"
                class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
-               @click="withdrawFromWallet"
+               @click="withdrawNFTs"
       >
         withdraw
-        <Timer :start-date="timeLastContribution" :days-duration="1"/>
+        <Timer :start-date="timeSaleEnded" :days-duration="365"/>
       </UButton>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
