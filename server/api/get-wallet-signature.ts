@@ -16,16 +16,16 @@ const createKVClient = (config: any): VercelKV => {
 
 
 // Extracted function to fetch and verify wallet signature
-const fetchAndVerifyWallet = async (wallet: string, client: VercelKV): Promise<IStatusResponse|IErrorResponse> => {
+const fetchWalletRecord = async (wallet: string, client: VercelKV): Promise<IAgreement|IErrorResponse> => {
   try {
     const response: IAgreement = await client.get(`c_sign_${wallet.toLowerCase()}`) as IAgreement;
     console.log(response);
     if (!response) {
-      console.log("no wallet data found");
-      return { hasAgreed: false };
+      console.error("no wallet data found");
+      new Error('No wallet data found');
     }
-    const hasAgreed = verifyWalletSignature(response.wallet, response.signature, response.message);
-    return { hasAgreed };
+
+    return response ;
   } catch (error) {
     return { statusCode: 500, body: { error: 'Failed to fetch wallet data' } };
   }
@@ -39,7 +39,7 @@ export default defineEventHandler(async (event: H3Event) => {
   console.log("fetching wallet signature... ", wallet);
 
   const users = createKVClient(config);
-  return await fetchAndVerifyWallet(wallet, users);
+  return await fetchWalletRecord(wallet, users);
 });
 
 interface IAgreement {
@@ -47,10 +47,3 @@ interface IAgreement {
   message: string;
   wallet: string;
 }
-
-const verifyWalletSignature = (wallet: string, signature: string, message: string): boolean => {
-  const messageBytes = ethers.toUtf8Bytes(message);
-  const recoveredAddress = ethers.verifyMessage(messageBytes, signature);
-  console.log("recovered: ", recoveredAddress.toLowerCase(), wallet);
-  return recoveredAddress.toLowerCase() === wallet.toLowerCase();
-};
