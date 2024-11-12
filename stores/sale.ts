@@ -72,7 +72,8 @@ export const useSaleStore = defineStore('sale', {
     minedJpegsSelected: (state): string[] => {
       return mapSelectedItems(state.selectedItems, "MJ");
     },
-    getTotalContributions: (state): number => state.saleState.totalContributions
+    getTotalContributions: (state): number => state.saleState.totalContributions,
+    hasSaleEnded:(state): boolean => state.saleState.timeSaleEnded > 0
   },
 });
 

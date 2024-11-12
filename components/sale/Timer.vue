@@ -12,6 +12,17 @@ const endDate = ref(0);
 
 const timeRemaining = ref(0);
 
+const props = defineProps({
+  startDate: {
+    type: Number,
+    required: true
+  },
+  daysDuration: {
+    type: Number,
+    required: true
+  }
+})
+
 const updateTimer = () => {
   const now = Date.now();
   timeRemaining.value = endDate.value - now;
@@ -26,18 +37,19 @@ const formatTime = (totalSeconds: number): string => {
 
 onMounted( async () => {
 
-  await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
-  startDate.value = saleStore.contributions.timeLastContribution * MS_PER_SECOND;
-  endDate.value = startDate.value + (MS_PER_SECOND * 60 * 60 * 24);
+  // await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
+  // startDate.value = saleStore.contributions.timeLastContribution * MS_PER_SECOND;
+  endDate.value = props.startDate + (MS_PER_SECOND * 60 * 60 * 24 * props.daysDuration);
+  console.log("startDate: ", props.startDate, "endDate: ", endDate.value)
   updateTimer();
   const interval = setInterval(updateTimer, MS_PER_SECOND);
 
   const {$listen} = useNuxtApp();
   $listen('sale:update', async () => {
     console.log("EVENT: sale:update")
-    await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
-    startDate.value = saleStore.contributions.timeLastContribution * MS_PER_SECOND;
-    endDate.value = startDate.value + (MS_PER_SECOND * 60 * 60 * 24);
+    // await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
+    // startDate.value = saleStore.contributions.timeLastContribution * MS_PER_SECOND;
+    endDate.value = props.startDate + (MS_PER_SECOND * 60 * 60 * 24 * props.daysDuration);
     updateTimer();
     console.log(startDate.value)
   })
