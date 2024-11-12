@@ -117,7 +117,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawFromWallet"
       >
         withdraw
-        <Timer :start-date="timeLastContribution" :days-duration="1"/>
+        <Timer :start-date="timeLastContribution" :days-duration="1" :no-days="true"/>
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
