@@ -6,7 +6,6 @@ const SECONDS_PER_HOUR = 3600;
 const SECONDS_PER_MINUTE = 60;
 const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-const startDate = ref(0)
 const endDate = ref(0);
 const timeRemaining = ref(0);
 
