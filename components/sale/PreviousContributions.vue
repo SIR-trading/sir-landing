@@ -46,7 +46,6 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 fetchContributions();
 
 const timeLastContribution = ref(0);
-const MS_PER_SECOND = 1000;
 const timeSaleEnded = ref(new Date().getTime());
 
 // todo: point this to the saleStore getter after testing
