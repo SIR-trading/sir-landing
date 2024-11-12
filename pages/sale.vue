@@ -118,6 +118,11 @@ onMounted(() => {
         </div>
       </div>
     </Section>
+    <footer class="footer">
+      <div>
+        <ULink to="/sale_disclaimer">Sale discaimer</ULink>
+      </div>
+    </footer>
   </UContainer>
 </template>
 
@@ -128,5 +133,9 @@ h6 {
 
 .paragraphs p {
   margin-bottom: 1rem;
+}
+
+footer {
+  @apply flex flex-col items-center justify-center w-full py-10 bg-black-russian-950;
 }
 </style>
