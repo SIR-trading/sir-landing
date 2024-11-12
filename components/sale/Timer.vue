@@ -19,6 +19,10 @@ const props = defineProps({
   daysDuration: {
     type: Number,
     required: true
+  },
+  noDays: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -38,7 +42,7 @@ const formatTime = (totalSeconds: number): string => {
   const minutes = String(Math.floor((remainingSecondsAfterDays % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE)).padStart(2, '0');
   const seconds = String(remainingSecondsAfterDays % SECONDS_PER_MINUTE).padStart(2, '0');
   console.log(days, hours, minutes, seconds);
-  return `${days}:${hours}:${minutes}:${seconds}`;
+  return props.noDays ? `${hours}:${minutes}:${seconds}` : `${days}:${hours}:${minutes}:${seconds}`;
 };
 
 const initializeTimer = async () => {
