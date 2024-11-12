@@ -76,6 +76,7 @@ const filterInput = (event: KeyboardEvent) => {
  */
 const checkApproval = async () => {
   isApproved.value = await isERC20Approved(selected.value, amount.value as number);
+  console.log(isApproved.value)
 };
 
 /**
@@ -127,8 +128,10 @@ const handleClose = () => {
   showModal.value = false;
 }
 
+useWalletStore().checkAgreed()
+
 const hasAgreed = computed(() => {
-  useWalletStore().checkAgreed()
+
   return useWalletStore().hasAgreed;
 })
 

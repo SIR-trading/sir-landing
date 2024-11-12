@@ -34,6 +34,8 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@pinia/nuxt": "^0.5.4",
+    "@vercel/kv": "^3.0.0",
+    "@vercel/node": "^3.2.24",
     "@web3-onboard/coinbase": "^2.4.1",
     "@web3-onboard/core": "^2.22.3",
     "@web3-onboard/injected-wallets": "^2.11.2",

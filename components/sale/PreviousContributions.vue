@@ -107,11 +107,11 @@ const formatNumber = (value: number, digits: number = 2) => {
       <div>
         <span class="font-semibold text-md">
           <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
-          {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}
-          <UIcon name="heroicons:question-mark-circle" class="w-4 h-4"/>
-      </UTooltip>
-      </span>
-        <span class="text-xs top-2 ml-1 text-gray-suit-500">SIR</span>
+            <UIcon name="heroicons:question-mark-circle" class="w-6 h-6"/>
+            {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}
+          </UTooltip>
+        </span>
+        <span class="text-xs ml-1 text-gray-suit-500">SIR</span>
       </div>
     </div>
     <div

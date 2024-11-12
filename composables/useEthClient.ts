@@ -19,6 +19,11 @@ export const useEthClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig().public
   const {contract} = env
+  console.log(
+    'Contract address:',
+    contract,
+    'using network:',
+    env.chain.id)
   const ethClient = new EthereumClient(contract, config.rpc, env.chain.id, abi)
   const state = async () => {
     const _state = await ethClient.contract.state()

@@ -22,10 +22,37 @@ const toggleModal= () => {
     emits('close');
   }
 }
+const message = `Welcome to the SIR token sale!
 
-const agreeToDisclaimer = () => {
+Click to accept the disclaimer (https://www.sir.trading/sale_disclaimer). This request will not trigger a blockchain transaction or cost any gas fees.
+
+The Keccak256 hash of the disclaimer is beba0750bd779f8b410310a53f2c7c698f9f50e9af53924f77559bf8a71d39c2.`
+
+const signMessage = async (): Promise<string|void>  => {
   if(!isConnected.value) return;
-  localStorage.setItem(`wallet-${address.value}`, JSON.stringify({at: new Date()}))
+
+  const signer = await useWallet().getSigner()
+  return signer?.signMessage(message)
+}
+
+const agreeToDisclaimer = async () => {
+  if(!isConnected.value) return;
+  const signature = await signMessage()
+  const json= JSON.stringify({
+    address: address.value,
+    signature: signature,
+    message: message,
+  })
+  const res = await $fetch('/api/save-wallet', {
+    method: 'POST',
+    body: {
+      wallet: address.value,
+      signature: signature,
+      message: message,
+    }
+  })
+  console.log("Result::save-wallet", res  )
+  localStorage.setItem(`wallet-${address.value}`, JSON.stringify(json))
   isModalOpen.value = false
   agreed.value = true
   emits('statusChanged')
@@ -71,7 +98,7 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
               @click="agreeToDisclaimer" :disabled="!agreed"
               color="robRoy" variant="solid"
           >
-            Confirm
+            Confirm and sign
           </UButton>
 
         </div>
