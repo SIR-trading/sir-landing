@@ -5,7 +5,6 @@ import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
 import NftList from "~/components/sale/NftList.vue";
-import PreviousContributions from "~/components/sale/PreviousContributions.vue";
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
