@@ -65,6 +65,12 @@ const handleChange = async () => {
 
 const isApproved = ref(false);
 
+const filterInput = (event: KeyboardEvent) => {
+  if (event.key === '.' || event.key === ',' || event.key === 'e' || event.key === '-') {
+    event.preventDefault();
+  }
+};
+
 /**
  * Checks whether the selected token amount is approved for the specified amount.
  */
@@ -290,6 +296,7 @@ onMounted(() => {
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="number" placeholder="0"
                  @input="checkApproval"
+                 @keypress="filterInput"
                  :class="[
                       !enoughBalance ? 'text-red-400' : '',
                       'no-arrows bg-transparent focus:outline-0 w-full text-lg p-3'
