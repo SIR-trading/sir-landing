@@ -24,7 +24,7 @@ const goTo = (_path: string) => {
     </SirHero>
     <Section class-name="mb-0" variant="background">
       <template #header>SIR Token Sale</template>
-      <div class="section-text-block mt-0 mb-3">
+      <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           Help us launch SIR Protocol by funding audits, deployment, and expenses.
           In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
@@ -33,7 +33,7 @@ const goTo = (_path: string) => {
           <span class="font-semibold text-redAccent">
             No VCs, no pre-sales, or future sales. Just one $500k sale open to all.
           </span>
-          Test <a class="hover:underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
+          Test <a class="underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
           launch after audits are complete.
         </p>
       </div>
@@ -129,9 +129,7 @@ const goTo = (_path: string) => {
               3
             </div>
             <p>After its beta phase, SIR's unstoppable code will be
-              <span class="font-semibold text-redAccent">
-                completely immutable, living on Ethereum forever
-              </span>.
+              <span class="font-semibold text-redAccent">completely immutable, living on Ethereum forever</span>.
             </p>
           </div>
           <p>This trustless architecture, combined with reliable price oracles, establishes SIR as a fundamental 'money
@@ -149,7 +147,7 @@ const goTo = (_path: string) => {
             </p>
           </SirCard>
           <SirCard image="/apes_card.png" size="md">
-            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and which leverage</span>.
+            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and what leverage</span>.
               They pay upfront fees for minting and burning, but not while holding their positions.
               APE is a leveraged ERC-20 token that can be transferred and used in other protocols.</p>
           </SirCard>
