@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useSaleStore } from "@/stores/sale";
 
 const MS_PER_SECOND = 1000;
 const SECONDS_PER_HOUR = 3600;

@@ -46,7 +46,7 @@ const goTo = (_path: string) => {
       <Section variant="background">
         <template v-slot:header>SIR: a Fee Paying Token</template>
         <div class="section-text-block flex flex-col md:flex-row items-center">
-          <img :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
+          <img alt="pile of coins" :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
           <div class="section-text-block">
             <p>
               SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
