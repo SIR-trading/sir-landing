@@ -34,7 +34,7 @@ const fetchContributions = async () => {
   await saleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
   console.log("FETCHED", saleStore.getWalletContributions)
-};
+}
 
 // Watch for changes in 'isConnected' to fetch contributions
 watch(isConnected, fetchContributions);
