@@ -3,8 +3,12 @@ import { computed } from 'vue';
 import { useSaleStore } from "~/stores/sale";
 
 const saleStore = useSaleStore();
+
+const {isBoostedAddress} = useWallet()
+
 const bonus = computed(() => {
-  return saleStore.contributions.lockedMinedJpegs.amount + saleStore.contributions.lockedButerinCards.amount;
+  return isBoostedAddress.value ? 5
+      : saleStore.contributions.lockedMinedJpegs.amount + saleStore.contributions.lockedButerinCards.amount;
 });
 
 const lockedNFTs = computed(() => {
@@ -13,6 +17,7 @@ const lockedNFTs = computed(() => {
   const bt = data.lockedButerinCards.ids.slice(0, data.lockedButerinCards.amount).map(id => `BT-${id}`);
   return mj.concat(bt);
 });
+
 
 // Assuming the bonus is a value between 0 and 5
 const progressBlocks = computed(() => {
@@ -23,7 +28,7 @@ const progressBlocks = computed(() => {
 <template>
   <div class="flex flex-col gap-2">
     <label class="font-bold">Bonus level reached {{ progressBlocks }} / 5</label>
-    <div id="progress-container" class="bg-[#ffffff15] p-2 rounded-xl flex flex-row gap-2">
+    <div v-if="!isBoostedAddress" id="progress-container" class="bg-[#ffffff15] p-2 rounded-xl flex flex-row gap-2">
       <div v-for="n in 5"
            :key="n"
            :class="[n <= progressBlocks ? 'progress-active' : '', 'rounded-lg', 'flex justify-center items-center']">
@@ -32,6 +37,17 @@ const progressBlocks = computed(() => {
           <span>{{ lockedNFTs[n-1].split('-')[0]}}</span>
           <span>{{ Number(lockedNFTs[n-1].split('-')[1]) + 1}}</span>
         </div>
+
+      </div>
+    </div>
+    <div v-else id="progress-container" class="bg-[#ffffff15] p-2 rounded-xl flex flex-row gap-2">
+      <div v-for="n in 5"
+           :key="n"
+           :class="['progress-active', 'rounded-lg', 'flex justify-center items-center']">
+        <div
+             class="text-black font-bold text-xs flex flex-col gap-1 justify-center items-center rounded-lg">
+          </div>
+
       </div>
     </div>
   </div>

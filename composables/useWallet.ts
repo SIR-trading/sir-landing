@@ -4,6 +4,7 @@ import { computed } from "vue";
 import {useWalletStore} from "~/stores/wallet";
 import {useEnv} from "~/composables/useEnv";
 import {useToast} from "#ui/composables/useToast";
+import boostedAddressList from "assets/boosted_addresses.json";
 
 export const useWallet = () => {
   const { connectedWallet } = useOnboard();
@@ -14,6 +15,10 @@ export const useWallet = () => {
     }),
     address: computed(() => {
       return connectedWallet.value?.accounts[0].address;
+    }),
+    isBoostedAddress: computed((): boolean => {
+      const {address} = useWallet()
+      return !!boostedAddressList.find(add => add.toLocaleLowerCase() === address.value?.toLowerCase())
     }),
     getSigner: async (): Promise<ethers.JsonRpcSigner|null|undefined> => {
       if (!connectedWallet.value) {
