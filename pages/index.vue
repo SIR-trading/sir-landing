@@ -139,14 +139,14 @@ const goTo = (_path: string) => {
       <Section variant="background-p0">
         <template v-slot:header>Gentlemen & Apes</template>
         <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-evenly w-full">
-          <SirCard image="/gentlemen_card.png" size="md">
+          <SirCard image="/gentlemen_card.jpg" size="md">
             <p>Gentlemen <span class="font-semibold text-redAccent">
                 provide liquidity to the protocol
               </span>. They earn fees for doing so, and on selected vaults, also rewards in the native token SIR.
               Their LP positions are tokenized in the form of an ERC-1155 called SIR.
             </p>
           </SirCard>
-          <SirCard image="/apes_card.png" size="md">
+          <SirCard image="/ape_card.jpg" size="md">
             <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and what leverage</span>.
               They pay upfront fees for minting and burning, but not while holding their positions.
               APE is a leveraged ERC-20 token that can be transferred and used in other protocols.</p>
