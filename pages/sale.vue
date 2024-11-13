@@ -81,13 +81,13 @@ onMounted(() => {
     <Section variant="background" v-if="isConnected">
       <template #header>Contribute</template>
       <div class="flex flex-col gap-3 w-full items-center">
-        <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:p-3">
-          <div class="flex flex-col w-full gap-2 text-left">
+        <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
+          <div class="flex flex-col w-full gap-3 text-left">
             <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported stablecoins—USDT, USDC, or DAI—for your contribution.</p>
             <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
             <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
           </div>
-          <div class="flex flex-col w-full gap-2 text-left">
+          <div class="flex flex-col w-full gap-3 text-left">
             <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
             <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>, you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
           </div>
