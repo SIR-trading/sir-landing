@@ -4,7 +4,6 @@ import { useWallet } from "~/composables/useWallet";
 import {useEnv} from "~/composables/useEnv";
 import type {Token} from "@/types";
 import type {IStatusResponse} from "~/types/server";
-import boostedAddressList from "~/assets/boosted_addresses.json"
 
 declare interface IBalances {
   [key: string]: number | string;
