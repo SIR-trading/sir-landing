@@ -22,7 +22,7 @@ const classes = computed(() => {
      <img :src="image" class="rounded-lg" :alt="imageAlt"/>
    </div>
    <div class="flex flex-col flex-wrap overflow-auto">
-     <h4 class="p-6 flex flex-row items-center justify-center"><slot name="header"/></h4>
+     <h4 class="p-4 flex flex-row items-center justify-center"><slot name="header"/></h4>
      <div class=" flex flex-col flex-wrap "><slot name="default"/></div>
    </div>
    <div><slot name="footer"/></div>
