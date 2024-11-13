@@ -28,7 +28,6 @@ const withdrawNFTs = async () => {
 }
 
 
-
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
@@ -48,8 +47,9 @@ fetchContributions();
 const timeLastContribution = ref(0);
 const timeSaleEnded = ref(new Date().getTime());
 
-// todo: point this to the saleStore getter after testing
-const hasSaleEnded = true
+const hasSaleEnded = computed(() => {
+  return saleStore.hasSaleEnded
+})
 
 onBeforeMount(async () => {
   await fetchContributions()
@@ -60,12 +60,12 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-  await useSaleStore().fetchWalletContributions(useWallet().address.value as string );
-  })
+  await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
+})
 const {getTokenInfo} = useErc20();
-const token = computed((): Token|null => {
+const token = computed((): Token | null => {
   const listStables = Stablecoin;
-  if (!contributions.value.stablecoin) return null ;
+  if (!contributions.value.stablecoin) return null;
   const tIndex = contributions.value.stablecoin;
   const ticker = listStables[tIndex] as string;
   return getTokenInfo(ticker) as Token;
@@ -100,7 +100,11 @@ const formatNumber = (value: number, digits: number = 2) => {
 
 <template>
   <div
-      class="flex flex-col flex-grow items-center justify-center md:justify-center h-full w-full  rounded-lg gap-1  text-sm">
+      :class="[
+          'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
+          hasSaleEnded ? 'md:w-2/3' : 'md:w-full'
+      ]"
+  >
     <div
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
       <div>Total locked contributions:</div>
@@ -129,7 +133,7 @@ const formatNumber = (value: number, digits: number = 2) => {
       <div>
         <span class="font-semibold text-md">
           <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
-            <UIcon name="heroicons:question-mark-circle" class="w-6 h-6"/>
+            <UIcon name="heroicons:question-mark-circle" class="w-6 h-6 mr-2"/>
             {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}
           </UTooltip>
         </span>
@@ -139,7 +143,7 @@ const formatNumber = (value: number, digits: number = 2) => {
     <div
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
-      <UButton  color="red" variant="outline"
+      <UButton color="red" variant="outline"
                v-if="hasSaleEnded"
                class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
                @click="withdrawNFTs"

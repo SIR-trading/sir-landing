@@ -94,8 +94,10 @@ const hasSaleEnded = computed(() => {
 
 <template>
   <div class="flex flex-col items-center justify-center w-full rounded-lg p-1 md:p-3 gap-3">
-    <div v-if="isConnected" class="flex flex-col flex-grow w-full md:flex-row items-center justify-center md:justify-start md:items-start p-1 md:p-3 gap-3 md:gap-6 rounded-lg">
-      <ContributeForm v-if="hasSaleEnded" :mined-jpegs="mjSelected" :buterin-cards="btSelected" @refresh="fetchData"/>
+    <div v-if="isConnected"
+         :class="['flex flex-col flex-grow w-full md:flex-row items-center justify-center md:items-start p-1 md:p-3 gap-3 md:gap-6 rounded-lg',
+         hasSaleEnded ? 'md:justify-center': 'md:justify-start']">
+      <ContributeForm v-if="!hasSaleEnded" :mined-jpegs="mjSelected" :buterin-cards="btSelected" @refresh="fetchData"/>
       <PreviousContributions />
     </div>
 
