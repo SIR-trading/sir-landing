@@ -89,7 +89,7 @@ onMounted(() => {
           </div>
           <div class="flex flex-col w-full gap-2 text-left">
             <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
-            <p><span class="font-semibold text-redAccent">Bonus:</span> Lock NFTs for additional SIR: If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a> NFTs, you can lock them for one year to receive an additional 6% SIR token bonus for each NFT.</p>
+            <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>, you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
           </div>
         </div>
         <NftList/>
