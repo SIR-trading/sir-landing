@@ -66,9 +66,15 @@ const handleChange = async () => {
 const isApproved = ref(false);
 
 const filterInput = () => {
-  const strValue = amount.value.toString().replace(/[^0-9]/g, '')
-  amount.value = parseInt(strValue);
-  checkApproval()
+  const strValue = amount.value.toString().replace(/[^0-9]/g, '');
+  amount.value = strValue ? parseInt(strValue) : '';
+  checkApproval();
+};
+
+const preventInvalidChars = (event: KeyboardEvent) => {
+  if (event.key === '.' || event.key === ',' || event.key === 'e' || event.key === '-') {
+    event.preventDefault();
+  }
 };
 
 /**
@@ -307,6 +313,7 @@ onMounted(() => {
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="number" placeholder="0"
                  @input="filterInput"
+                 @keydown="preventInvalidChars"
                  :class="[
                       !enoughBalance ? 'text-red-400' : '',
                       'no-arrows bg-transparent focus:outline-0 w-full text-lg p-3'
