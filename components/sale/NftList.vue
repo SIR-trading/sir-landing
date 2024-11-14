@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {useNfts} from '~/composables/useNfts';
-import {useWallet} from '~/composables/useWallet';
 // import SirButton from "~/components/common/SirButton.vue";
 // import Modal from "~/components/common/Modal.vue";
 import ContributeForm from "~/components/sale/ContributeForm.vue";
@@ -90,6 +88,9 @@ const isCheckboxDisabled = computed(() => {
 const hasSaleEnded = computed(() => {
   return saleStore.hasSaleEnded
 })
+
+const {isBoostedAddress} = useWallet()
+
 </script>
 
 <template>
@@ -124,7 +125,7 @@ const hasSaleEnded = computed(() => {
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
                   :name="`BT-${tokenId}`"
-                  :disabled="isCheckboxDisabled && !isSelected('BT', tokenId)"
+                  :disabled="isBoostedAddress ? isBoostedAddress : isCheckboxDisabled && !isSelected('BT', tokenId)"
               />
             </div>
           </div>
@@ -155,7 +156,7 @@ const hasSaleEnded = computed(() => {
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
                   :name="`MJ-${tokenId}`"
-                  :disabled="isCheckboxDisabled && !isSelected('MJ', tokenId)"
+                  :disabled="isBoostedAddress ? isBoostedAddress : isCheckboxDisabled && !isSelected('MJ', tokenId)"
               />
             </div>
           </div>

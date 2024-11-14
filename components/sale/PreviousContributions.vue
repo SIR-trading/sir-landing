@@ -55,13 +55,12 @@ onBeforeMount(async () => {
   await fetchContributions()
   timeLastContribution.value = saleStore.contributions.timeLastContribution;
   console.log("timeLastContribution", timeLastContribution.value, timeSaleEnded.value)
-
-
 })
 
 onMounted(async () => {
   await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
 })
+
 const {getTokenInfo} = useErc20();
 const token = computed((): Token | null => {
   const listStables = Stablecoin;
@@ -71,10 +70,12 @@ const token = computed((): Token | null => {
   return getTokenInfo(ticker) as Token;
 })
 
+const {isBoostedAddress} = useWallet();
+
 const itemsLocked = computed(() => {
-  const mj = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
-  const bt = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
-  return +mj + +bt;
+  const mj:number = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
+  const bt:number = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
+  return  isBoostedAddress.value ? 5 : mj + bt;
 })
 
 const tokenAllocation = computed(() => {
