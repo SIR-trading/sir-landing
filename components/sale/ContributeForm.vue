@@ -65,10 +65,10 @@ const handleChange = async () => {
 
 const isApproved = ref(false);
 
-const filterInput = (event: KeyboardEvent) => {
-  if (event.key === '.' || event.key === ',' || event.key === 'e' || event.key === '-') {
-    event.preventDefault();
-  }
+const filterInput = () => {
+  const strValue = amount.value.toString().replace(/[^0-9]/g, '')
+  amount.value = parseInt(strValue);
+  checkApproval()
 };
 
 /**
@@ -79,13 +79,16 @@ const checkApproval = async () => {
   console.log(isApproved.value)
 };
 
+const amountLeft = computed((): number => {
+  return 500000 - saleStore.saleState.totalContributions
+})
+
 /**
  * * @param {number} percent - The percentage of the balance to set as the amount.
  */
 const amountTo = (percent: number) => {
-  const amountLeft = 500000 - saleStore.saleState.totalContributions
   const calculatedAmount = Math.floor(balance.value as number * percent / 100);
-  amount.value = calculatedAmount > amountLeft ? amountLeft : calculatedAmount
+  amount.value = calculatedAmount > amountLeft.value ? amountLeft.value : calculatedAmount
   checkApproval()
 };
 
@@ -221,6 +224,14 @@ const enoughBalance = computed((): boolean => {
   return balance.value >= amount.value;
 })
 
+const hasOverflowOfDeposit = computed((): boolean => {
+  return Number(amount.value) - amountLeft.value > 0
+})
+
+const overflowOfDeposit = computed((): number => {
+  return Number(amount.value) - amountLeft.value
+})
+
 /**
  * MODAL
  */
@@ -295,15 +306,19 @@ onMounted(() => {
       <div class="w-full flex flex-row gap-3  rounded-md p-3">
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="number" placeholder="0"
-                 @input="checkApproval"
-                 @keypress="filterInput"
+                 @input="filterInput"
                  :class="[
                       !enoughBalance ? 'text-red-400' : '',
                       'no-arrows bg-transparent focus:outline-0 w-full text-lg p-3'
                   ]"
           />
-          <div class="text-left text-sm text-red-400">
+          <div class="text-left text-xs text-red-400">
             <label class="p-3" v-if="!enoughBalance">Insuficent funds</label>
+            <div class="flex flex-wrap">
+              <label class="p-3" v-if="hasOverflowOfDeposit && enoughBalance">
+                Your deposit exceeds the available sale amount. {{overflowOfDeposit}} will be returned to your wallet as a refund.
+              </label>
+            </div>
           </div>
 
         </div>

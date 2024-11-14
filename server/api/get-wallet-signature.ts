@@ -2,8 +2,7 @@
 import { createClient, type VercelKV } from '@vercel/kv';
 import type { H3Event } from 'h3';
 import { useRuntimeConfig } from '#imports';
-import { ethers } from "ethers";
-import type {IStatusResponse, IErrorResponse} from "~/types/server";
+import type {IErrorResponse} from "~/types/server";
 
 // Extracted function to create KV client
 const createKVClient = (config: any): VercelKV => {
