@@ -143,7 +143,7 @@ const goTo = (_path: string) => {
             <p>Gentlemen <span class="font-semibold text-redAccent">
                 provide liquidity to the protocol
               </span>. They earn fees for doing so, and on selected vaults, also rewards in the native token SIR.
-              Their LP positions are tokenized in the form of an ERC-1155 called SIR.
+              Their LP positions are tokenized in the form of an ERC-1155 called TEA.
             </p>
           </SirCard>
           <SirCard image="/ape_card.jpg" size="md">

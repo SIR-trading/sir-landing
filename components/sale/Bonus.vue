@@ -27,7 +27,7 @@ const progressBlocks = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2">
-    <label class="font-bold">Bonus level reached {{ progressBlocks }} / 5</label>
+    <label class="font-bold">{{ progressBlocks }}/5 Bonus Level (+{{ progressBlocks * 6 }}% SIR)</label>
     <div v-if="!isBoostedAddress" id="progress-container" class="bg-[#ffffff15] p-2 rounded-xl flex flex-row gap-2">
       <div v-for="n in 5"
            :key="n"
