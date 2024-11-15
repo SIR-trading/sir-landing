@@ -44,21 +44,17 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 // Initially, call fetchContributions if already connected
 fetchContributions();
 
-const timeLastContribution = ref(0);
-const timeSaleEnded = ref(new Date().getTime()/1000);
-
 const hasSaleEnded = computed(() => {
-  return true //saleStore.hasSaleEnded
+  return saleStore.hasSaleEnded
 })
 
 onBeforeMount(async () => {
   await fetchContributions()
-  timeLastContribution.value = saleStore.contributions.timeLastContribution;
-  console.log("timeLastContribution", timeLastContribution.value, timeSaleEnded.value)
-})
+  })
 
 onMounted(async () => {
   await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
+
 })
 
 const {getTokenInfo} = useErc20();
@@ -103,7 +99,7 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div
       :class="[
           'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
-          hasSaleEnded ? 'md:w-2/3' : 'md:w-auto'
+          hasSaleEnded ? 'md:w-2/3' : 'md:w-full flex-auto flex-grow'
       ]"
   >
     <div
@@ -122,7 +118,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawFromWallet"
       >
         withdraw
-        <Timer :start-date="timeLastContribution" :days-duration="1"   :no-days="true"/>
+        <Timer :start-date="saleStore.contributions.timeLastContribution" :days-duration="1" :no-days="true"/>
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
@@ -150,7 +146,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawNFTs"
       >
         withdraw
-<!--        <Timer :start-date="timeSaleEnded" :days-duration="365"/>-->
+        <Timer :start-date="saleStore.saleState.timeSaleEnded" :days-duration="365"/>
       </UButton>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>

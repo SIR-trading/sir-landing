@@ -290,7 +290,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-auto rounded-lg bg-[#ffffff15]">
+  <div class="flex flex-col items-center w-full flex-auto rounded-lg bg-[#ffffff15]">
     <UFormGroup class="w-full">
       <div class="w-full flex flex-row gap-3 rounded-md p-3">
         <div class="flex flex-col gap-2">
