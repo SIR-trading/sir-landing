@@ -9,8 +9,7 @@ import PreviousContributions from "~/components/sale/PreviousContributions.vue";
 
 // Initialize composables
 const nfts = useNfts();
-const wallet = useWallet();
-const {address, isConnected} = wallet;
+const { address, isConnected, isBoostedAddress } = useWallet();
 
 // Reactive variables
 const btList = ref([]);
@@ -36,8 +35,6 @@ if (isConnected.value) {
   bt.value = await nfts.fetchWalletButerinCards(address.value);
   mj.value = await nfts.fetchWalletMinedJpeg(address.value);
 }
-
-
 
 const saleStore = useSaleStore()
 
@@ -89,8 +86,6 @@ const hasSaleEnded = computed(() => {
   return saleStore.hasSaleEnded
 })
 
-const {isBoostedAddress} = useWallet()
-
 </script>
 
 <template>
@@ -102,7 +97,7 @@ const {isBoostedAddress} = useWallet()
       <PreviousContributions />
     </div>
 
-    <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
+    <div v-if="!isBoostedAddress" class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
       <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md p-4">
         <div class="flex justify-start section-header text-lg">Buterin Cards</div>
         <div v-if="bt.length > 0"
@@ -125,7 +120,7 @@ const {isBoostedAddress} = useWallet()
                   :model-value="isSelected('BT', tokenId)"
                   @update:model-value="() => toggleSelection('BT', tokenId)"
                   :name="`BT-${tokenId}`"
-                  :disabled="isBoostedAddress ? isBoostedAddress : isCheckboxDisabled && !isSelected('BT', tokenId)"
+                  :disabled="isCheckboxDisabled && !isSelected('BT', tokenId)"
               />
             </div>
           </div>
@@ -156,7 +151,7 @@ const {isBoostedAddress} = useWallet()
                   :model-value="isSelected('MJ', tokenId)"
                   @update:model-value="() => toggleSelection('MJ', tokenId)"
                   :name="`MJ-${tokenId}`"
-                  :disabled="isBoostedAddress ? isBoostedAddress : isCheckboxDisabled && !isSelected('MJ', tokenId)"
+                  :disabled="isCheckboxDisabled && !isSelected('MJ', tokenId)"
               />
             </div>
           </div>

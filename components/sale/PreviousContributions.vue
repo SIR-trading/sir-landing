@@ -75,7 +75,7 @@ const {isBoostedAddress} = useWallet();
 const itemsLocked = computed(() => {
   const mj:number = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
   const bt:number = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
-  return  isBoostedAddress.value ? 5 : mj + bt;
+  return mj + bt;
 })
 
 const tokenAllocation = computed(() => {
@@ -88,7 +88,7 @@ const bonusAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
 
-  return 72.54 * (contributed + withdrawable) * itemsLocked.value
+  return 72.54 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : itemsLocked.value)
 })
 
 const formatNumber = (value: number, digits: number = 2) => {
