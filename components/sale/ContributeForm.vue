@@ -36,7 +36,9 @@ const { fetchBalance, isERC20Approved, approveERC20 } = erc20;
 const balance: Ref<number | string> = ref(0);
 
 const { address, isConnected } = useWallet();
+
 const walletStore = useWalletStore();
+const saleStore = useSaleStore();
 
 const setBalance = async () => {
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
@@ -46,9 +48,14 @@ const setBalance = async () => {
   );
 };
 
-watch(address, async (address) => {
+
+watch(useWallet().address,  async (address) => {
   if (address) {
+    console.log("CHANGE ADDRESS from CONTRIBUTE_FORM")
+    await saleStore.fetchWalletContributions(address)
+    selected.value = tokenList[saleStore.contributions.stablecoin]
     await setBalance();
+
   }
 });
 
@@ -108,7 +115,6 @@ const { depositAndLockNfts, lockNfts } = useEthClient();
 const config = useRuntimeConfig().public;
 
 const { buterinCards, minedJpeg } = config;
-const saleStore = useSaleStore();
 
 
 /**
@@ -196,7 +202,7 @@ const lockMenuInput = computed(() => {
 });
 
 if (lockMenuInput.value) {
-  selected.value = tokenList[contributions.value.stablecoin];
+  selected.value = tokenList[saleStore.contributions.stablecoin];
 }
 
 watch([isConnected, contributions], ([isConnected, contributions]) => {

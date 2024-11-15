@@ -15,6 +15,7 @@ const connect = async () => {
 
 const saleStore = useSaleStore()
 const walletStore = useWalletStore()
+const erc20 = useErc20()
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {

@@ -56,16 +56,6 @@ export const useSaleStore = defineStore('sale', {
   },
   getters: {
     getWalletContributions: (state): Contribution => state.contributions,
-    timer: (state): number | undefined => {
-      const endDate = state.contributions.timeLastContribution;
-      let time: number | undefined = undefined;
-      setInterval(() => {
-        const now = Date.now();
-        console.log(now);
-        time = endDate - now;
-      }, 1000);
-      return time;
-    },
     buterinCardsSelected: (state): string[] => {
       return mapSelectedItems(state.selectedItems, "BT");
     },
