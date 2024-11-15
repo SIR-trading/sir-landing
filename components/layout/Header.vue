@@ -12,7 +12,7 @@ declare type Link = {
 
 const links: Array<Link> = [
   // {name: "About", to: '/about'},
-  {name: 'Sale', to: '/sale'},
+  // {name: 'Sale', to: '/sale'},
   {name: 'Docs', to: 'https://docs.sir.trading/', trailing: 'uil:arrow-up-right'},
   // {name: 'Roadmap', to: '/mint'},
   // {name: 'Whitepaper', to: '/mint'}
