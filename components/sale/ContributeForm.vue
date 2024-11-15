@@ -7,7 +7,6 @@ import { useEthClient } from "~/composables/useEthClient";
 import { Stablecoin, type Contribution } from "@/types/data";
 import { useNfts } from "~/composables/useNfts";
 import { useSaleStore } from "~/stores/sale";
-import { useWalletStore } from "~/stores/wallet";
 import type { Token } from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
 
@@ -37,7 +36,7 @@ const { fetchBalance, isERC20Approved, approveERC20 } = erc20;
 const balance: Ref<number | string> = ref(0);
 
 const { address, isConnected } = useWallet();
-const { checkAgreed } = useWalletStore();
+const walletStore = useWalletStore();
 
 const setBalance = async () => {
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
@@ -127,11 +126,9 @@ const handleClose = () => {
   showModal.value = false;
 };
 
-useWalletStore().checkAgreed();
 
-const hasAgreed = computed(() => {
-  return useWalletStore().hasAgreed;
-});
+
+
 
 const emit = defineEmits(['refresh']);
 
@@ -140,7 +137,7 @@ const emit = defineEmits(['refresh']);
  * Executes the contribution process.
  */
 const contribute = async () => {
-  if (hasAgreed.value) {
+  if (walletStore.hasAgreed.value) {
     const stablecoin = convertTickerToStablecoin(selected.value.ticker);
     isTxHelperLoading.value = true;
     await depositAndLockNfts(stablecoin, Number(amount.value), saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number)).then(() => {
@@ -352,7 +349,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full flex-col gap-3 justify-center items-center p-3">
-        <div v-if="!hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
+        <div v-if="!walletStore.hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
           <button @click="getAgreement"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
             <span class="inline-block">Agree to Terms</span>
@@ -402,6 +399,6 @@ onMounted(() => {
         </div>
       </div>
     </Modal>
-    <Disclaimer v-if="showModal" @status-changed="checkAgreed" @close="handleClose" />
+    <Disclaimer v-if="showModal" @status-changed="walletStore.checkAgreed" @close="handleClose" />
   </div>
 </template>

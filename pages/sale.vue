@@ -43,13 +43,6 @@ const chartLegend = [
   {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
 ]
 
-onMounted(() => {
-  useWalletStore().checkAgreed()
-  if (isConnected.value) {
-
-  }
-
-})
 
 
 </script>
