@@ -45,10 +45,10 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 fetchContributions();
 
 const timeLastContribution = ref(0);
-const timeSaleEnded = ref(new Date().getTime());
+const timeSaleEnded = ref(new Date().getTime()/1000);
 
 const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
+  return true //saleStore.hasSaleEnded
 })
 
 onBeforeMount(async () => {
@@ -103,7 +103,7 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div
       :class="[
           'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
-          hasSaleEnded ? 'md:w-2/3' : 'md:w-full'
+          hasSaleEnded ? 'md:w-2/3' : 'md:w-auto'
       ]"
   >
     <div
@@ -122,7 +122,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawFromWallet"
       >
         withdraw
-        <Timer :start-date="timeLastContribution" :days-duration="1" :no-days="true"/>
+        <Timer :start-date="timeLastContribution" :days-duration="1"   :no-days="true"/>
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
@@ -150,7 +150,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawNFTs"
       >
         withdraw
-        <Timer :start-date="timeSaleEnded" :days-duration="365"/>
+<!--        <Timer :start-date="timeSaleEnded" :days-duration="365"/>-->
       </UButton>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>

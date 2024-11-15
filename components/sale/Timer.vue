@@ -25,12 +25,19 @@ const props = defineProps({
 });
 
 const calculateEndDate = (startDate: number, daysDuration: number) => {
-  return startDate + (MS_PER_SECOND * SECONDS_PER_DAY * daysDuration);
+  endDate.value = startDate * MS_PER_SECOND + (MS_PER_SECOND * SECONDS_PER_DAY * daysDuration);
+  return startDate *MS_PER_SECOND + (MS_PER_SECOND * SECONDS_PER_DAY * daysDuration);
 };
+
+if(props.startDate < endDate.value) {
+  console.error("Error:", "startDate must be greater than endDate")
+}else {
+  console.log("startDate: ", new Date(props.startDate*MS_PER_SECOND), "endDate: ", new Date(endDate.value*MS_PER_SECOND));
+}
 
 const updateTimer = () => {
   const now = Date.now();
-  timeRemaining.value = endDate.value - now;
+  timeRemaining.value = Math.max(0, endDate.value - now); // Prevent negative time
 };
 
 const formatTime = (totalSeconds: number): string => {
