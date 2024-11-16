@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {useEthClient} from '@/composables/useEthClient';
-import type {LockedNFT, Stablecoin, Contribution, SaleState} from "~/types/data";
+import type {LockedNFT, Stablecoin, Contribution, SaleState, SelectedItem} from "~/types/data";
 
 // Define the state interface
 interface FundraiseState {
@@ -9,10 +9,7 @@ interface FundraiseState {
   saleState: SaleState;
 }
 
-interface SelectedItem {
-  collection: string;
-  id: string;
-}
+
 
 
 const initContributions = (): Contribution => {

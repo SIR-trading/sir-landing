@@ -29,11 +29,6 @@ const calculateEndDate = (startDate: number, daysDuration: number) => {
   return startDate *MS_PER_SECOND + (MS_PER_SECOND * SECONDS_PER_DAY * daysDuration);
 };
 
-if(props.startDate < endDate.value) {
-  console.error("Error:", "startDate must be greater than endDate")
-}else {
-  console.log("startDate: ", new Date(props.startDate*MS_PER_SECOND), "endDate: ", new Date(endDate.value*MS_PER_SECOND));
-}
 
 const updateTimer = () => {
   const now = Date.now();
@@ -46,20 +41,17 @@ const formatTime = (totalSeconds: number): string => {
   const hours = String(Math.floor(remainingSecondsAfterDays / SECONDS_PER_HOUR)).padStart(2, '0');
   const minutes = String(Math.floor((remainingSecondsAfterDays % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE)).padStart(2, '0');
   const seconds = String(remainingSecondsAfterDays % SECONDS_PER_MINUTE).padStart(2, '0');
-  console.log(days, hours, minutes, seconds);
   return props.noDays ? `${hours}:${minutes}:${seconds}` : `${days}:${hours}:${minutes}:${seconds}`;
 };
 
 const initializeTimer = async () => {
   endDate.value = calculateEndDate(props.startDate, props.daysDuration);
-  console.log("startDate: ", props.startDate, "endDate: ", endDate.value);
   updateTimer();
 
   const interval = setInterval(updateTimer, MS_PER_SECOND);
 
   const { $listen } = useNuxtApp();
   $listen('sale:update', async () => {
-    console.log("EVENT: sale:update");
     endDate.value = calculateEndDate(props.startDate, props.daysDuration);
     updateTimer();
     console.log(props.startDate);

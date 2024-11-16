@@ -6,22 +6,27 @@ import ContributeForm from "~/components/sale/ContributeForm.vue";
 import {useSaleStore} from "~/stores/sale";
 import Bonus from "~/components/sale/Bonus.vue";
 import PreviousContributions from "~/components/sale/PreviousContributions.vue";
-
+import type {SelectedItem} from "@/types/data"
 // Initialize composables
 const nfts = useNfts();
 const { address, isConnected, isBoostedAddress } = useWallet();
 
+declare interface INftObject {
+  collection: string;
+  id: string;
+}
+
 // Reactive variables
-const btList = ref([]);
-const totalSelected = ref(0);
+const btList: Ref<Array<INftObject|undefined>> = ref([]);
+const totalSelected: Ref<number> = ref(0);
 
 // Fetch NFTs if connected
-let bt = ref([]);
-let mj = ref([]);
+let bt:Ref<Array<number>> = ref([]);
+let mj:Ref<Array<number>> = ref([]);
 
 const fetchData = async () => {
-  bt.value = await nfts.fetchWalletButerinCards(address.value);
-  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+  bt.value = await nfts.fetchWalletButerinCards(address.value as string) as Array<number>;
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value as string) as Array<number>;
 }
 
 watch([isConnected, address], async ([connected, address]) => {
@@ -32,8 +37,8 @@ watch([isConnected, address], async ([connected, address]) => {
 
 if (isConnected.value) {
   console.log('address', address.value);
-  bt.value = await nfts.fetchWalletButerinCards(address.value);
-  mj.value = await nfts.fetchWalletMinedJpeg(address.value);
+  bt.value = await nfts.fetchWalletButerinCards(address.value as string) as Array<number>;
+  mj.value = await nfts.fetchWalletMinedJpeg(address.value as string) as Array<number>;
 }
 
 const saleStore = useSaleStore()
@@ -44,38 +49,49 @@ const totalLocked = computed(() => {
   return  mj + bt
 })
 
-// Method to handle selection
-const toggleSelection = (collection: string, nft: number) => {
-  const nftObject = {collection: collection, id: nft};
-  const index = btList.value.findIndex((item) => item.collection === nftObject.collection && item.id === nftObject.id);
-  if (index === -1) {
-    if (btList.value.length >= 5) {
-      return;
-    }
-    // Add NFT to the list
-    btList.value.push(nftObject);
-    saleStore.selectedItems.push(nftObject);
-    totalSelected.value += 1;
-    console.log("*****************", btList.value, totalSelected.value);
-  } else {
-    // Remove NFT from the list
-    btList.value.splice(index, 1);
-    saleStore.selectedItems.splice(nftObject, 1);
-    totalSelected.value -= 1;
-  }
+const MAX_BT_LIST_LENGTH = 5;
+
+const addNFTItem = (item: INftObject) => {
+  btList.value.push(item);
+  saleStore.selectedItems.push(item);
+  totalSelected.value += 1;
 };
 
+const removeNFTItem = (index: number, item: INftObject) => {
+  btList.value.splice(index, 1);
+  saleStore.selectedItems = saleStore.selectedItems.filter(
+      (selectedItem) => selectedItem.id !== item.id || selectedItem.collection !== item.collection
+  );
+  totalSelected.value -= 1;
+};
+
+const toggleSelection = (collection: string, nft: number) => {
+  const nftItem = {collection: collection, id: nft.toString()};
+  const index = btList.value.findIndex(
+      (item: INftObject | undefined) =>
+          item?.collection === nftItem.collection && item?.id === nftItem.id
+  );
+
+  if (index === -1) {
+    if (btList.value.length >= MAX_BT_LIST_LENGTH) {
+      return;
+    }
+    addNFTItem(nftItem);
+  } else {
+    removeNFTItem(index, nftItem);
+  }
+};
 // Check if selected
 const isSelected = (collection: string, nft: number) => {
-  return btList.value.some((item) => item.collection === collection && item.id === nft);
+  return btList.value.some((item: SelectedItem|undefined) => item?.collection === collection && item?.id === nft.toString());
 };
 
 const btSelected = computed(() => {
-  return btList.value.map((item) => item.collection === "BT" ? item.id : null).filter(id => id !== null);
+  return btList.value.map((item: SelectedItem|undefined) => item?.collection === "BT" ? item?.id : null).filter(id => id !== null);
 })
 
 const mjSelected = computed(() => {
-  return btList.value.map((item) => item.collection === "MJ" ? item.id : null).filter(id => id !== null);
+  return btList.value.map((item: SelectedItem|undefined) => item?.collection === "MJ" ? item?.id : null).filter(id => id !== null);
 })
 
 const isCheckboxDisabled = computed(() => {
@@ -97,7 +113,7 @@ const hasSaleEnded = computed(() => {
       <PreviousContributions />
     </div>
 
-    <div v-if="!isBoostedAddress" class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
+    <div v-if="!isBoostedAddress || !hasSaleEnded " class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
       <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md p-4">
         <div class="flex justify-start section-header text-lg">Buterin Cards</div>
         <div v-if="bt.length > 0"

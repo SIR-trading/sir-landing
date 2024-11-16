@@ -30,6 +30,11 @@ declare type SaleState = {
   timeSaleEnded: number;
 }
 
+export type SelectedItem = {
+  collection: string;
+  id: string;
+}
+
 declare type Token = {
   name: string;
   ticker: string;

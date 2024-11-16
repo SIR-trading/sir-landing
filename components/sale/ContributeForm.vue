@@ -142,7 +142,8 @@ const emit = defineEmits(['refresh']);
  * Executes the contribution process.
  */
 const contribute = async () => {
-  if (walletStore.hasAgreed.value) {
+  if (walletStore.hasAgreed) {
+    console.log("here")
     const stablecoin = convertTickerToStablecoin(selected.value.ticker);
     isTxHelperLoading.value = true;
     await depositAndLockNfts(stablecoin, Number(amount.value), saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number)).then(() => {
@@ -308,8 +309,8 @@ onMounted(() => {
           <div class="text-left text-xs text-red-400">
             <label class="p-3" v-if="!enoughBalance">Insufficient funds</label>
             <div class="flex flex-wrap">
-              <label class="p-3" v-if="hasOverflowOfDeposit && enoughBalance">
-                Your deposit exceeds the available sale amount. {{ overflowOfDeposit }} will be returned to your wallet as a refund.
+              <label class="p-1" v-if="hasOverflowOfDeposit && enoughBalance">
+                Sale cap exceeded.  {{ overflowOfDeposit }} {{selected.ticker}} will be refunded.
               </label>
             </div>
           </div>
@@ -391,14 +392,15 @@ onMounted(() => {
             </div>
             <UButton @click="doLockNfts"
                      :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+                     block
+                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 text-center">
               Agree and Lock NFTs
             </UButton>
           </div>
           <div v-else class="flex w-full gap-3 mt-0 justify-center items-center bg-[#8881]">
-            <UButton size="lg" class="font-bold" :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
-            <UButton size="lg"  v-else @click="contribute" :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
+            <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
+            <UButton size="lg" block   v-else @click="contribute" :loading="isTxHelperLoading"
+                     class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
               {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
             </UButton>
           </div>

@@ -16,7 +16,7 @@ export const useNfts = () => {
   const config = useRuntimeConfig()
   const {buterinCards, minedJpeg, rpc} = config.public
 
-  const _fetchNFTs = async (contract: string, address: string) => {
+  const _fetchNFTs = async (contract: string, address: string): Promise<Array<number> | void>  => {
     const eth = new EthereumClient(contract, rpc, chain.id, abi)
     try {
       const amount = Number(await eth.contract.balanceOf(address));
@@ -30,15 +30,15 @@ export const useNfts = () => {
       });
 
     } catch (error) {
-      console.error("Error fetching token name:", error);
+      console.error("Error fetching items list:", error);
     }
   }
-  const fetchWalletButerinCards = async (address: string) => {
+  const fetchWalletButerinCards = async (address: string): Promise<Array<number>|void> => {
     return await _fetchNFTs(buterinCards, address);
 
   }
   
-  const fetchWalletMinedJpeg = async (address: string) => {
+  const fetchWalletMinedJpeg = async (address: string): Promise<Array<number>|void> => {
     return await _fetchNFTs(minedJpeg, address);
   }
 
