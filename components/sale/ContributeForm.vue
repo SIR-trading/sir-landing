@@ -55,7 +55,6 @@ watch(useWallet().address,  async (address) => {
     await saleStore.fetchWalletContributions(address)
     selected.value = tokenList[saleStore.contributions.stablecoin]
     await setBalance();
-
   }
 });
 
@@ -294,8 +293,9 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col items-center w-full flex-auto rounded-lg bg-[#ffffff15]">
-    <UFormGroup class="w-full">
-      <div class="w-full flex flex-row gap-3 rounded-md p-3">
+
+    <UFormGroup class="w-full p-3">
+      <div class="w-full flex flex-row gap-3 rounded-md p-3 bg-[#414158]">
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="text" placeholder="0"
                  @input="checkApproval"

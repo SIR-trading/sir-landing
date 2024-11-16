@@ -8,7 +8,7 @@ import NftList from "~/components/sale/NftList.vue";
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address, isChainCorrect} = useWallet();
+const {isConnected, address} = useWallet();
 const nfts = useNfts();
 
 let bt: Ref<Array<number>> = ref([]);
@@ -42,8 +42,6 @@ const chartLegend = [
   {label: "Treasury", color: "bg-[#7360E6]"},
   {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
 ]
-
-
 
 </script>
 
