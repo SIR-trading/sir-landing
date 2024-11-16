@@ -76,6 +76,11 @@
 .sir-text-shadow {
     text-shadow: 0 4px 0 rgba(0, 0, 0, 0.50);
 }
+
+.sir-text-shadow-darker {
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.75);
+}
+
 .p-header {
     @apply text-lg font-bold
 }

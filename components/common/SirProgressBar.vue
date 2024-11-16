@@ -29,7 +29,7 @@ const value = asyncComputed(async () => {
         class="rounded-md progress-gradient h-[40px] transition-width duration-1000 ease-out"
         :style="{ width: value + '%' }"
     >
-      <div class="indicator title text-lg">{{ value }}% $500K RAISED</div>
+      <div class="indicator title sir-text-shadow-darker text-lg">{{ value }}% $500K RAISED</div>
     </div>
   </div>
 </template>

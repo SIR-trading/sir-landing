@@ -3,7 +3,7 @@ import Modal from "~/components/common/Modal.vue";
 
 import {useWallet} from "~/composables/useWallet";
 
-const emits = defineEmits(['statusChanged', 'close'])
+const emits = defineEmits(['close'])
 
 const {isConnected, address} = useWallet()
 
@@ -38,11 +38,6 @@ const signMessage = async (): Promise<string|void>  => {
 const agreeToDisclaimer = async () => {
   if(!isConnected.value) return;
   const signature = await signMessage()
-  const json= JSON.stringify({
-    address: address.value,
-    signature: signature,
-    message: message,
-  })
   const res = await $fetch('/api/save-wallet', {
     method: 'POST',
     body: {
@@ -51,11 +46,11 @@ const agreeToDisclaimer = async () => {
       message: message,
     }
   })
-  console.log("Result::save-wallet", res  )
-  localStorage.setItem(`wallet-${address.value}`, JSON.stringify(json))
   isModalOpen.value = false
   agreed.value = true
-  emits('statusChanged')
+  if(res?.statusCode === 200) {
+    walletStore.hasAgreed = true
+  }
 }
 
 

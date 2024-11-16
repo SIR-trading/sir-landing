@@ -10,7 +10,7 @@ import { useSaleStore } from "~/stores/sale";
 import type { Token } from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
 
-const amount: Ref<string> = ref('0');
+const amount: Ref<string> = ref("");
 const { tokenList } = useEnv();
 const selected: Ref<Token> = ref(tokenList[0]);
 
@@ -384,7 +384,7 @@ onMounted(() => {
         >
           <UButton :loading="isTxHelperLoading" color="robRoy" @click="approveNFTs">Approve</UButton>
         </div>
-        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center p-6">
           <div v-if="showLockNfts" class="flex flex-col w-full gap-3 mt-0 justify-center items-center">
             <div class="flex flex-col p-4">
               <p>Your NFTs will be locked for 1 year</p>
@@ -395,16 +395,16 @@ onMounted(() => {
               Agree and Lock NFTs
             </UButton>
           </div>
-          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
-            <UButton :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
-            <UButton v-else @click="contribute" :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
+          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center bg-[#8881]">
+            <UButton size="lg" class="font-bold" :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
+            <UButton size="lg"  v-else @click="contribute" :loading="isTxHelperLoading"
+                     class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
               {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
             </UButton>
           </div>
         </div>
       </div>
     </Modal>
-    <Disclaimer v-if="showModal" @status-changed="walletStore.checkAgreed" @close="handleClose" />
+    <Disclaimer v-if="showModal" @close="handleClose" />
   </div>
 </template>

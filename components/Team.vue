@@ -5,11 +5,12 @@ const teamMembers = [
     name: "Xatarrer",
     role: "Founder  / Smart contract dev",
     link: "https://x.com/Xatarrer",
-    avatar: "team-avatars/xatarrer.jpg"
+    avatar: "team-avatars/xatarrer.jpg",
+    core: true
   },
-  {name: "Realtarpcity", role: "Fronted dev", link: "https://x.com/tarpley_travis", avatar: "team-avatars/tarp.jpg"},
-  {name: "Abstrucked", role: "Fronted dev", link: "https://x.com/abstrucked", avatar: "team-avatars/abstrucked.jpg"},
-  {name: "MrLivingstream", role: "UX/UI designer", link: "https://x.com/MrLivingstream", avatar: "team-avatars/MrLivingstream.jpg"},
+  {name: "Realtarpcity", role: "Fronted dev", link: "https://x.com/tarpley_travis", avatar: "team-avatars/tarp.jpg", core: true},
+  {name: "Abstrucked", role: "Fronted dev", link: "https://x.com/abstrucked", avatar: "team-avatars/abstrucked.jpg", core: true},
+  {name: "MrLivingstream", role: "UX/UI designer", link: "https://x.com/MrLivingstream", avatar: "team-avatars/MrLivingstream.jpg", core: true},
   {name: "Crashnaut", role: "Community manager", link: "https://x.com/crashnaut", avatar: "team-avatars/crashnaut.jpg"},
   {name: "0xjohn", role: "Frontend dev", link: "https://x.com/0xjooohn", avatar: "team-avatars/0xjohn.jpg"},
   {name: "Pau", role: "Ambassador", link: "https://x.com/PauChan23", avatar: "team-avatars/pau.jpg"},
@@ -31,8 +32,8 @@ const goto = (link: string) => {
            class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
            @click="goto(`https://x.com/${member.link}`)"
       >
-        <UAvatar size="4xl" :src="member.avatar" :alt="member.name"/>
-        <div class="font-bold text-[24px]">{{ member.name }}</div>
+        <UAvatar :size="member.core ? '4xl': '3xl'" :src="member.avatar" :alt="member.name"/>
+        <div :class="['font-bold', member.core ? 'text-[24px]' : 'text-[18px]']">{{ member.name }}</div>
         <div >{{ member.role }}</div>
       </div>
     </div>
@@ -43,8 +44,8 @@ const goto = (link: string) => {
              class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
              @click="goto(member.link)"
         >
-          <UAvatar size="4xl" :src="member.avatar" :alt="member.name"/>
-          <div class="font-semibold text-[24px]">{{ member.name }}</div>
+          <UAvatar size="3xl" :src="member.avatar" :alt="member.name"/>
+          <div class="font-semibold text-[18px]">{{ member.name }}</div>
           <div >{{ member.role }}</div>
         </div>
       </div>
