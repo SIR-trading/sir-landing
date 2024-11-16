@@ -60,7 +60,12 @@ export const useSaleStore = defineStore('sale', {
       return mapSelectedItems(state.selectedItems, "MJ");
     },
     getTotalContributions: (state): number => state.saleState.totalContributions,
-    hasSaleEnded:(state): boolean => state.saleState.timeSaleEnded > 0
+    hasSaleEnded: (state): boolean => state.saleState.timeSaleEnded > 0,
+    itemsLocked: (state): number => {
+      const bc = !!state.contributions.lockedButerinCards.amount ? state.contributions.lockedButerinCards.amount : 0;
+      const mj = !!state.contributions.lockedMinedJpegs ? state.contributions.lockedMinedJpegs.amount : 0;
+      return bc + mj;
+    }
   },
 });
 
