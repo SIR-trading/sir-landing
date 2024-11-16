@@ -397,7 +397,7 @@ onMounted(() => {
               Agree and Lock NFTs
             </UButton>
           </div>
-          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center bg-[#8881]">
+          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
             <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
             <UButton size="lg" block   v-else @click="contribute" :loading="isTxHelperLoading"
                      class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
