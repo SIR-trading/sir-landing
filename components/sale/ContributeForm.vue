@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { type Ref, ref, computed, onMounted, watch } from 'vue';
-import { ethers } from "ethers";
-import { useWallet } from "~/composables/useWallet";
-import { useErc20 } from "~/composables/useErc20";
-import { useEthClient } from "~/composables/useEthClient";
-import { Stablecoin, type Contribution } from "@/types/data";
-import { useNfts } from "~/composables/useNfts";
-import { useSaleStore } from "~/stores/sale";
-import { useWalletStore } from "~/stores/wallet";
-import type { Token } from "~/types/data";
+import {type Ref, ref, computed, onMounted, watch} from 'vue';
+import {ethers} from "ethers";
+import {useWallet} from "~/composables/useWallet";
+import {useErc20} from "~/composables/useErc20";
+import {useEthClient} from "~/composables/useEthClient";
+import {Stablecoin, type Contribution} from "@/types/data";
+import {useNfts} from "~/composables/useNfts";
+import {useSaleStore} from "~/stores/sale";
+import type {Token} from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
+import DepositPreview from "~/components/sale/DepositPreview.vue";
 
-const amount: Ref<string> = ref('0');
-const { tokenList } = useEnv();
+const amount: Ref<string> = ref("");
+const {tokenList} = useEnv();
 const selected: Ref<Token> = ref(tokenList[0]);
 
 /**
@@ -33,11 +33,13 @@ const blackRussian = {
 };
 
 const erc20 = useErc20();
-const { fetchBalance, isERC20Approved, approveERC20 } = erc20;
+const {fetchBalance, isERC20Approved, approveERC20} = erc20;
 const balance: Ref<number | string> = ref(0);
 
-const { address, isConnected } = useWallet();
-const { checkAgreed } = useWalletStore();
+const {address, isConnected} = useWallet();
+
+const walletStore = useWalletStore();
+const saleStore = useSaleStore();
 
 const setBalance = async () => {
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
@@ -47,8 +49,12 @@ const setBalance = async () => {
   );
 };
 
-watch(address, async (address) => {
+
+watch(useWallet().address, async (address) => {
   if (address) {
+    console.log("CHANGE ADDRESS from CONTRIBUTE_FORM")
+    await saleStore.fetchWalletContributions(address)
+    selected.value = tokenList[saleStore.contributions.stablecoin]
     await setBalance();
   }
 });
@@ -90,7 +96,7 @@ const amountTo = (percent: number) => {
 };
 
 const nfts = useNfts();
-const { setApprovalForAll, isApprovedForAll } = nfts;
+const {setApprovalForAll, isApprovedForAll} = nfts;
 
 /**
  * Approves the selected ERC20 token.
@@ -105,18 +111,16 @@ const approve = async () => {
 
 const showModal: Ref<boolean> = ref(false);
 
-const { depositAndLockNfts, lockNfts } = useEthClient();
+const {depositAndLockNfts, lockNfts} = useEthClient();
 const config = useRuntimeConfig().public;
 
-const { buterinCards, minedJpeg } = config;
-const saleStore = useSaleStore();
+const {buterinCards, minedJpeg} = config;
 
 
 /**
  * Displays agreement modal.
  */
 const getAgreement = () => {
-  console.log("AGG", showModal.value);
   if (showModal.value) {
     showModal.value = false;
   }
@@ -128,11 +132,6 @@ const handleClose = () => {
   showModal.value = false;
 };
 
-useWalletStore().checkAgreed();
-
-const hasAgreed = computed(() => {
-  return useWalletStore().hasAgreed;
-});
 
 const emit = defineEmits(['refresh']);
 
@@ -141,7 +140,8 @@ const emit = defineEmits(['refresh']);
  * Executes the contribution process.
  */
 const contribute = async () => {
-  if (hasAgreed.value) {
+  if (walletStore.hasAgreed) {
+    console.log("here")
     const stablecoin = convertTickerToStablecoin(selected.value.ticker);
     isTxHelperLoading.value = true;
     await depositAndLockNfts(stablecoin, Number(amount.value), saleStore.buterinCardsSelected.map(Number), saleStore.minedJpegsSelected.map(Number)).then(() => {
@@ -200,7 +200,7 @@ const lockMenuInput = computed(() => {
 });
 
 if (lockMenuInput.value) {
-  selected.value = tokenList[contributions.value.stablecoin];
+  selected.value = tokenList[saleStore.contributions.stablecoin];
 }
 
 watch([isConnected, contributions], ([isConnected, contributions]) => {
@@ -238,7 +238,7 @@ const isBtApproved: Ref<boolean> = ref(true);
 const isMjpgApproved: Ref<boolean> = ref(true);
 
 const checkNftsApprovals = async () => {
-  const { address } = useWallet();
+  const {address} = useWallet();
   isBtApproved.value = await isApprovedForAll(config.buterinCards, address.value as string);
   isMjpgApproved.value = await isApprovedForAll(config.minedJpeg, address.value as string);
 };
@@ -279,7 +279,7 @@ const approveNFTs = async () => {
  */
 onMounted(() => {
   handleChange();
-  const { $listen } = useNuxtApp();
+  const {$listen} = useNuxtApp();
   $listen('sale:update', async () => {
     await setBalance();
     await saleStore.fetchSaleState();
@@ -288,12 +288,15 @@ onMounted(() => {
     await checkNftsApprovals();
   });
 });
+
+
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full rounded-lg bg-[#ffffff15]">
-    <UFormGroup class="w-full">
-      <div class="w-full flex flex-row gap-3 rounded-md p-3">
+  <div class="flex flex-col items-center w-full flex-auto rounded-lg bg-[#ffffff15]">
+
+    <UFormGroup class="w-full p-3">
+      <div class="w-full flex flex-row gap-3 rounded-md p-3 bg-[#414158]">
         <div class="flex flex-col gap-2">
           <input v-model="amount" type="text" placeholder="0"
                  @input="checkApproval"
@@ -306,8 +309,8 @@ onMounted(() => {
           <div class="text-left text-xs text-red-400">
             <label class="p-3" v-if="!enoughBalance">Insufficient funds</label>
             <div class="flex flex-wrap">
-              <label class="p-3" v-if="hasOverflowOfDeposit && enoughBalance">
-                Your deposit exceeds the available sale amount. {{ overflowOfDeposit }} will be returned to your wallet as a refund.
+              <label class="p-1" v-if="hasOverflowOfDeposit && enoughBalance">
+                Sale cap exceeded. {{ overflowOfDeposit }} {{ selected.ticker }} will be refunded.
               </label>
             </div>
           </div>
@@ -315,7 +318,7 @@ onMounted(() => {
         <div class="flex flex-col gap-1 items-end w-full">
           <div class="flex flex-row gap-0 items-center justify-end bg-black-russian-950 rounded-md p-2">
             <picture>
-              <NuxtImg v-if="selected" :src="selected.icon" width="32" height="32" />
+              <NuxtImg v-if="selected" :src="selected.icon" width="32" height="32"/>
             </picture>
             <UTooltip
                 text="Contributions must all use the same stablecoin."
@@ -331,7 +334,7 @@ onMounted(() => {
                           :trailing-icon="!lockMenuInput ? 'i-heroicons-chevron-down-20-solid' : 'i-heroicons-exclamation-circle-16-solid'"
               >
                 <template #option="{ option: token }">
-                  <NuxtImg :src="token.icon" width="16" height="16" />
+                  <NuxtImg :src="token.icon" width="16" height="16"/>
                   <span class="truncate">{{ token.name }}</span>
                 </template>
               </UInputMenu>
@@ -353,7 +356,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full flex-col gap-3 justify-center items-center p-3">
-        <div v-if="!hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
+        <div v-if="!walletStore.hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
           <button @click="getAgreement"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
             <span class="inline-block">Agree to Terms</span>
@@ -376,33 +379,59 @@ onMounted(() => {
       </div>
     </UFormGroup>
     <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
-      <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[500px]">
+      <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
         <div v-if="(!isBtApproved || !isMjpgApproved) && saleStore.selectedItems.length > 0 "
              class="flex flex-col gap-3 justify-center items-center"
         >
           <UButton :loading="isTxHelperLoading" color="robRoy" @click="approveNFTs">Approve</UButton>
         </div>
-        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center">
+        <div v-else class="flex w-full gap-3 mt-3 justify-center items-center p-6">
           <div v-if="showLockNfts" class="flex flex-col w-full gap-3 mt-0 justify-center items-center">
-            <div class="flex flex-col p-4">
-              <p>Your NFTs will be locked for 1 year</p>
+            <div class="flex flex-col w-full p-3 gap-3">
+              <h2 class="section-header">Lock NFTs</h2>
+              <div class="flex flex-inline gap-1 justify-start items-center text-sm text-red-100 ">
+                <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-red-400"/>
+                <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
+              </div>
+              <DepositPreview :amount="!!amount? parseInt(amount ) : 0"/>
             </div>
-            <UButton @click="doLockNfts"
-                     :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
-              Agree and Lock NFTs
-            </UButton>
+            <div class="flex w-full justify-evenly">
+              <div class="w-2/3">
+                <UButton @click="doLockNfts"
+                         :loading="isTxHelperLoading"
+                         block
+                         class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 text-center">
+                  Agree and Lock NFTs
+                </UButton>
+              </div>
+            </div>
           </div>
-          <div v-else class="flex w-full gap-3 mt-0 justify-center items-center">
-            <UButton :loading="isTxHelperLoading" v-if="!isApproved" color="robRoy" @click="approve">Approve {{ selected.name }}</UButton>
-            <UButton v-else @click="contribute" :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
-              {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
-            </UButton>
+          <div v-else class="flex w-full gap-6 mt-0 p-3 justify-center items-start flex-col">
+            <div class="flex flex-col w-full p-3 gap-3">
+              <h2 class="section-header">
+                {{ saleStore.selectedItems.length > 0 ? "Lock NFTs and deposit" : `Deposit ${selected.ticker}` }}</h2>
+              <div v-if="saleStore.selectedItems.length > 0"
+                  class="flex flex-inline gap-1 justify-start items-center text-sm text-red-100 ">
+                <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-red-400"/>
+                <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
+              </div>
+            </div>
+            <DepositPreview :amount="parseInt(amount)"/>
+            <div class="flex w-full justify-center items-center">
+              <div class="w-2/3">
+                <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
+                         color="robRoy" @click="approve">Approve {{ selected.name }}
+                </UButton>
+                <UButton size="lg" block v-else @click="contribute" :loading="isTxHelperLoading"
+                         class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
+                  {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
+                </UButton>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </Modal>
-    <Disclaimer v-if="showModal" @status-changed="checkAgreed" @close="handleClose" />
+    <Disclaimer v-if="showModal" @close="handleClose"/>
   </div>
 </template>

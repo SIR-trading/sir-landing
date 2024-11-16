@@ -27,7 +27,6 @@ const withdrawNFTs = async () => {
   })
 }
 
-
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
@@ -44,21 +43,17 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 // Initially, call fetchContributions if already connected
 fetchContributions();
 
-const timeLastContribution = ref(0);
-const timeSaleEnded = ref(new Date().getTime());
-
 const hasSaleEnded = computed(() => {
   return saleStore.hasSaleEnded
 })
 
 onBeforeMount(async () => {
   await fetchContributions()
-  timeLastContribution.value = saleStore.contributions.timeLastContribution;
-  console.log("timeLastContribution", timeLastContribution.value, timeSaleEnded.value)
-})
+  })
 
 onMounted(async () => {
   await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
+
 })
 
 const {getTokenInfo} = useErc20();
@@ -103,7 +98,7 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div
       :class="[
           'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
-          hasSaleEnded ? 'md:w-2/3' : 'md:w-full'
+          hasSaleEnded ? 'md:w-2/3' : 'md:w-full flex-auto flex-grow'
       ]"
   >
     <div
@@ -122,23 +117,26 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawFromWallet"
       >
         withdraw
-        <Timer :start-date="timeLastContribution" :days-duration="1" :no-days="true"/>
+        <Timer :start-date="saleStore.contributions.timeLastContribution" :days-duration="1" :no-days="true"/>
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
         <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name }}</span></div>
     </div>
     <div
-        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
+        class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
-      <div>
-        <span class="font-semibold text-md">
+      <div class="">
+        <div class="flex flex-row items-center justify-center font-semibold text-md">
           <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
             <UIcon name="heroicons:question-mark-circle" class="w-6 h-6 mr-2"/>
-            {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}
           </UTooltip>
-        </span>
-        <span class="text-xs ml-1 text-gray-suit-500">SIR</span>
+
+        <div>
+          <span class="text-md"> {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}</span>
+        <span class="text-xs ml-1 text-gray-suit-500 font-normal">SIR</span>
+        </div>
+        </div>
       </div>
     </div>
     <div
@@ -150,7 +148,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawNFTs"
       >
         withdraw
-        <Timer :start-date="timeSaleEnded" :days-duration="365"/>
+        <Timer :start-date="saleStore.saleState.timeSaleEnded" :days-duration="365"/>
       </UButton>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
