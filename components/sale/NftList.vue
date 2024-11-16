@@ -113,7 +113,7 @@ const hasSaleEnded = computed(() => {
       <PreviousContributions />
     </div>
 
-    <div v-if="!isBoostedAddress || !hasSaleEnded " class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
+    <div v-if="!isBoostedAddress && !hasSaleEnded" class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full rounded-lg p-1 md:p-3">
       <div class="flex flex-col w-full gap-2 items-center bg-midGray rounded-md p-4">
         <div class="flex justify-start section-header text-lg">Buterin Cards</div>
         <div v-if="bt.length > 0"
