@@ -60,7 +60,7 @@ const goto = (link: string) => {
     <div class="flex flex-row items-start justify-center gap-6 flex-wrap p-1">
       <div v-for="member in coreTeamMembers" :key="member.name"
            class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
-           @click="goto(`https://x.com/${member.link}`)"
+           @click="goto(member.link)"
       >
         <UAvatar :size="member.core ? '4xl': '3xl'" :src="member.avatar" :alt="member.name"/>
         <div :class="['font-bold', member.core ? 'text-[24px]' : 'text-[18px]']">{{ member.name }}</div>
@@ -71,7 +71,7 @@ const goto = (link: string) => {
       <div class="flex flex-row items-center justify-center h-full gap-1 flex-wrap p-1">
         <div v-for="member in minorTeamMembers" :key="member.name"
              class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
-             @click="goto(`https://x.com/${member.link}`)"
+             @click="goto(member.link)"
         >
           <UAvatar size="3xl" :src="member.avatar" :alt="member.name"/>
           <div class="font-bold text-[18px]">{{ member.name }}</div>

@@ -14,7 +14,7 @@ const bonus = computed(() => {
 const lockedNFTs = computed(() => {
   const data = saleStore.contributions;
   const mj = data.lockedMinedJpegs.ids.slice(0, data.lockedMinedJpegs.amount).map(id => `MJ-${id}`);
-  const bt = data.lockedButerinCards.ids.slice(0, data.lockedButerinCards.amount).map(id => `BT-${id}`);
+  const bt = data.lockedButerinCards.ids.slice(0, data.lockedButerinCards.amount).map(id => `Card-${id}`);
   return mj.concat(bt);
 });
 
