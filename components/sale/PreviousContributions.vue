@@ -143,7 +143,7 @@ const formatNumber = (value: number, digits: number = 2) => {
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
       <UButton color="red" variant="outline"
-               v-if="hasSaleEnded"
+               v-if="hasSaleEnded  && itemsLocked > 0"
                class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
                @click="withdrawNFTs"
       >
