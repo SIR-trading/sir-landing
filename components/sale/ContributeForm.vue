@@ -9,6 +9,7 @@ import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import type {Token} from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
+import DepositPreview from "~/components/sale/DepositPreview.vue";
 
 const amount: Ref<string> = ref("");
 const {tokenList} = useEnv();
@@ -288,17 +289,7 @@ onMounted(() => {
   });
 });
 
-const allocationPreview = computed((): number => {
-  return parseInt(amount.value) * 1209
-})
 
-const bonusPreview = computed((): number => {
-  return 72.54 * parseInt(amount.value)
-      * (
-          saleStore.contributions.lockedButerinCards.amount
-          + saleStore.contributions.lockedMinedJpegs.amount
-      )
-})
 </script>
 
 <template>
@@ -388,7 +379,7 @@ const bonusPreview = computed((): number => {
       </div>
     </UFormGroup>
     <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
-      <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[500px]">
+      <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
         <div v-if="(!isBtApproved || !isMjpgApproved) && saleStore.selectedItems.length > 0 "
              class="flex flex-col gap-3 justify-center items-center"
         >
@@ -396,45 +387,47 @@ const bonusPreview = computed((): number => {
         </div>
         <div v-else class="flex w-full gap-3 mt-3 justify-center items-center p-6">
           <div v-if="showLockNfts" class="flex flex-col w-full gap-3 mt-0 justify-center items-center">
-            <div class="flex flex-col p-4">
-              <p>Your NFTs will be locked for 1 year</p>
-
+            <div class="flex flex-col w-full p-3 gap-3">
+              <h2 class="section-header">Lock NFTs</h2>
+              <div class="flex flex-inline gap-1 justify-start items-center text-sm text-red-100 ">
+                <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-red-400"/>
+                <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
+              </div>
+              <DepositPreview :amount="!!amount? parseInt(amount ) : 0"/>
             </div>
-            <UButton @click="doLockNfts"
-                     :loading="isTxHelperLoading"
-                     block
-                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 text-center">
-              Agree and Lock NFTs
-            </UButton>
+            <div class="flex w-full justify-evenly">
+              <div class="w-2/3">
+                <UButton @click="doLockNfts"
+                         :loading="isTxHelperLoading"
+                         block
+                         class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 text-center">
+                  Agree and Lock NFTs
+                </UButton>
+              </div>
+            </div>
           </div>
-          <div v-else class="flex w-full gap-3 mt-0 justify-center items-start flex-col">
-            <div class="p-3 w-full flex flex-col gap-3 bg-[#ffffff15] rounded-md text-sm">
-              <div class="flex flex-inline gap-1">
-                <span class="font-bold">Token allocation:</span>
-                <span class="text-green-500 text-sm italic">+{{ new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(allocationPreview).replace('$', '') }} SIR</span>
-              </div>
-              <div class="flex flex-inline gap-1">
-                <span class="font-bold">Bonus allocation:</span>
-                <span class="text-green-500 text-sm italic">+{{ new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(bonusPreview).replace('$', '') }} SIR</span>
-              </div>
-              <div v-if="" class="flex flex-inline gap-1">
-                <span class="font-bold">Bonus level:</span>
-                <span></span>
+          <div v-else class="flex w-full gap-6 mt-0 p-3 justify-center items-start flex-col">
+            <div class="flex flex-col w-full p-3 gap-3">
+              <h2 class="section-header">
+                {{ saleStore.selectedItems.length > 0 ? "Lock NFTs and deposit" : `Deposit ${selected.ticker}` }}</h2>
+              <div v-if="saleStore.selectedItems.length > 0"
+                  class="flex flex-inline gap-1 justify-start items-center text-sm text-red-100 ">
+                <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-red-400"/>
+                <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
               </div>
             </div>
-            <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
-                     color="robRoy" @click="approve">Approve {{ selected.name }}
-            </UButton>
-            <UButton size="lg" block v-else @click="contribute" :loading="isTxHelperLoading"
-                     class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
-              {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
-            </UButton>
+            <DepositPreview :amount="parseInt(amount)"/>
+            <div class="flex w-full justify-center items-center">
+              <div class="w-2/3">
+                <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
+                         color="robRoy" @click="approve">Approve {{ selected.name }}
+                </UButton>
+                <UButton size="lg" block v-else @click="contribute" :loading="isTxHelperLoading"
+                         class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
+                  {{ saleStore.selectedItems.length > 0 ? 'Make contribution and lock NFTs' : "Make contribution" }}
+                </UButton>
+              </div>
+            </div>
           </div>
         </div>
       </div>
