@@ -25,18 +25,19 @@ const futureAllocation = computed((): number => {
 
 const bonusPreview = computed((): number => {
   const _amount = !!amount ? amount : 1
-  return 72.54 * _amount
+  const bonus = 72.54 * _amount
       * (
           saleStore.contributions.lockedButerinCards.amount
           + saleStore.contributions.lockedMinedJpegs.amount
           + saleStore.selectedItems.length
 
       )
+  return Math.floor(bonus)
 })
 
 const futureBonus = computed((): number => {
   const _amount = !!amount ? amount : 1
-  return 72.54 * (
+  const bonus = 72.54 * (
           _amount
           + saleStore.contributions.amountWithdrawableNoDecimals
           + saleStore.contributions.amountFinalNoDecimals
@@ -46,6 +47,7 @@ const futureBonus = computed((): number => {
           + saleStore.contributions.lockedMinedJpegs.amount
           + saleStore.selectedItems.length
       )
+  return Math.floor(bonus)
 })
 </script>
 
