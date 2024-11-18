@@ -206,6 +206,7 @@ if (lockMenuInput.value) {
 watch([isConnected, contributions], ([isConnected, contributions]) => {
   if (isConnected) {
     useWalletStore().checkAgreed();
+    checkNftsApprovals()
   }
 
   if (contributions) {
@@ -243,9 +244,14 @@ const checkNftsApprovals = async () => {
   isMjpgApproved.value = await isApprovedForAll(config.minedJpeg, address.value as string);
 };
 await checkNftsApprovals();
-
+console.log("check_nfts_approvals", {
+  BT: isBtApproved.value,
+  MJ: isMjpgApproved.value
+})
 const toast = useToast();
 const approveNFTs = async () => {
+  await checkNftsApprovals()
+  console.log("approve_nfts")
   if (!isBtApproved.value) {
     isTxHelperLoading.value = true;
     toast.add({
@@ -380,10 +386,25 @@ onMounted(() => {
     </UFormGroup>
     <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
       <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
-        <div v-if="(!isBtApproved || !isMjpgApproved) && saleStore.selectedItems.length > 0 "
-             class="flex flex-col gap-3 justify-center items-center"
+        <div v-if="(!isBtApproved && saleStore.buterinCardsSelected.length > 0 ) || (!isMjpgApproved && saleStore.minedJpegsSelected.length > 0) "
+             class="flex flex-col w-full gap-3 mt-3 justify-center items-left p-6"
         >
-          <UButton :loading="isTxHelperLoading" color="robRoy" @click="approveNFTs">Approve</UButton>
+          <div class="p-6">
+            <h2 class="section-header">Approve NFTs</h2>
+            <div class="flex justify-start items-center gap-1 text-sm text-blue-100 ">
+              <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-blue-400 w-5 h-5"/>
+              <span class="italic text-sm">To transfer your NFTs to the sale contract, we need your approval.</span>
+            </div>
+          </div>
+          <div class="flex w-full justify-center">
+            <div class="w-2/3">
+              <UButton size="lg" block class="font-bold" :loading="isTxHelperLoading"
+                       color="robRoy" @click="approveNFTs"
+              >
+                Approve
+              </UButton>
+            </div>
+          </div>
         </div>
         <div v-else class="flex w-full gap-3 mt-3 justify-center items-center p-6">
           <div v-if="showLockNfts" class="flex flex-col w-full gap-3 mt-0 justify-center items-center">
