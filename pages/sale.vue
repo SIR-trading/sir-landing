@@ -8,8 +8,13 @@ import NftList from "~/components/sale/NftList.vue";
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address, isChainCorrect} = useWallet();
+const {isConnected, address} = useWallet();
 const nfts = useNfts();
+const saleStore = useSaleStore();
+
+const hasSaleEnded = computed(() => {
+  return saleStore.hasSaleEnded
+})
 
 let bt: Ref<Array<number>> = ref([]);
 let mj: Ref<Array<number>> = ref([]);
@@ -43,14 +48,9 @@ const chartLegend = [
   {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
 ]
 
-onMounted(() => {
-  useWalletStore().checkAgreed()
-  if (isConnected.value) {
-
-  }
-
+definePageMeta({
+  middleware: ['geoblock']
 })
-
 
 </script>
 
@@ -58,7 +58,16 @@ onMounted(() => {
   <UContainer>
     <Section variant="background">
       <template #header>SIR Token Sale</template>
-      <div class="flex flex-col section-text-block mt-0 mb-6">
+      <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
+        <p>
+          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
+        </p>
+        <p>
+          If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
+          enabling you to earn tokens by providing liquidity or buying on secondary markets.
+        </p>
+      </div>
+      <div v-else class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           Help us launch SIR Protocol by funding audits, deployment, and expenses.
           In return, you'll get 10-13% of SIR tokens issued over the first 3 years.

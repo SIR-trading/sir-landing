@@ -13,7 +13,9 @@ const connect = async () => {
   await connectWallet()
 }
 
-
+const saleStore = useSaleStore()
+const walletStore = useWalletStore()
+const erc20 = useErc20()
 const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {
@@ -22,8 +24,11 @@ const manageChain = async () => {
       useWalletStore().chain = _chainId
     })
 
-    provider.on('accountsChanged', (accounts: string[]) => {
+    provider.on('accountsChanged', async (accounts: string[]) => {
       console.log("Accounts Changed: ", accounts)
+      await saleStore.fetchSaleState()
+      await saleStore.fetchWalletContributions(accounts[0])
+      await walletStore.checkAgreed(accounts[0])
     })
 
     provider.on('chainChanged', async (_chainId: string) => {
@@ -52,6 +57,7 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
 onMounted(async () => {
   if(isConnected) {
     await manageChain()
+    await walletStore.checkAgreed(address.value as string)
   }
 })
 </script>

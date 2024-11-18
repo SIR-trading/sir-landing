@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {useEthClient} from '@/composables/useEthClient';
-import type {LockedNFT, Stablecoin, Contribution, SaleState} from "~/types/data";
+import type {LockedNFT, Stablecoin, Contribution, SaleState, SelectedItem} from "~/types/data";
 
 // Define the state interface
 interface FundraiseState {
@@ -9,10 +9,7 @@ interface FundraiseState {
   saleState: SaleState;
 }
 
-interface SelectedItem {
-  collection: string;
-  id: string;
-}
+
 
 
 const initContributions = (): Contribution => {
@@ -56,16 +53,6 @@ export const useSaleStore = defineStore('sale', {
   },
   getters: {
     getWalletContributions: (state): Contribution => state.contributions,
-    timer: (state): number | undefined => {
-      const endDate = state.contributions.timeLastContribution;
-      let time: number | undefined = undefined;
-      setInterval(() => {
-        const now = Date.now();
-        console.log(now);
-        time = endDate - now;
-      }, 1000);
-      return time;
-    },
     buterinCardsSelected: (state): string[] => {
       return mapSelectedItems(state.selectedItems, "BT");
     },
@@ -73,7 +60,12 @@ export const useSaleStore = defineStore('sale', {
       return mapSelectedItems(state.selectedItems, "MJ");
     },
     getTotalContributions: (state): number => state.saleState.totalContributions,
-    hasSaleEnded:(state): boolean => state.saleState.timeSaleEnded > 0
+    hasSaleEnded: (state): boolean => state.saleState.timeSaleEnded > 0,
+    itemsLocked: (state): number => {
+      const bc = !!state.contributions.lockedButerinCards.amount ? state.contributions.lockedButerinCards.amount : 0;
+      const mj = !!state.contributions.lockedMinedJpegs ? state.contributions.lockedMinedJpegs.amount : 0;
+      return bc + mj;
+    }
   },
 });
 

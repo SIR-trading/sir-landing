@@ -8,6 +8,11 @@ import SirButton from "~/components/common/SirButton.vue";
 import {useRouter} from 'vue-router'
 
 const router = useRouter()
+const saleStore = useSaleStore();
+
+const hasSaleEnded = computed(() => {
+  return saleStore.hasSaleEnded
+})
 
 const goTo = (_path: string) => {
   router.push({path: _path})
@@ -22,6 +27,35 @@ const goTo = (_path: string) => {
         Safer Leverage for Long-term Investors
       </template>
     </SirHero>
+    <Section class-name="mb-0" variant="background">
+      <template #header>SIR Token Sale</template>
+      <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
+        <p>
+          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
+        </p>
+        <p>
+          If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
+          enabling you to earn tokens by providing liquidity or buying on secondary markets.
+        </p>
+      </div>
+      <div v-else class="flex flex-col section-text-block mt-0 mb-6">
+        <p>
+          Help us launch SIR Protocol by funding audits, deployment, and expenses.
+          In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
+        </p>
+        <p>
+          <span class="font-semibold text-redAccent">
+            No VCs, no pre-sales, or future sales. Just one $500k sale open to all.
+          </span>
+          Test <a class="underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
+          launch after audits are complete.
+        </p>
+      </div>
+      <SirProgressBar/>
+      <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
+        <SirButton :label="hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
+      </div>
+    </Section>
     <ClientOnly>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is Synthetics Implemented Right (SIR)?</template>
@@ -121,8 +155,7 @@ const goTo = (_path: string) => {
         <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-evenly w-full">
           <SirCard image="/gentlemen_card.jpg" size="md">
             <p>Gentlemen <span class="font-semibold text-redAccent">
-                provide liquidity to the protocol
-              </span>. They earn fees for doing so, and on selected vaults, also rewards in the native token SIR.
+                provide liquidity to the protocol</span>. They earn fees for doing so, and on selected vaults, also rewards in the native token SIR.
               Their LP positions are tokenized in the form of an ERC-1155 called TEA.
             </p>
           </SirCard>
