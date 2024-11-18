@@ -48,6 +48,10 @@ const chartLegend = [
   {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
 ]
 
+definePageMeta({
+  middleware: ['geoblock']
+})
+
 </script>
 
 <template>
