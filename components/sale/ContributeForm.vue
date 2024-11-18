@@ -249,10 +249,11 @@ console.log("check_nfts_approvals", {
   MJ: isMjpgApproved.value
 })
 const toast = useToast();
+
 const approveNFTs = async () => {
   await checkNftsApprovals()
   console.log("approve_nfts")
-  if (!isBtApproved.value) {
+  if (saleStore.buterinCardsSelected.length > 0 && !isBtApproved.value) {
     isTxHelperLoading.value = true;
     toast.add({
       id: "approve:bt",
@@ -264,7 +265,7 @@ const approveNFTs = async () => {
     toast.remove("approve:bt");
     isTxHelperLoading.value = false;
   }
-  if (!isMjpgApproved.value) {
+  if (saleStore.minedJpegsSelected.length > 0 && !isMjpgApproved.value) {
     isTxHelperLoading.value = true;
     toast.add({
       id: "approve:mj",
