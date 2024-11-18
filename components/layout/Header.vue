@@ -64,7 +64,7 @@ const goTo = (path: string) => {
               <a href="https://x.com/leveragesir" target="_blank">
                 <UIcon name="simple-icons:x" dynamic size="20px" class="text-white"/>
               </a>
-              <a href="https://discord.gg/JpJtBFvQj8" target="_blank">
+              <a href="https://discord.gg/M2SRBDPUR2" target="_blank">
                 <UIcon name="simple-icons:discord" dynamic size="24px" class="text-white"/>
               </a>
               <a href="https://github.com/SIR-trading" target="_blank">

@@ -57,25 +57,6 @@ const goTo = (_path: string) => {
       </div>
     </Section>
     <ClientOnly>
-      <Section variant="background">
-        <template v-slot:header>SIR: a Fee Paying Token</template>
-        <div class="section-text-block flex flex-col md:flex-row items-center">
-          <img alt="pile of coins" :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
-          <div class="section-text-block">
-            <p>
-              SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
-              the SIR token issuance is immutable and part of the core protocol.
-              The SIR token is designed to have strong fundamentals,
-              <span class="font-semibold text-redAccent">rewarding its stakers with a share of the protocol's generated fees</span>.
-            </p>
-            <p>
-              The token is primarily <span class="font-semibold text-redAccent">distributed to liquidity providers</span> at a rate of 2,015 million tokens per year,
-              in perpetuity. To maintain a proportional stake in the protocol,
-              providing liquidity is necessary.
-            </p>
-          </div>
-        </div>
-      </Section>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is Synthetics Implemented Right (SIR)?</template>
         <div class="flex flex-col gap-6 w-full items-center justify-center">
@@ -115,6 +96,25 @@ const goTo = (_path: string) => {
               amplified,
               compounding returns</span>
               over the long term.</p>
+          </div>
+        </div>
+      </Section>
+      <Section variant="background">
+        <template v-slot:header>SIR: a Fee Paying Token</template>
+        <div class="section-text-block flex flex-col md:flex-row items-center">
+          <img alt="pile of coins" :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
+          <div class="section-text-block">
+            <p>
+              SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
+              the SIR token issuance is immutable and part of the core protocol.
+              The SIR token is designed to have strong fundamentals,
+              <span class="font-semibold text-redAccent">rewarding its stakers with a share of the protocol's generated fees</span>.
+            </p>
+            <p>
+              The token is primarily <span class="font-semibold text-redAccent">distributed to liquidity providers</span> at a rate of 2,015 million tokens per year,
+              in perpetuity. To maintain a proportional stake in the protocol,
+              providing liquidity is necessary.
+            </p>
           </div>
         </div>
       </Section>
