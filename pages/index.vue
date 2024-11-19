@@ -24,7 +24,7 @@ const goTo = (_path: string) => {
   <UContainer>
     <SirHero image="hero_image_borderless.png">
       <template #title>
-        Safer Leverage for Long-term Investors
+        Leverage with a one-time fee,<br>keep the rest for yourself
       </template>
     </SirHero>
     <Section class-name="mb-0" variant="background">
