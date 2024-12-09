@@ -45,10 +45,11 @@ useSeoMeta({
   ogDescription: 'SIR is a DeFi protocol designed to address the key challenges of leveraged trading, such as volatility decay and liquidation risks, making it safer for long-term investing.',
   ogImage: '/twitter_image.png',
 })
-const {connectedWallet} = useOnboard()
+
 const walletStore = useWalletStore()
 const {chain} = useEnv()
 const {changeChain} = useWallet()
+
 /**
  * @dev check if chain is correct.
  */
