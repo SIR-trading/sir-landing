@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       buterinCards: process.env.NUXT_BUTERIN_CARDS,
       minedJpeg: process.env.NUXT_MINED_JPEG,
       rpc: process.env.NUXT_RPC,
-      manualSaleLimit: process.env.NUXT_MANUAL_SALE_LIMIT || "1_000",
+      manualSaleLimit: process.env.NUXT_MANUAL_SALE_LIMIT || "100_000",
     },
 
   },
