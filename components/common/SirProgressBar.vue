@@ -8,7 +8,8 @@ const maxContribution = await eth.maxContributions();
 const saleStore = useSaleStore();
 saleStore.fetchSaleState();
 const value = asyncComputed(async () => {
-  return maxContribution ? Math.round(saleStore.getTotalContributions / maxContribution * 100) : 50000;
+  const progress = Math.round(saleStore.getTotalContributions / 100000 * 100);
+  return Math.min(progress, 100); // Ensure value does not exceed 100
 }); // Change type to number for proper ARIA handling
 </script>
 
