@@ -42,13 +42,14 @@ const thanksTo = [
     role: "Smart contract analyst",
     link: "https://x.com/no_side666",
     avatar: "team-avatars/no_side666.jpg"
-  },
-  {
-    name: "@tokenfox",
-    role: "Smart contract analyst",
-    link: "https://x.com/tokenfox1",
-    avatar: "team-avatars/tokenfox.jpg"
-  },
+  }
+  // ,
+  // {
+  //   name: "@tokenfox",
+  //   role: "Smart contract analyst",
+  //   link: "https://x.com/tokenfox1",
+  //   avatar: "team-avatars/tokenfox.jpg"
+  // },
 ]
 const goto = (link: string) => {
   window.open(link, "_blank")
