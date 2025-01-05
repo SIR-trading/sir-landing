@@ -45,7 +45,7 @@ const goTo = (_path: string) => {
         </p>
         <p>
           <span class="font-semibold text-redAccent">
-            No private sales, pre-sales, or future sales. Just one $500k sale open to all.
+            No private sales, pre-sales, or future sales. Just one $100k sale open to all.
           </span>
           Test <a class="underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
           launch after audits are complete.

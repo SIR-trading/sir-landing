@@ -76,14 +76,14 @@ const itemsLocked = computed(() => {
 const tokenAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
-  return (contributed + withdrawable) * 1209
+  return (contributed + withdrawable) * 6045
 })
 
 const bonusAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
 
-  return 72.54 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : itemsLocked.value)
+  return 362.7 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : itemsLocked.value)
 })
 
 const formatNumber = (value: number, digits: number = 2) => {
