@@ -6,11 +6,22 @@ import { useSaleStore } from "~/stores/sale";
 const eth = useEthClient();
 const maxContribution = await eth.maxContributions();
 const saleStore = useSaleStore();
+const {manualSaleLimit} = useRuntimeConfig().public;
+const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+console.log("saleLimit", saleLimit)
 saleStore.fetchSaleState();
 const value = asyncComputed(async () => {
-  const progress = Math.round(saleStore.getTotalContributions / 100000 * 100);
+  const progress = Math.round(saleStore.getTotalContributions / saleLimit * 100);
   return Math.min(progress, 100); // Ensure value does not exceed 100
 }); // Change type to number for proper ARIA handling
+
+const formatSaleLimit = (): string => {
+  if(saleLimit >= 1000) {
+    return `${(saleLimit / 1000).toFixed(0)}K`;
+  }
+  return `${saleLimit}`;
+
+}
 </script>
 
 <template>
@@ -30,7 +41,7 @@ const value = asyncComputed(async () => {
         class="rounded-md progress-gradient h-[40px] transition-width duration-1000 ease-out"
         :style="{ width: value + '%' }"
     >
-      <div class="indicator title sir-text-shadow-darker text-lg">{{ value }}% OF $100K RAISED</div>
+      <div class="indicator title sir-text-shadow-darker text-lg">{{ value }}% OF {{formatSaleLimit()}} RAISED</div>
     </div>
   </div>
 </template>
