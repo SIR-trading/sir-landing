@@ -12,8 +12,8 @@ declare type Link = {
 
 const links: Array<any> = [
   // {name: "About", to: '/about'},
-  {label: 'Sale', to: '/sale', icon: 'i-heroicons:arrow-trending-up', type: 'link'},
-  {label: 'Docs', to: 'https://docs.sir.trading/', icon: 'i-heroicons:document-text', type: 'link'},
+  {label: 'Sale', to: '/sale'},
+  {label: 'Docs', to: 'https://docs.sir.trading/'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:x', type: 'social'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:discord', type: 'social'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:github', type: 'social'},
@@ -54,10 +54,10 @@ const goTo = (path: string) => {
           </div>
         </div>
         <div v-if="isMenuOpen"
-             class="bg-black-russian-950 rounded-lg w-full p-6 flex flex-auto flex-col gap-6 items-center justify-between md:hidden ">
+             class="bg-black-russian-950 rounded-lg w-full p-4 flex flex-auto flex-col gap-4 items-center justify-between md:hidden ">
           <UVerticalNavigation
               :links="links"
-              class="w-full"
+              class="w-full flex justify-center"
               :ui="{
                   label: 'truncate relative text-2xl',
                   active: 'text-primary dark:text-primary before:bg-transparent dark:before:bg-transparent',
@@ -70,12 +70,7 @@ const goTo = (path: string) => {
 
               </span>
             </template>
-            <template #icon="{ link }">
-              <span :class="{ 'text-white': link.type === 'social'}">
-                <UIcon :name="link.icon" dynamic class="w-4 h-4 right-0 top-0"/>
 
-              </span>
-            </template>
           </UVerticalNavigation>
           <LayoutNavigationTail />
         </div>
@@ -92,37 +87,6 @@ const goTo = (path: string) => {
             </template>
           </UHorizontalNavigation>
           <LayoutNavigationTail />
-          <!--          <div class="w-full p-6 flex gap-6 flex-col  lg:flex-row lg:items-center text-2xl lg:text-base">-->
-          <!--            <UButton variant="link" v-for="link in links" :key="link.to"-->
-          <!--                     :to="link.to"-->
-          <!--                     active-class="text-primary"-->
-          <!--                     inactive-class="text-cameo-300 dark:text-cameo-300 hover:text-cameo-500 dark:hover:text-rob-roy-300"-->
-          <!--            >-->
-          <!--              <template #default>-->
-          <!--                {{ link.name }}-->
-          <!--              </template>-->
-          <!--              <template #trailing>-->
-          <!--                <UIcon v-if="link.icon" :name="link.icon" dynamic class="w-3 h-3 right-0 top-0"/>-->
-          <!--              </template>-->
-          <!--            </UButton>-->
-          <!--          </div>-->
-          <!--          <div class="flex flex-col gap-6">-->
-          <!--            <div class="flex flex-row  md:gap-4 lg:gap-6 justify-around items-center">-->
-          <!--              <a href="https://x.com/leveragesir" target="_blank">-->
-          <!--                <UIcon name="simple-icons:x" dynamic size="20px" class="text-white"/>-->
-          <!--              </a>-->
-          <!--              <a href="https://discord.gg/M2SRBDPUR2" target="_blank">-->
-          <!--                <UIcon name="simple-icons:discord" dynamic size="24px" class="text-white"/>-->
-          <!--              </a>-->
-          <!--              <a href="https://github.com/SIR-trading" target="_blank">-->
-          <!--                <UIcon name="simple-icons:github" dynamic size="24px" class="text-white"/>-->
-          <!--              </a>-->
-          <!--            </div>-->
-          <!--            <UButton color="robRoy" variant="outline" :disabled="false" :external="true"-->
-          <!--                     to="https://prototype.sir.trading/">-->
-          <!--              <span class="font-sm font-semibold">Launch Prototype</span>-->
-          <!--            </UButton>-->
-          <!--          </div>-->
         </div>
       </nav>
     </UContainer>
