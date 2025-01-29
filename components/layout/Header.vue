@@ -14,6 +14,7 @@ const links: Array<any> = [
   // {name: "About", to: '/about'},
   {label: 'Sale', to: '/sale'},
   {label: 'Docs', to: 'https://docs.sir.trading/'},
+  {label: 'Audit', to: '/SIR_Trading-Egis_Audit.pdf'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:x', type: 'social'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:discord', type: 'social'},
   // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:github', type: 'social'},
