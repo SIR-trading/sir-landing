@@ -11,13 +11,13 @@
       </UButton>
     </div>
     <div class="flex flex-row gap-2 sm:gap-3 md:gap-4 lg:gap-6 justify-around md:justify-center items-center">
-      <ULink class="flex justify-self-center" href="https://x.com/leveragesir" target="_blank">
+      <ULink class="flex justify-self-center" to="https://x.com/leveragesir" target="_blank">
         <UIcon name="simple-icons:x" dynamic size="20px" class="text-white"/>
       </ULink>
-      <ULink class="flex justify-self-center" href="https://discord.gg/M2SRBDPUR2" target="_blank">
+      <ULink class="flex justify-self-center" to="https://discord.gg/M2SRBDPUR2" target="_blank">
         <UIcon name="simple-icons:discord" dynamic size="24px" class="text-white"/>
       </ULink>
-      <ULink class="flex justify-self-center" href="https://github.com/SIR-trading" target="_blank">
+      <ULink class="flex justify-self-center" to="https://github.com/SIR-trading" target="_blank">
         <UIcon name="simple-icons:github" dynamic size="24px" class="text-white"/>
       </ULink>
     </div>
