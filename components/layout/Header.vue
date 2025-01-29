@@ -4,6 +4,7 @@
 const links: Array<any> = [
   {label: 'Sale', to: '/sale'},
   {label: 'Docs', to: 'https://docs.sir.trading/'},
+  {label: 'Audit', to: '/audit'},
 ];
 
 const isMenuOpen = ref(false);
@@ -59,10 +60,6 @@ const goTo = (path: string) => {
               </span>
             </template>
           </UVerticalNavigation>
-          <ULink :disabled="false" :external="true"
-                 to="/SIR_Audit_Report.pdf">
-            <span class="text-sm text-cameo-300 font-medium whitespace-nowrap">Audit</span>
-          </ULink>
           </div>
           <LayoutNavigationTail/>
         </div>
@@ -81,10 +78,6 @@ const goTo = (path: string) => {
               </span>
             </template>
           </UHorizontalNavigation>
-            <ULink :disabled="false" :external="true"
-                   to="/SIR_Audit_Report.pdf">
-              <span class="text-md text-cameo-300 font-medium whitespace-nowrap hover:text-cameo-200">Audit</span>
-            </ULink>
           </div>
           <LayoutNavigationTail/>
         </div>
