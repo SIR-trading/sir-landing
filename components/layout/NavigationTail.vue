@@ -1,10 +1,8 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="flex flex-col gap-6 md:gap-4 md:flex-row-reverse justify-around md:items-center">
-    <div class="">
+    <div>
       <UButton color="robRoy" variant="outline" :disabled="false" :external="true"
                to="https://prototype.sir.trading/">
         <span class="font-sm font-semibold whitespace-nowrap">Launch Prototype</span>
@@ -24,6 +22,4 @@
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
