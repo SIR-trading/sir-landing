@@ -1,22 +1,9 @@
 <script lang="ts" setup>
-import { useDevice } from "~/composables/useDevice";
-import Connect from "~/components/wallet/Connect.vue";
 
-const {isMobile, isTablet} = useDevice();
-
-declare type Link = {
-  label: string,
-  to: string,
-  icon?: string,
-}
 
 const links: Array<any> = [
-  // {name: "About", to: '/about'},
   {label: 'Sale', to: '/sale'},
   {label: 'Docs', to: 'https://docs.sir.trading/'},
-  // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:x', type: 'social'},
-  // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:discord', type: 'social'},
-  // {label: '', to: 'https://x.com/leveragesir', icon: 'i-simple-icons:github', type: 'social'},
 ];
 
 const isMenuOpen = ref(false);
@@ -43,7 +30,8 @@ const goTo = (path: string) => {
               <img src="/logo.png" alt="Logo" size="24px" class="min-h-8 min-w-8 w-8 h-8"/>
             </picture>
             <div class="inline-flex text-brand ml-1 text-sm text-white">SIR.TRADING</div>
-            <div class="block md:hidden rounded-lg" :class="{ 'bg-black-russian-950': isMenuOpen, 'bg-transparent': !isMenuOpen}">
+            <div class="block md:hidden rounded-lg"
+                 :class="{ 'bg-black-russian-950': isMenuOpen, 'bg-transparent': !isMenuOpen}">
               <UButton v-if="isMenuOpen" color="white" variant="link" @click="toggleMenu">
                 <UIcon :name="'i-heroicons:x-mark'" dynamic class="w-6 h-6"/>
               </UButton>
@@ -55,6 +43,7 @@ const goTo = (path: string) => {
         </div>
         <div v-if="isMenuOpen"
              class="bg-black-russian-950 rounded-lg w-full p-4 flex flex-auto flex-col gap-4 items-center justify-between md:hidden ">
+          <div class="flex flex-col items-center gap-2">
           <UVerticalNavigation
               :links="links"
               class="w-full flex justify-center"
@@ -67,26 +56,37 @@ const goTo = (path: string) => {
             <template #default="{ link }">
               <span :class="{ 'text-white': link.type === 'social'}">
                 {{ link.label }}
-
               </span>
             </template>
-
           </UVerticalNavigation>
-          <LayoutNavigationTail />
+          <ULink :disabled="false" :external="true"
+                 to="/SIR_Audit_Report.pdf">
+            <span class="text-sm text-cameo-300 font-medium whitespace-nowrap">Audit</span>
+          </ULink>
+          </div>
+          <LayoutNavigationTail/>
         </div>
-        <div class="w-full flex-row gap-6 items-center justify-between hidden md:flex">
-          <UHorizontalNavigation :links="links" class="w-full" :ui="{
-              label: 'truncate relative p-1 text-md',
-              active: 'text-primary dark:text-primary before:bg-transparent dark:before:bg-transparent',
-              after: '',
-              inactive: 'text-cameo-700 dark:text-cameo-300 dark:hover:text-white'
+        <div class="w-full flex-row gap-6 items-center justify-around hidden md:flex md:w-full">
+          <div class="flex flex-row items-center gap-3 w-full">
+
+          <UHorizontalNavigation :links="links" class="w-auto"  :ui="{
+              label: 'truncate relative p-1 text-md hover:bg-transparent',
+              before: 'before:absolute before:inset-x-0 before:inset-y-2 before:inset-px before:rounded-md hover:before:bg-transparent dark:hover:before:bg-transparent',
+              active: 'text-primary dark:text-primary before:bg-transparent dark:before:bg-transparent hover:bg-transparent',
+              after: 'after:absolute after:bottom-0 after:inset-x-2.5 after:block after:h-[0] after:mt-2',
+              inactive: 'text-cameo-700 dark:text-cameo-300 dark:hover:text-cameo-200 before:bg-transparent dark:before:bg-transparent hover:bg-transparent'
           }">
             <template #icon="{ link }">
               <span :class="{ 'text-white': link.type === 'social'}">
               </span>
             </template>
           </UHorizontalNavigation>
-          <LayoutNavigationTail />
+            <ULink :disabled="false" :external="true"
+                   to="/SIR_Audit_Report.pdf">
+              <span class="text-md text-cameo-300 font-medium whitespace-nowrap hover:text-cameo-200">Audit</span>
+            </ULink>
+          </div>
+          <LayoutNavigationTail/>
         </div>
       </nav>
     </UContainer>
