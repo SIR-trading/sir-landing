@@ -16,8 +16,8 @@
       </a>
     </div>
     <UButton color="robRoy" variant="outline" :disabled="false" :external="true"
-             to="https://prototype.sir.trading/">
-      <span class="font-sm font-semibold">Launch Prototype</span>
+             to="https://app.sir.trading/">
+      <span class="font-sm font-semibold">Launch App</span>
     </UButton>
   </div>
 </template>

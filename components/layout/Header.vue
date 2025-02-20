@@ -119,7 +119,7 @@ const goTo = (path: string) => {
           <!--              </a>-->
           <!--            </div>-->
           <!--            <UButton color="robRoy" variant="outline" :disabled="false" :external="true"-->
-          <!--                     to="https://prototype.sir.trading/">-->
+          <!--                     to="https://app.sir.trading/">-->
           <!--              <span class="font-sm font-semibold">Launch Prototype</span>-->
           <!--            </UButton>-->
           <!--          </div>-->
