@@ -11,7 +11,7 @@ import {useNfts} from "~/composables/useNfts";
 const {isConnected, address} = useWallet();
 const nfts = useNfts();
 const saleStore = useSaleStore();
-
+console.log("sale total contributions: ", saleStore.saleState.totalContributions)
 const hasSaleEnded = computed(() => {
   return saleStore.hasSaleEnded
 })

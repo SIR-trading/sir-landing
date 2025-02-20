@@ -20,7 +20,7 @@ const config = useRuntimeConfig()
 
 
 
-const web3Onboard = ref(null as OnboardAPI)
+const web3Onboard = ref<null|OnboardAPI>(null)
 
 const appMetadata: AppMetadata = {
   name: 'Project Name',
