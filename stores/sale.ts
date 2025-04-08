@@ -60,11 +60,6 @@ export const useSaleStore = defineStore('sale', {
       return mapSelectedItems(state.selectedItems, "MJ");
     },
     getTotalContributions: (state): number => state.saleState.totalContributions,
-    hasSaleEnded: (state): boolean => {
-      const {manualSaleLimit} = useRuntimeConfig().public
-      return state.saleState.timeSaleEnded > 0 ||
-          !!manualSaleLimit && state.saleState.totalContributions >= parseInt(manualSaleLimit)
-    },
     itemsLocked: (state): number => {
       const bc = !!state.contributions.lockedButerinCards.amount ? state.contributions.lockedButerinCards.amount : 0;
       const mj = !!state.contributions.lockedMinedJpegs ? state.contributions.lockedMinedJpegs.amount : 0;

@@ -12,9 +12,6 @@ const {isConnected, address} = useWallet();
 const nfts = useNfts();
 const saleStore = useSaleStore();
 console.log("sale total contributions: ", saleStore.saleState.totalContributions)
-const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
-})
 
 let bt: Ref<Array<number>> = ref([]);
 let mj: Ref<Array<number>> = ref([]);
@@ -58,26 +55,13 @@ definePageMeta({
   <UContainer>
     <Section variant="background">
       <template #header>SIR Token Sale</template>
-      <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
+      <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
         </p>
         <p>
           If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
           enabling you to earn tokens by providing liquidity or buying on secondary markets.
-        </p>
-      </div>
-      <div v-else class="flex flex-col section-text-block mt-0 mb-6">
-        <p>
-          Help us launch SIR Protocol by funding audits, deployment, and expenses.
-          In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
-        </p>
-        <p>
-          <span class="font-semibold text-redAccent">
-            No private sales, pre-sales, or future sales. Just one $100k sale open to all.
-          </span>
-          Test <a class="underline" href="https://app.sir.trading">our prototype on Sepolia</a> now; we'll
-          launch after audits are complete.
         </p>
       </div>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">

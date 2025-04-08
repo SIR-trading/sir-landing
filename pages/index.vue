@@ -8,11 +8,6 @@ import SirButton from "~/components/common/SirButton.vue";
 import {useRouter} from 'vue-router'
 
 const router = useRouter()
-const saleStore = useSaleStore();
-
-const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
-})
 
 const goTo = (_path: string) => {
   router.push({path: _path})
@@ -29,27 +24,14 @@ const goTo = (_path: string) => {
     </SirHero>
     <Section class-name="mb-0" variant="background">
       <template #header>SIR Token Presale</template>
-      <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
+      <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           <span class="font-semibold text-redAccent">The sale is over.</span> Check your contribution here.
         </p>
       </div>
-      <div v-else class="flex flex-col section-text-block mt-0 mb-6">
-        <p>
-          Help us launch SIR Protocol by funding audits, deployment, and expenses.
-          In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
-        </p>
-        <p>
-          <span class="font-semibold text-redAccent">
-            No private sales, pre-sales, or future sales. Just one $100k sale open to all.
-          </span>
-          Test <a class="underline" href="https://app.sir.trading">our prototype on Sepolia</a> now; we'll
-          launch after audits are complete.
-        </p>
-      </div>
       <SirProgressBar/>
       <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
-        <SirButton :label="hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
+        <SirButton :label="'Check contribution'" @clicked="goTo('/sale')"/>
       </div>
     </Section>
     <ClientOnly>
