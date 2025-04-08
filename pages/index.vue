@@ -28,14 +28,10 @@ const goTo = (_path: string) => {
       </template>
     </SirHero>
     <Section class-name="mb-0" variant="background">
-      <template #header>SIR Token Sale</template>
+      <template #header>SIR Token Presale</template>
       <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
-        </p>
-        <p>
-          If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
-          enabling you to earn tokens by providing liquidity or buying on secondary markets.
+          <span class="font-semibold text-redAccent">The sale is over.</span> Check your contribution here.
         </p>
       </div>
       <div v-else class="flex flex-col section-text-block mt-0 mb-6">
