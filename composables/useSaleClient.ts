@@ -10,15 +10,15 @@ declare interface SaleContract extends ethers.Contract {
   state: BaseContractMethod<any[], any, any>
   contributions: BaseContractMethod<any[], any, any>
   MAX_CONTRIBUTIONS_NO_DECIMALS: BaseContractMethod<any[], any, any>
-  depositAndLockNfts: BaseContractMethod<any[], any, any>
+  deposit: BaseContractMethod<any[], any, any>
   withdraw: BaseContractMethod<any[], any, any>
 }
 ``
 
-export const useEthClient = () => {
+export const useSaleClient = () => {
   const env = useEnv()
   const config = useRuntimeConfig().public
-  const {contract} = env
+  const contract = env.saleContract;
   console.log(
     'Contract address:',
     contract,
@@ -37,57 +37,15 @@ export const useEthClient = () => {
     return await ethClient.contract.contributions(contributor)
   }
 
-  /**
-   * Lock NFTs
-   * @param {Array<number>} buterinCardsIds
-   * @param {Array<number>} minedJpegsIds
-   */
-  const lockNfts = async (buterinCardsIds: Array<number>, minedJpegsIds: Array<number>) => {
-    const {getSigner} = useWallet()
-    const toast = useToast()
-    const signer = await getSigner() as JsonRpcSigner
-    try {
 
-      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
-      const tx = await mutableContract.lockNfts(buterinCardsIds, minedJpegsIds);
-      toast.add({
-        id: "lock:erc721",
-        timeout: 60000,
-        title: "Depositing",
-        color: "amber",
-      })
-      console.log(
-        'Transaction hash:',
-        tx.hash,
-        'waiting for confirmation...'
-      )
-      const receipt = await tx.wait();
-      toast.update("lock:erc721",{
-        title: "Deposited",
-        color: "harlequin",
-        timeout: 5000
-      })
-      console.log(
-        'Transaction complete! Block number:',
-        receipt.blockNumber,
-        'Transaction hash:',
-        receipt.transactionHash
-      )
-      console.log('Direct result:', receipt);
-    } catch (directError) {
-      console.error('Direct contract call error:', directError);
-    }
-  }
 
   /**
    * Deposits and locks NFTs.
    * @param {number} stablecoin - The stablecoin type as an enum.
    * @param {number} amountNoDecimals - The amount with no decimals.
-   * @param {Array<number>} buterinCardIds - The IDs of the Buterin cards.
-   * @param {Array<number>} minedJpegIds - The IDs of the mined JPEGs.
    * @returns {Promise<void>} Transaction response.
    */
-  async function depositAndLockNfts(stablecoin: Stablecoin, amountNoDecimals: number, buterinCardIds: Array<number>, minedJpegIds: Array<number>) {
+  async function deposit(stablecoin: Stablecoin, amountNoDecimals: number): Promise<any> {
     try {
       const toast = useToast()
 
@@ -95,7 +53,7 @@ export const useEthClient = () => {
       const {contract} = ethClient
       const signer = await getSigner() as JsonRpcSigner
       const mutableContract = contract.connect(signer) as SaleContract;
-      const tx = await mutableContract.depositAndLockNfts(stablecoin, amountNoDecimals, buterinCardIds, minedJpegIds)
+      const tx = await mutableContract.deposit(stablecoin, amountNoDecimals)
       toast.add({
         id: "contribute:erc20",
         timeout: 60000,
@@ -202,8 +160,7 @@ export const useEthClient = () => {
     state,
     contributions,
     maxContributions,
-    lockNfts,
-    depositAndLockNfts,
+    deposit,
     withdraw,
     withdrawNfts,
   }

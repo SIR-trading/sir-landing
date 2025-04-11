@@ -21,8 +21,8 @@ interface Contribution {
   amountFinalNoDecimals: number;
   amountWithdrawableNoDecimals: number;
   timeLastContribution: number;
-  lockedButerinCards: LockedNFT;
-  lockedMinedJpegs: LockedNFT;
+  lockedButerinCards?: LockedNFT;
+  lockedMinedJpegs?: LockedNFT;
 }
 
 declare type SaleState = {

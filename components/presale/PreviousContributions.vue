@@ -6,14 +6,12 @@ import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
 import Timer from "~/components/sale/Timer.vue";
 
-// TODO: Clear NFT related code from this file.
-
 const saleStore = useSaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
 
-const {withdraw, withdrawNfts} = useSaleClient();
+const {withdraw, withdrawNfts} = useEthClient()
 const isWithdrawing: Ref<boolean> = ref(false);
 const withdrawFromWallet = async () => {
   isWithdrawing.value = true;
@@ -100,7 +98,7 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div
       :class="[
           'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
-          'md:w-2/3'
+          'md:w-2/3' 
       ]"
   >
     <div

@@ -1,10 +1,12 @@
 import {defineStore} from 'pinia';
 import {useSaleClient} from '~/composables/useSaleClient';
 import type {LockedNFT, Stablecoin, Contribution, SaleState, SelectedItem} from "~/types/data";
+import { usePreSaleClient } from "#imports";
 
 // Define the state interface
 interface FundraiseState {
   contributions: Contribution;
+  selectedItems: SelectedItem[];
   saleState: SaleState;
 }
 
@@ -28,15 +30,16 @@ const initContributions = (): Contribution => {
   }
 }
 
-export const useSaleStore = defineStore('sale', {
+export const usePresaleStore = defineStore('sale', {
   state: (): FundraiseState => ({
     contributions: initContributions(),
+    selectedItems: [] as SelectedItem[],
     saleState: {} as SaleState
   }),
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
-        const eth = useSaleClient();
+        const eth = usePreSaleClient();
         const contributions = await eth.contributions(address);
         this.contributions = formatContribution(contributions);
         console.log("contributions", this.contributions);
@@ -51,8 +54,18 @@ export const useSaleStore = defineStore('sale', {
   },
   getters: {
     getWalletContributions: (state): Contribution => state.contributions,
-    hasSaleEnded: (state): boolean => state.saleState.timeSaleEnded > 0,
+    buterinCardsSelected: (state): string[] => {
+      return mapSelectedItems(state.selectedItems, "BT");
+    },
+    minedJpegsSelected: (state): string[] => {
+      return mapSelectedItems(state.selectedItems, "MJ");
+    },
     getTotalContributions: (state): number => state.saleState.totalContributions,
+    itemsLocked: (state): number => {
+      const bc = !!state.contributions.lockedButerinCards.amount ? state.contributions.lockedButerinCards.amount : 0;
+      const mj = !!state.contributions.lockedMinedJpegs ? state.contributions.lockedMinedJpegs.amount : 0;
+      return bc + mj;
+    }
   },
 });
 
@@ -77,5 +90,7 @@ const formatContribution = (contribution: any): Contribution => {
     amountFinalNoDecimals: Number(contribution[1]),
     amountWithdrawableNoDecimals: Number(contribution[2]),
     timeLastContribution: Number(contribution[3]),
+    lockedButerinCards: formatLockedNfts(contribution[4]),
+    lockedMinedJpegs: formatLockedNfts(contribution[5])
   };
 };

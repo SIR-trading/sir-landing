@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useEthClient } from "~/composables/useEthClient";
+import { useSaleClient } from "~/composables/useSaleClient";
 import { asyncComputed } from "@vueuse/core";
 import { useSaleStore } from "~/stores/sale";
 
-const eth = useEthClient();
+const eth = useSaleClient();
 const maxContribution = await eth.maxContributions();
 const saleStore = useSaleStore();
 const {manualSaleLimit} = useRuntimeConfig().public;
