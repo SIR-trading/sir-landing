@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
@@ -7,21 +6,11 @@ import SirProgressBar from '~/components/common/SirProgressBar.vue';
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
-const {isConnected, address} = useWallet();
+const wallet = useWallet();
 const nfts = useNfts();
 const saleStore = useSaleStore();
 console.log("sale total contributions: ", saleStore.saleState.totalContributions)
 
-let bt: Ref<Array<number>> = ref([]);
-let mj: Ref<Array<number>> = ref([]);
-
-// Fetch NFTs if connected
-watch(isConnected, async (newVal) => {
-  if (newVal) {
-    bt.value = await nfts.fetchWalletButerinCards(address.value as string) as Array<number>
-    mj.value = await nfts.fetchWalletMinedJpeg(address.value as string) as Array<number>
-  }
-})
 const bullets = [
   {
     i: 1,
@@ -69,24 +58,22 @@ definePageMeta({
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
         <Connect/>
       </div>
-      {{isConnected}}
     </Section>
 
-    <Section variant="background" >
+    <Section variant="background" v-if="wallet.isConnected">
       <template #header>Contribute</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
           <div class="flex flex-col w-full gap-3 text-left">
             <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported stablecoins—USDT, USDC, or DAI—for your contribution.</p>
             <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
-            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
           </div>
           <div class="flex flex-col w-full gap-3 text-left">
+            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
             <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
-            <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>, you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
           </div>
         </div>
-        <SaleNftList/>
+        <SaleContribute/>
       </div>
     </Section>
     <Section variant="background">

@@ -159,7 +159,6 @@ const contribute = async () => {
       await saleStore.fetchSaleState();
       await setBalance();
       amount.value = '0';
-      saleStore.selectedItems = [];
     }, 2000);
   }
 };

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import {ref} from "vue";
-import {useSaleStore} from "~/stores/sale";
-import type {Contribution, Token} from "~/types";
-import {Stablecoin} from "~/types/data";
-import {useErc20} from "~/composables/useErc20";
+import { ref } from "vue";
+import { useSaleStore } from "~/stores/sale";
+import type { Contribution, Token } from "~/types";
+import { Stablecoin } from "~/types/data";
+import { useErc20 } from "~/composables/useErc20";
 import Timer from "~/components/sale/Timer.vue";
 
 // TODO: Clear NFT related code from this file.
@@ -13,7 +13,7 @@ const saleStore = useSaleStore();
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
 
-const {withdraw, withdrawNfts} = useSaleClient();
+const {withdraw} = useSaleClient();
 const isWithdrawing: Ref<boolean> = ref(false);
 const withdrawFromWallet = async () => {
   isWithdrawing.value = true;
@@ -22,12 +22,6 @@ const withdrawFromWallet = async () => {
   })
 }
 
-const withdrawNFTs = async () => {
-  isWithdrawing.value = true;
-  await withdrawNfts().then(() => {
-    isWithdrawing.value = false;
-  })
-}
 
 const fetchContributions = async () => {
   if (!isConnected.value) return;
@@ -45,17 +39,13 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 // Initially, call fetchContributions if already connected
 fetchContributions();
 
-const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
-})
 
 onBeforeMount(async () => {
   await fetchContributions()
-  })
+})
 
 onMounted(async () => {
   await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
-
 })
 
 const {getTokenInfo} = useErc20();
@@ -69,12 +59,6 @@ const token = computed((): Token | null => {
 
 const {isBoostedAddress} = useWallet();
 
-const itemsLocked = computed(() => {
-  const mj:number = !!contributions.value.lockedMinedJpegs?.amount ? contributions.value.lockedMinedJpegs?.amount : 0;
-  const bt:number = !!contributions.value.lockedButerinCards?.amount ? contributions.value.lockedButerinCards?.amount : 0;
-  return mj + bt;
-})
-
 const tokenAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
@@ -85,7 +69,7 @@ const bonusAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
 
-  return 362.7 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : itemsLocked.value)
+  return 362.7 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : 1)
 })
 
 const formatNumber = (value: number, digits: number = 2) => {
@@ -104,11 +88,11 @@ const formatNumber = (value: number, digits: number = 2) => {
       ]"
   >
     <div
-      class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
-    <div>Total locked contributions:</div>
-    <div>
-      <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
-      <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
+        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
+      <div>Total locked contributions:</div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
@@ -134,25 +118,12 @@ const formatNumber = (value: number, digits: number = 2) => {
             <UIcon name="heroicons:question-mark-circle" class="w-6 h-6 mr-2"/>
           </UTooltip>
 
-        <div>
-          <span class="text-md"> {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}</span>
-        <span class="text-xs ml-1 text-gray-suit-500 font-normal">SIR</span>
-        </div>
+          <div>
+            <span class="text-md"> {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}</span>
+            <span class="text-xs ml-1 text-gray-suit-500 font-normal">SIR</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-        class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
-      <div>Number of locked NFTs:</div>
-      <UButton color="red" variant="outline"
-               v-if="itemsLocked > 0"
-               class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
-               @click="withdrawNFTs"
-      >
-        withdraw
-        <Timer :start-date="saleStore.saleState.timeSaleEnded" :days-duration="365"/>
-      </UButton>
-      <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
   </div>
 </template>

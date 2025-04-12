@@ -4,7 +4,7 @@ import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
-import NftList from "~/components/sale/NftList.vue";
+import Contribute from "~/components/sale/Contribute.vue";
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
@@ -85,7 +85,7 @@ definePageMeta({
             <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>, you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
           </div>
         </div>
-        <NftList/>
+        <Contribute/>
       </div>
     </Section>
     <Section variant="background">
