@@ -1,7 +1,5 @@
 import {defineStore} from 'pinia';
-import {useSaleClient} from '~/composables/useSaleClient';
-import type {LockedNFT, Stablecoin, Contribution, SaleState, SelectedItem} from "~/types/data";
-import { usePreSaleClient } from "#imports";
+import type {LockedNFT, Stablecoin, Contribution, SaleState, SelectedItem, PresaleContribution} from "~/types/data";
 
 // Define the state interface
 interface FundraiseState {
@@ -13,7 +11,7 @@ interface FundraiseState {
 
 
 
-const initContributions = (): Contribution => {
+const initContributions = (): PresaleContribution => {
   return {
     lockedButerinCards: {
       amount: 0,
@@ -32,7 +30,7 @@ const initContributions = (): Contribution => {
 
 export const usePresaleStore = defineStore('sale', {
   state: (): FundraiseState => ({
-    contributions: initContributions(),
+    contributions: initContributions() as PresaleContribution,
     selectedItems: [] as SelectedItem[],
     saleState: {} as SaleState
   }),
@@ -48,7 +46,7 @@ export const usePresaleStore = defineStore('sale', {
       }
     },
     async fetchSaleState(): Promise<void> {
-      const eth = useSaleClient();
+      const eth = usePreSaleClient();
       this.saleState = await eth.state();
     }
   },
@@ -62,7 +60,7 @@ export const usePresaleStore = defineStore('sale', {
     },
     getTotalContributions: (state): number => state.saleState.totalContributions,
     itemsLocked: (state): number => {
-      const bc = !!state.contributions.lockedButerinCards.amount ? state.contributions.lockedButerinCards.amount : 0;
+      const bc = !!state.contributions.lockedButerinCards ? state.contributions.lockedButerinCards.amount : 0;
       const mj = !!state.contributions.lockedMinedJpegs ? state.contributions.lockedMinedJpegs.amount : 0;
       return bc + mj;
     }

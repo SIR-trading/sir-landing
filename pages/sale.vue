@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import Section from '@/components/common/Section.vue';
-import SirCard from '~/components/common/SirCard.vue';
-import Connect from '~/components/wallet/Connect.vue';
-import SirProgressBar from '~/components/common/SirProgressBar.vue';
+
+
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
@@ -41,7 +39,7 @@ definePageMeta({
 
 <template>
   <UContainer>
-    <Section variant="background">
+    <CommonSection variant="background">
       <template #header>SIR Token Sale</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
@@ -53,14 +51,14 @@ definePageMeta({
         </p>
       </div>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
-        <SirProgressBar/>
+        <CommonSirProgressBar/>
       </div>
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
-        <Connect/>
+        <WalletConnect/>
       </div>
-    </Section>
+    </CommonSection>
 
-    <Section variant="background" v-if="wallet.isConnected">
+    <CommonSection variant="background" v-if="wallet.isConnected">
       <template #header>Contribute</template>
       <div class="flex flex-col gap-3 w-full items-center">
         <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
@@ -75,18 +73,18 @@ definePageMeta({
         </div>
         <SaleContribute/>
       </div>
-    </Section>
-    <Section variant="background">
+    </CommonSection>
+    <CommonSection variant="background">
       <template #header>How it works</template>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
-        <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
+        <CommonSirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
           <template #header>
             <div class="rounded-xl font-black text-rob-roy-300 ring-2 ring-rob-roy-300 text-center py-3 px-4">
               {{ bullet.i }}
             </div>
           </template>
           <p class="p-3 text-left" v-html="bullet.text"></p>
-        </SirCard>
+        </CommonSirCard>
       </div>
       <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 gap-12 md:gap-0 ">
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
@@ -114,7 +112,7 @@ definePageMeta({
           {{ item.label }}
         </div>
       </div>
-    </Section>
+    </CommonSection>
     <footer class="footer">
       <div>
         <ULink to="/sale_disclaimer">Sale discaimer</ULink>

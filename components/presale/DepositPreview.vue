@@ -6,8 +6,8 @@ const props = defineProps({
     required: true
   }
 })
-const {amount} = props
-const saleStore = useSaleStore()
+const {amount} = props;
+const saleStore = usePresaleStore();
 
 const allocationPreview = computed((): number => {
   return amount * 1209

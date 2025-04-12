@@ -6,12 +6,12 @@ import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
 import Timer from "~/components/sale/Timer.vue";
 
-const saleStore = useSaleStore();
+const saleStore = usePresaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
 
-const {withdraw, withdrawNfts} = useEthClient()
+const {withdraw, withdrawNfts} = usePreSaleClient();
 const isWithdrawing: Ref<boolean> = ref(false);
 const withdrawFromWallet = async () => {
   isWithdrawing.value = true;
@@ -42,10 +42,6 @@ const contributions = computed(() => saleStore.contributions as Contribution)
 
 // Initially, call fetchContributions if already connected
 fetchContributions();
-
-const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
-})
 
 onBeforeMount(async () => {
   await fetchContributions()
@@ -98,7 +94,7 @@ const formatNumber = (value: number, digits: number = 2) => {
   <div
       :class="[
           'flex flex-col  items-center justify-center md:justify-center rounded-lg gap-1 text-sm w-full',
-          'md:w-2/3' 
+          'md:w-2/3'
       ]"
   >
     <div

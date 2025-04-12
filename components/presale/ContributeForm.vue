@@ -1,15 +1,8 @@
 <script setup lang="ts">
 import {type Ref, ref, computed, onMounted, watch} from 'vue';
 import {ethers} from "ethers";
-import {useWallet} from "~/composables/useWallet";
-import {useErc20} from "~/composables/useErc20";
-import {useSaleClient} from "~/composables/useSaleClient";
 import {Stablecoin, type Contribution} from "@/types/data";
-import {useNfts} from "~/composables/useNfts";
-import {useSaleStore} from "~/stores/sale";
 import type {Token} from "~/types/data";
-import Modal from "~/components/common/Modal.vue";
-import DepositPreview from "~/components/sale/DepositPreview.vue";
 
 const amount: Ref<string> = ref("");
 const {tokenList} = useEnv();
@@ -39,7 +32,7 @@ const balance: Ref<number | string> = ref(0);
 const {address, isConnected} = useWallet();
 
 const walletStore = useWalletStore();
-const saleStore = useSaleStore();
+const saleStore = usePresaleStore();
 
 const setBalance = async () => {
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
@@ -111,7 +104,7 @@ const approve = async () => {
 
 const showModal: Ref<boolean> = ref(false);
 
-const {depositAndLockNfts, lockNfts} = useSaleClient();
+const {depositAndLockNfts, lockNfts} = usePreSaleClient();
 const config = useRuntimeConfig().public;
 
 const {buterinCards, minedJpeg} = config;
@@ -385,7 +378,7 @@ onMounted(() => {
         </div>
       </div>
     </UFormGroup>
-    <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
+    <CommonModal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
       <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
         <div v-if="(!isBtApproved && saleStore.buterinCardsSelected.length > 0 ) || (!isMjpgApproved && saleStore.minedJpegsSelected.length > 0) "
              class="flex flex-col w-full gap-3 mt-3 justify-center items-left p-6"
@@ -415,7 +408,7 @@ onMounted(() => {
                 <UIcon name="i-heroicons-exclamation-circle-16-solid" class="text-red-400"/>
                 <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
               </div>
-              <DepositPreview :amount="!!amount? parseInt(amount ) : 0"/>
+              <PresaleDepositPreview :amount="!!amount? parseInt(amount ) : 0"/>
             </div>
             <div class="flex w-full justify-evenly">
               <div class="w-2/3">
@@ -438,7 +431,7 @@ onMounted(() => {
                 <span class="italic text-sm">Your NFTs will be locked for 1 year after the sale ends</span>
               </div>
             </div>
-            <DepositPreview :amount="parseInt(amount)"/>
+            <PresaleDepositPreview :amount="parseInt(amount)"/>
             <div class="flex w-full justify-center items-center">
               <div class="w-2/3">
                 <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
@@ -453,7 +446,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-    </Modal>
+    </CommonModal>
     <Disclaimer v-if="showModal" @close="handleClose"/>
   </div>
 </template>

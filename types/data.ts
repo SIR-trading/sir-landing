@@ -24,6 +24,14 @@ interface Contribution {
   lockedButerinCards?: LockedNFT;
   lockedMinedJpegs?: LockedNFT;
 }
+interface PresaleContribution {
+  lockedButerinCards: LockedNFT;
+  lockedMinedJpegs: LockedNFT;
+  stablecoin: Stablecoin;
+  amountFinalNoDecimals: number;
+  amountWithdrawableNoDecimals: number;
+  timeLastContribution: number;
+}
 
 declare type SaleState = {
   totalContributions: number;
@@ -43,4 +51,4 @@ declare type Token = {
   decimals: number;
 }
 
-export type { TWalletCookie, LockedNFT, Contribution, SaleState, Token}
+export type { TWalletCookie, LockedNFT, Contribution, SaleState, Token, PresaleContribution }
