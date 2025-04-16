@@ -37,6 +37,7 @@ export const useSaleStore = defineStore('sale', {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
         const eth = useSaleClient();
+        console.log("fetching contributions for", address, "using", eth.ethClient.contract);
         const contributions = await eth.contributions(address);
         this.contributions = formatContribution(contributions);
         console.log("contributions", this.contributions);

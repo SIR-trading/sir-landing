@@ -5,7 +5,6 @@ import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
 
 const wallet = useWallet();
-const nfts = useNfts();
 const saleStore = useSaleStore();
 console.log("sale total contributions: ", saleStore.saleState.totalContributions)
 

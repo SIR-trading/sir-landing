@@ -22,7 +22,7 @@ export const useEnv = () : IEnv => {
   if (!ethers.isAddress(preSaleContract)) throw new Error('Invalid presale contract address, check the .env file');
   if (!ethers.isAddress(saleContract)) throw new Error('Invalid contract address, check the .env file');
   if (!isChain(chain)) throw new Error('Invalid chain object, check the web3/chains.ts file');
-
+  console.log({chain, preSaleContract, saleContract, tokenList})
   return {
     chain,
     preSaleContract,
