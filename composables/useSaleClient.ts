@@ -3,7 +3,7 @@ import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import {useWallet} from "~/composables/useWallet";
 import {Stablecoin, type  SaleState} from "~/types/data";
-import {type BaseContractMethod, ethers, type JsonRpcSigner} from "ethers";
+import { type BaseContractMethod, Contract, ethers, type JsonRpcSigner } from "ethers";
 
 declare interface SaleContract extends ethers.Contract {
   lockNfts: BaseContractMethod<any[], any, any>
@@ -24,17 +24,21 @@ export const useSaleClient = () => {
     contract,
     'using network:',
     env.chain.id)
-  const ethClient = new EthereumClient(contract, config.rpc, env.chain.id, abi)
+
   const state = async () => {
-    const _state = await ethClient.contract.state()
+    const _state = await $fetch<{totalContributionsNoDecimals: string, timeSaleEnded: string}>("/api/sale/state");
     return {
-      totalContributions: Number(_state[0]),
-      timeSaleEnded: Number(_state[1])
+      totalContributions: Number(_state.totalContributionsNoDecimals),
+      timeSaleEnded: Number(_state.timeSaleEnded)
     } as SaleState
   }
 
   const contributions = async (contributor: string) => {
-    return await (ethClient.contract as SaleContract).contributions(contributor);
+    return await $fetch("/api/sale/contributions", {
+      params: {
+        address: contributor,
+      }
+    })
   }
 
 
@@ -48,11 +52,9 @@ export const useSaleClient = () => {
   async function deposit(stablecoin: Stablecoin, amountNoDecimals: number): Promise<any> {
     try {
       const toast = useToast()
-
       const {getSigner} = useWallet()
-      const {contract} = ethClient
       const signer = await getSigner() as JsonRpcSigner
-      const mutableContract = contract.connect(signer) as SaleContract;
+      const mutableContract = new Contract(env.saleContract, abi, signer) as SaleContract;
       const tx = await mutableContract.deposit(stablecoin, amountNoDecimals)
       toast.add({
         id: "contribute:erc20",
@@ -73,11 +75,13 @@ export const useSaleClient = () => {
   }
 
   const withdraw = async () => {
-    const {getSigner} = useWallet()
+
     const toast = useToast()
-    const signer = await getSigner() as JsonRpcSigner
+
     try {
-      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
+      const {getSigner} = useWallet()
+      const signer = await getSigner() as JsonRpcSigner
+      const mutableContract = new Contract(env.saleContract, abi, signer) as SaleContract;
       const tx = await mutableContract.withdraw();
       toast.add({
         id: "withdraw:erc20",
@@ -112,15 +116,22 @@ export const useSaleClient = () => {
     }
   }
   const maxContributions = async () => {
-    return Number(await (ethClient.contract as SaleContract).MAX_CONTRIBUTIONS_NO_DECIMALS())
+    const {getSigner} = useWallet()
+    const signer = await getSigner() as JsonRpcSigner
+    const mutableContract = new Contract(env.saleContract, abi, signer) as SaleContract;
+    return Number($fetch(
+      "/api/sale/max-contributions",
+      {
+        method: "GET",
+      }))
   }
 
   const withdrawNfts = async () => {
+    const toast = useToast();
     const {getSigner} = useWallet()
-    const toast = useToast()
     const signer = await getSigner() as JsonRpcSigner
+    const mutableContract = new Contract(env.saleContract, abi, signer) as SaleContract;
     try {
-      const mutableContract = ethClient.contract.connect(signer) as SaleContract;
       const tx = await mutableContract.withdrawNfts();
       toast.add({
         id: "withdraw:erc721",
@@ -156,7 +167,6 @@ export const useSaleClient = () => {
   }
 
   return {
-    ethClient,
     state,
     contributions,
     maxContributions,

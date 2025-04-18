@@ -37,10 +37,9 @@ export const useSaleStore = defineStore('sale', {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
         const eth = useSaleClient();
-        console.log("fetching contributions for", address, "using", eth.ethClient.contract);
-        const contributions = await eth.contributions(address);
+        const contributions = await $fetch<Contribution>(`/api/sale/contributions?address=${address}`);
         console.log("contributions", "_".repeat(100), contributions);
-        this.contributions = formatContribution(contributions);
+        this.contributions = contributions;
         console.log("contributions", this.contributions);
       } catch (error) {
         console.error("Failed to fetch wallet contributions:", error);
@@ -58,26 +57,5 @@ export const useSaleStore = defineStore('sale', {
   },
 });
 
-// Helper function to map selected items
-const mapSelectedItems = (items: SelectedItem[], collectionType: string): string[] => {
-  return items
-    .filter(item => item.collection === collectionType)
-    .map(item => item.id);
-};
 
-// Format functions
-const formatLockedNfts = (locked: any): LockedNFT => {
-  return {
-    amount: Number(locked[0]),
-    ids: locked[1].map((id: string) => Number(id))
-  };
-};
 
-const formatContribution = (contribution: any): Contribution => {
-  return {
-    stablecoin: Number(contribution[0]) as Stablecoin,
-    amountFinalNoDecimals: Number(contribution[1]),
-    amountWithdrawableNoDecimals: Number(contribution[2]),
-    timeLastContribution: Number(contribution[3]),
-  };
-};
