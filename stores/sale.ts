@@ -39,6 +39,7 @@ export const useSaleStore = defineStore('sale', {
         const eth = useSaleClient();
         console.log("fetching contributions for", address, "using", eth.ethClient.contract);
         const contributions = await eth.contributions(address);
+        console.log("contributions", "_".repeat(100), contributions);
         this.contributions = formatContribution(contributions);
         console.log("contributions", this.contributions);
       } catch (error) {

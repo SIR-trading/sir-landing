@@ -2,7 +2,7 @@ import EthereumClient from "~/web3/EthereumClient";
 import { useEnv } from "~/composables/useEnv";
 import abi from "assets/erc20_abi.json";
 import {ethers, JsonRpcSigner, Contract, type BaseContractMethod} from "ethers";
-import type { Token } from "~/types";
+import type { SaleType, Token } from "~/types";
 
 // Opting for PascalCase for interface names following TypeScript conventions
 declare interface ERC20Contract extends Contract {
@@ -30,14 +30,14 @@ export const useErc20 = () => {
     }
   };
 
-  const getAllowance = async (token: Token): Promise<bigint> => {
+  const getAllowance = async (token: Token, contract: string): Promise<bigint> => {
     const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
     const signer = await getSigner() as JsonRpcSigner;
-    return await eth.contract.allowance(await signer.getAddress(), env.contract);
+    return await eth.contract.allowance(await signer.getAddress(), contract);
   };
 
   const isERC20Approved = async (token: Token, amount: number): Promise<boolean> => {
-    const allowance = await getAllowance(token);
+    const allowance = await getAllowance(token, env.saleContract);
     const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals);
     console.log(Number(formattedAllowance), Number(amount));
     return Number(formattedAllowance) >= Number(amount) && Number(formattedAllowance) > 0;
@@ -46,21 +46,21 @@ export const useErc20 = () => {
   const approveERC20 = async (token: Token, amount: number) => {
     const toast  = useToast();
     const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
-    try {
-      const spender = env.contract;
-      const signer = await getSigner() as JsonRpcSigner;
-      const allowance = await getAllowance(token);
 
+    try {
+      const signer = await getSigner() as JsonRpcSigner;
+      const saleContract = env.saleContract;
+      const allowance = await getAllowance(token, saleContract);
       const contract = (eth.contract).connect(signer) as ERC20Contract;
 
       // USDT specific case
       if (token.ticker === 'USDT' && allowance !== BigInt(0)) {
-        await contract.approve(spender, BigInt(0), {
+        await contract.approve(saleContract, BigInt(0), {
           nonce: await signer.provider?.getTransactionCount(await signer.getAddress())
         });
       }
 
-      const tx = await contract.approve(spender, ethers.parseUnits("500000", token.decimals))
+      const tx = await contract.approve(saleContract, ethers.parseUnits("500000", token.decimals))
         toast.add({
           id: "approve:erc20",
           timeout: 30000,

@@ -13,7 +13,7 @@ declare interface SaleContract extends ethers.Contract {
   deposit: BaseContractMethod<any[], any, any>
   withdraw: BaseContractMethod<any[], any, any>
 }
-``
+
 
 export const useSaleClient = () => {
   const env = useEnv()
@@ -34,7 +34,7 @@ export const useSaleClient = () => {
   }
 
   const contributions = async (contributor: string) => {
-    return await ethClient.contract.contributions(contributor)
+    return await (ethClient.contract as SaleContract).contributions(contributor);
   }
 
 

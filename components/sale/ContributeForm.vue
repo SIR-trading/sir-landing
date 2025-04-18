@@ -95,8 +95,7 @@ const amountTo = (percent: number) => {
   checkApproval();
 };
 
-const nfts = useNfts();
-const {setApprovalForAll, isApprovedForAll} = nfts;
+
 
 /**
  * Approves the selected ERC20 token.
@@ -308,6 +307,9 @@ onMounted(() => {
                     class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center disabled:bg-gray-suit-700">
               Make contribution
             </button>
+          </div>
+          <div v-if="showTxHelper" class="flex w-full gap-3 mt-0 justify-center items-center">
+            show
           </div>
         </div>
       </div>

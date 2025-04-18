@@ -23,32 +23,7 @@ const futureAllocation = computed((): number => {
   ) * 1209
 })
 
-const bonusPreview = computed((): number => {
-  const _amount = !!amount ? amount : 1
-  const bonus = 72.54 * _amount
-      * (
-          saleStore.contributions.lockedButerinCards.amount
-          + saleStore.contributions.lockedMinedJpegs.amount
-          + saleStore.selectedItems.length
 
-      )
-  return Math.floor(bonus)
-})
-
-const futureBonus = computed((): number => {
-  const _amount = !!amount ? amount : 1
-  const bonus = 72.54 * (
-          _amount
-          + saleStore.contributions.amountWithdrawableNoDecimals
-          + saleStore.contributions.amountFinalNoDecimals
-      )
-      * (
-          saleStore.contributions.lockedButerinCards.amount
-          + saleStore.contributions.lockedMinedJpegs.amount
-          + saleStore.selectedItems.length
-      )
-  return Math.floor(bonus)
-})
 </script>
 
 <template>
@@ -63,18 +38,11 @@ const futureBonus = computed((): number => {
         {{ new Intl.NumberFormat('en-US', {}).format(futureAllocation)}}
         <span class="font-semibold">SIR</span>
       </div>
-      <div>{{ new Intl.NumberFormat('en-US', {}).format(futureBonus)}}
-        <span class="font-semibold">SIR</span>
-      </div>
-      <span class="font-bold">{{(saleStore.itemsLocked + saleStore.selectedItems.length) * 6}}%</span>
     </div>
     <div class="flex flex-col justify-start gap-3">
                 <span class="text-green-500 text-sm italic">
                   (+{{ new Intl.NumberFormat('en-US', {}).format(allocationPreview)}})
                 </span>
-      <span class="text-green-500 text-sm italic">
-                  (+{{ new Intl.NumberFormat('en-US', {}).format(bonusPreview)}})</span>
-      <span class="text-green-500">+{{saleStore.selectedItems.length * 6}}%</span>
     </div>
   </div>
 </template>

@@ -16,7 +16,7 @@ import {useWallet} from "~/composables/useWallet";
 const injected = injectedModule()
 const coinbase = coinbaseWallet()
 
-const config = useRuntimeConfig()
+
 
 
 
