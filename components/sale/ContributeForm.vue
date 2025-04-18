@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {type Ref, ref, computed, onMounted, watch} from 'vue';
-import {ethers} from "ethers";
+import { ethers, isAddress } from "ethers";
 import {useWallet} from "~/composables/useWallet";
 import {useErc20} from "~/composables/useErc20";
 import {useSaleClient} from "~/composables/useSaleClient";
 import {Stablecoin, type Contribution} from "@/types/data";
-import {useNfts} from "~/composables/useNfts";
 import {useSaleStore} from "~/stores/sale";
 import type {Token} from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
 import DepositPreview from "~/components/sale/DepositPreview.vue";
 
 const amount: Ref<string> = ref("");
-const {tokenList} = useEnv();
-const selected: Ref<Token> = ref(tokenList[0]);
+const {tokenList} = await $fetch<{tokenList: Token[]}>("/api/erc20/tokens");
+const defaultToken = tokenList[0];
+const selected: Ref<Token> = ref(defaultToken);
 
 /**
  * Converts string ticker to Stablecoin enum.
@@ -42,7 +42,13 @@ const walletStore = useWalletStore();
 const saleStore = useSaleStore();
 
 const setBalance = async () => {
+  if(!isConnected) {
+    balance.value = 0;
+    return;
+  }
+  console.log("setBalance", walletStore.balances)
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
+  console.log("setBalance", selected.value.ticker, "RAW_BALANCE", rawBal)
   balance.value = ethers.formatUnits(
       rawBal.toString(),
       selected.value.decimals
@@ -166,8 +172,11 @@ const contribute = async () => {
 /**
  * Fetch contributions
  */
-await saleStore.fetchWalletContributions(address.value as string);
-const contributions: Ref<Contribution> = ref(saleStore.getWalletContributions);
+if(isAddress(address.value)){
+  await saleStore.fetchWalletContributions(address.value as string);
+}
+
+const contributions= ref<Contribution|null>(null);
 
 
 
@@ -181,7 +190,8 @@ if (lockMenuInput.value) {
 
 watch([isConnected, contributions], ([isConnected, contributions]) => {
   if (isConnected) {
-    useWalletStore().checkAgreed();
+    walletStore.checkAgreed();
+    walletStore.fetchTokenBalances(address.value);
   }
 
   if (contributions) {
@@ -216,14 +226,20 @@ const toast = useToast();
 /**
  * Lifecycle hook that runs when the component is mounted.
  */
-onMounted(() => {
-  handleChange();
+onMounted(async () => {
+  await handleChange();
   const {$listen} = useNuxtApp();
   $listen('sale:update', async () => {
     await setBalance();
     await saleStore.fetchSaleState();
+    if(isConnected) {
+      await walletStore.fetchTokenBalances(address.value);
+    }
     await saleStore.fetchWalletContributions(useWallet().address.value as string);
-    contributions.value = saleStore.getWalletContributions;
+    if (lockMenuInput.value) {
+      selected.value = tokenList[saleStore.contributions.stablecoin];
+    }
+
   });
 });
 
@@ -232,6 +248,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col items-center w-full flex-auto rounded-lg bg-[#ffffff15]">
+    <ClientOnly>
 
     <UFormGroup class="w-full p-3">
       <div class="w-full flex flex-row gap-3 rounded-md p-3 bg-[#414158]">
@@ -277,6 +294,7 @@ onMounted(() => {
                 </template>
               </UInputMenu>
             </UTooltip>
+
           </div>
           <div class="text-xs p-1 italic flex flex-inline gap-1 justify-center items-center">Balance: {{
               new Intl.NumberFormat('en-US', {
@@ -339,6 +357,7 @@ onMounted(() => {
         </div>
       </div>
     </Modal>
+    </ClientOnly>
     <Disclaimer v-if="showModal" @close="handleClose"/>
   </div>
 </template>

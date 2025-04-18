@@ -4,7 +4,7 @@ import { ethereum, sepolia } from "~/web3/chains";
 
 export default defineEventHandler(async (event: H3Event) => {
 	const config = useRuntimeConfig(event);
-	const contract = "0xb96dB31d8a0637D347A5Cc4d708741c26D672FD4"//config.public.env === "production" ? config.public.saleContract : config.public.testnetSaleContract;
+	const contract = config.public.env === "production" ? config.public.saleContract : config.public.testnetSaleContract;
 	const chain = config.public.env === "production" ? ethereum : sepolia;
 	const saleClient = new EthereumClient(contract, config.rpc, chain.id);
 	try {

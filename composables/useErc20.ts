@@ -22,22 +22,39 @@ export const useErc20 = () => {
   const { getSigner } = useWallet();
 
   const fetchBalance = async (token: Token, address: string): Promise<bigint | undefined> => {
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
+
     try {
-      return await eth.contract.balanceOf(address);
+      const res = await $fetch<{balance: string}>("/api/erc20/wallet-balance", {
+        params: {
+          tokenAddress: token.address,
+          address: address,
+        }
+      })
+      console.log("BALANCE______________________", res)
+      return BigInt(res.balance);
     } catch (error) {
       console.error("Error fetching erc20 token balance:", error);
     }
   };
 
-  const getAllowance = async (token: Token, contract: string): Promise<bigint> => {
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
-    const signer = await getSigner() as JsonRpcSigner;
-    return await eth.contract.allowance(await signer.getAddress(), contract);
+  const getAllowance = async (token: Token): Promise<bigint> => {
+    const {address: walletAddress} = useWallet();
+    const res = await $fetch<{allowance: string}>(
+      `/api/erc20/allowance`,
+      {
+        params: {
+          tokenAddress: token.address,
+          address: walletAddress,
+        },
+        method: "GET",
+      });
+
+    return BigInt(res.allowance);
+
   };
 
   const isERC20Approved = async (token: Token, amount: number): Promise<boolean> => {
-    const allowance = await getAllowance(token, env.saleContract);
+    const allowance = await getAllowance(token);
     const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals);
     console.log(Number(formattedAllowance), Number(amount));
     return Number(formattedAllowance) >= Number(amount) && Number(formattedAllowance) > 0;
@@ -45,13 +62,12 @@ export const useErc20 = () => {
 
   const approveERC20 = async (token: Token, amount: number) => {
     const toast  = useToast();
-    const eth = new EthereumClient(token.address, rpc, chain.id, abi) as ERC20Client;
 
     try {
       const signer = await getSigner() as JsonRpcSigner;
       const saleContract = env.saleContract;
-      const allowance = await getAllowance(token, saleContract);
-      const contract = (eth.contract).connect(signer) as ERC20Contract;
+      const allowance = await getAllowance(token);
+      const contract = new Contract(token.address, abi, signer) as ERC20Contract;
 
       // USDT specific case
       if (token.ticker === 'USDT' && allowance !== BigInt(0)) {
@@ -80,8 +96,13 @@ export const useErc20 = () => {
     }
   };
 
-  const getTokenInfo = (ticker: string): Token | undefined => {
-    return env.tokenList.find(token => token.ticker === ticker);
+  const getTokenInfo = async (ticker: string): Promise<Token | undefined> => {
+    const {tokenList} = await $fetch<{tokenList: Token[]}>(
+      "/api/erc20/tokens",
+      {
+        method: "GET",
+      });
+    return tokenList.find(token => token.ticker === ticker);
   };
 
   return { fetchBalance, approveERC20, isERC20Approved, getAllowance, getTokenInfo };
