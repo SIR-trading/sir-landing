@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import { ref } from 'vue';
 import Section from '@/components/common/Section.vue';
 import SirCard from '~/components/common/SirCard.vue';
 import Connect from '~/components/wallet/Connect.vue';
 import SirProgressBar from '~/components/common/SirProgressBar.vue';
-import Contribute from "~/components/sale/Contribute.vue";
-import {useWallet} from '~/composables/useWallet';
-import {useNfts} from "~/composables/useNfts";
+import { useWallet } from '~/composables/useWallet';
+import { useNfts } from "~/composables/useNfts";
 
 const {isConnected, address} = useWallet();
 const nfts = useNfts();
@@ -57,16 +56,17 @@ definePageMeta({
       <template #header>SIR Token Sale</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
+          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform
+          audits on the protocol and refine the app.
         </p>
         <p>
           If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
           enabling you to earn tokens by providing liquidity or buying on secondary markets.
         </p>
       </div>
-      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">
-        <SirProgressBar/>
-      </div>
+      <!--      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">-->
+      <!--        <SirProgressBar/>-->
+      <!--      </div>-->
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
         <Connect/>
       </div>
@@ -76,16 +76,23 @@ definePageMeta({
       <div class="flex flex-col gap-3 w-full items-center">
         <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
           <div class="flex flex-col w-full gap-3 text-left">
-            <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported stablecoins—USDT, USDC, or DAI—for your contribution.</p>
-            <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
-            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
+            <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported
+              stablecoins—USDT, USDC, or DAI—for your contribution.</p>
+            <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple
+              contributions during the sale.</p>
+            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you
+              have the flexibility to withdraw your contributions within 24 hours.</p>
           </div>
           <div class="flex flex-col w-full gap-3 text-left">
-            <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
-            <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a> or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>, you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
+            <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock
+              gradually over a period of three years to avoid sudden dumps into the market.</p>
+            <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a
+                class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a>
+              or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>,
+              you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
           </div>
         </div>
-        <Contribute/>
+        <PresaleNftList/>
       </div>
     </Section>
     <Section variant="background">

@@ -36,7 +36,6 @@ export const useSaleStore = defineStore('sale', {
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
-        const eth = useSaleClient();
         const contributions = await $fetch<Contribution>(`/api/sale/contributions?address=${address}`);
         console.log("contributions", "_".repeat(100), contributions);
         this.contributions = contributions;

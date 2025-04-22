@@ -2,7 +2,8 @@
 
 
 const links: Array<any> = [
-  // {label: 'Sale', to: '/sale'},
+  {label: 'Sale', to: '/sale'},
+  {label: 'Presale', to: '/presale'},
   {label: 'Docs', to: 'https://docs.sir.trading/'},
   {label: 'Audit', to: '/audit'},
 ];

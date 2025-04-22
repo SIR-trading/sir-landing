@@ -20,7 +20,8 @@ const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {
     const provider = connectedWallet.value?.provider as EIP1193Provider
-    await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
+    if(!provider) return;
+    await provider?.request({method: 'eth_chainId'}).then((_chainId: string) => {
       useWalletStore().chain = _chainId
     })
 

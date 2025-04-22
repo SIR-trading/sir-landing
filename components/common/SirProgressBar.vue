@@ -22,6 +22,8 @@ const formatSaleLimit = (): string => {
   return `${saleLimit}`;
 
 }
+
+console.log("sale", saleStore.saleState )
 </script>
 
 <template>

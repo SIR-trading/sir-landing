@@ -17,7 +17,6 @@ declare interface SaleContract extends ethers.Contract {
 
 export const useSaleClient = () => {
   const env = useEnv()
-  const config = useRuntimeConfig().public
   const contract = env.saleContract;
   console.log(
     'Contract address:',
@@ -116,9 +115,6 @@ export const useSaleClient = () => {
     }
   }
   const maxContributions = async () => {
-    const {getSigner} = useWallet()
-    const signer = await getSigner() as JsonRpcSigner
-    const mutableContract = new Contract(env.saleContract, abi, signer) as SaleContract;
     return Number($fetch(
       "/api/sale/max-contributions",
       {
