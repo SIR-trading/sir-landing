@@ -108,7 +108,6 @@ const amountTo = (percent: number) => {
  */
 const approve = async () => {
   isTxHelperLoading.value = true;
-
   await approveERC20(selected.value, Number(amount.value));
   await checkApproval();
   isTxHelperLoading.value = false;
@@ -190,7 +189,7 @@ if (lockMenuInput.value) {
 
 watch([isConnected, contributions], ([isConnected, contributions]) => {
   if (isConnected) {
-    walletStore.checkAgreed();
+    walletStore.checkAgreed(address.value as string);
     walletStore.fetchTokenBalances(address.value);
   }
 

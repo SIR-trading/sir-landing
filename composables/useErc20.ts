@@ -38,19 +38,28 @@ export const useErc20 = () => {
   };
 
   const getAllowance = async (token: Token): Promise<bigint> => {
-    const {address: walletAddress} = useWallet();
-    const res = await $fetch<{allowance: string}>(
-      `/api/erc20/allowance`,
-      {
-        params: {
-          tokenAddress: token.address,
-          address: walletAddress,
-        },
-        method: "GET",
-      });
+    const { address } = useWallet();
+    // Unwrap the ref to get the raw value
+    const walletAddress = toValue(address);
 
-    return BigInt(res.allowance);
+    console.log("useERC20 getAllowance walletAddress: ", walletAddress, " token: ", token);
 
+    try {
+      const res = await $fetch<{allowance: string}>(
+          `/api/erc20/allowance`,
+          {
+            params: {
+              tokenAddress: token.address,
+              address: walletAddress,
+            },
+            method: "GET",
+          });
+
+      return BigInt(res.allowance);
+    } catch (error) {
+      console.error("Error fetching allowance:", error);
+      return BigInt(0);
+    }
   };
 
   const isERC20Approved = async (token: Token, amount: number): Promise<boolean> => {
