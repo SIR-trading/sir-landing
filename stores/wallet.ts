@@ -59,7 +59,7 @@ export const useWalletStore = defineStore('wallet', {
       try{
       const {  isConnected, address } = useWallet();
       if (!isConnected.value) new Error("Wallet not connected");
-      const response: IStatusResponse = await $fetch('/api/get-wallet', {params: {wallet: _address ? _address : address}})
+      const response: IStatusResponse = await $fetch('/api/get-wallet', {params: {wallet: _address ? _address : address.value}})
       console.log("checkAgreed::", response);
       this.hasAgreed = response.hasAgreed;
         }
