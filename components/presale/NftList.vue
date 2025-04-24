@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+
 
 // Initialize composables
 const nfts = useNfts();
@@ -35,11 +35,11 @@ if (wallet.isConnected.value) {
   mj.value = await nfts.fetchWalletMinedJpeg(wallet.address.value as string) as Array<number>;
 }
 
-const saleStore = usePresaleStore()
+const presaleStore = usePresaleStore()
 
 const totalLocked = computed(() => {
-  const bt = !!saleStore.contributions.lockedButerinCards ? saleStore.contributions.lockedButerinCards.amount : 0;
-  const mj = !!saleStore.contributions.lockedMinedJpegs ? saleStore.contributions.lockedMinedJpegs.amount : 0;
+  const bt = !!presaleStore.contributions.lockedButerinCards ? presaleStore.contributions.lockedButerinCards.amount : 0;
+  const mj = !!presaleStore.contributions.lockedMinedJpegs ? presaleStore.contributions.lockedMinedJpegs.amount : 0;
   return  mj + bt
 })
 
@@ -47,13 +47,13 @@ const MAX_BT_LIST_LENGTH = 5;
 
 const addNFTItem = (item: INftObject) => {
   btList.value.push(item);
-  saleStore.selectedItems.push(item);
+  presaleStore.selectedItems.push(item);
   totalSelected.value += 1;
 };
 
 const removeNFTItem = (index: number, item: INftObject) => {
   btList.value.splice(index, 1);
-  saleStore.selectedItems = saleStore.selectedItems.filter(
+  usePresaleStore().selectedItems = presaleStore.selectedItems.filter(
       (selectedItem) => selectedItem.id !== item.id || selectedItem.collection !== item.collection
   );
   totalSelected.value -= 1;
@@ -88,7 +88,7 @@ const toggleSelection = (collection: string, nft: number) => {
     </div>
 
     <div class="mt-2">
-      <PresaleBonus/>
+<!--      <PresaleBonus/>-->
     </div>
   </div>
 </template>

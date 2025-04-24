@@ -6,7 +6,7 @@ import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
 import Timer from "~/components/sale/Timer.vue";
 
-const saleStore = usePresaleStore();
+const presaleStore = usePresaleStore();
 
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
@@ -30,15 +30,15 @@ const withdrawNFTs = async () => {
 const fetchContributions = async () => {
   if (!isConnected.value) return;
   console.log("fetching contributions")
-  await saleStore.fetchWalletContributions(address.value as string);
+  await presaleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
-  console.log("FETCHED", saleStore.getWalletContributions)
+  console.log("FETCHED", presaleStore.getWalletContributions)
 }
 
 // Watch for changes in 'isConnected' to fetch contributions
 watch(isConnected, fetchContributions);
 
-const contributions = computed(() => saleStore.contributions as Contribution)
+const contributions = computed(() => presaleStore.contributions as Contribution)
 
 // Initially, call fetchContributions if already connected
 fetchContributions();
@@ -48,18 +48,33 @@ onBeforeMount(async () => {
   })
 
 onMounted(async () => {
-  await useSaleStore().fetchWalletContributions(useWallet().address.value as string);
+  await presaleStore.fetchWalletContributions(useWallet().address.value as string);
 
 })
 
 const {getTokenInfo} = useErc20();
-const token = computed((): Token | null => {
+// Create a ref to hold the token
+const tokenData = ref<Token | undefined>(undefined);
+
+// Create a computed property for the ticker
+const tokenTicker = computed((): string | undefined => {
   const listStables = Stablecoin;
-  if (!contributions.value.stablecoin) return null;
+  if (!contributions.value.stablecoin) return undefined;
   const tIndex = contributions.value.stablecoin;
-  const ticker = listStables[tIndex] as string;
-  return getTokenInfo(ticker) as Token;
-})
+  return listStables[tIndex] as string;
+});
+
+// Watch for changes to the ticker and fetch the token
+watch(tokenTicker, async (newTicker) => {
+  if (newTicker) {
+    tokenData.value = await getTokenInfo(newTicker);
+  } else {
+    tokenData.value = undefined;
+  }
+}, { immediate: true });
+
+// Replace the original computed with a ref that will be updated asynchronously
+const token = computed(() => tokenData.value);
 
 const {isBoostedAddress} = useWallet();
 
@@ -113,7 +128,7 @@ const formatNumber = (value: number, digits: number = 2) => {
                @click="withdrawFromWallet"
       >
         withdraw
-        <Timer :start-date="saleStore.contributions.timeLastContribution" :days-duration="1" :no-days="true"/>
+        <Timer :start-date="presaleStore.contributions.timeLastContribution" :days-duration="1" :no-days="true"/>
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
@@ -139,12 +154,12 @@ const formatNumber = (value: number, digits: number = 2) => {
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>
       <UButton color="red" variant="outline"
-               v-if="itemsLocked > 0"
+               v-if="itemsLocked > 0 && presaleStore.saleState.timeSaleEnded"
                class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
                @click="withdrawNFTs"
       >
         withdraw
-        <Timer :start-date="saleStore.saleState.timeSaleEnded" :days-duration="365"/>
+        <Timer :start-date="presaleStore.saleState.timeSaleEnded" :days-duration="365"/>
       </UButton>
       <div><span class="font-semibold text-md"> {{ itemsLocked }}</span></div>
     </div>
