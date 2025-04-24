@@ -14,7 +14,7 @@ export const useNfts = () => {
 
   const env = useEnv()
   const config = useRuntimeConfig()
-  const {buterinCards, minedJpeg, rpc} = config.public
+  const {buterinCards, minedJpeg} = env;
 
   const _fetchNFTs = async (contract: string, address: string): Promise<Array<number> | void>  => {
     const provider = await useWallet().getProvider();

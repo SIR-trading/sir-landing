@@ -106,8 +106,8 @@ const showModal: Ref<boolean> = ref(false);
 
 const {depositAndLockNfts, lockNfts} = usePreSaleClient();
 const config = useRuntimeConfig().public;
-
-const {buterinCards, minedJpeg} = config;
+const env = useEnv();
+const {buterinCards, minedJpeg} = env;
 
 
 /**
