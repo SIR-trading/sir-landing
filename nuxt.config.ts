@@ -23,6 +23,8 @@ export default defineNuxtConfig({
       env: process.env.NUXT_ENV,
       buterinCards: process.env.NUXT_BUTERIN_CARDS,
       minedJpeg: process.env.NUXT_MINED_JPEG,
+      testnetButerinCards: process.env.NUXT_TESTNET_BUTERIN_CARDS,
+      testnetMinedJpeg: process.env.NUXT_TESTNET_MINED_JPEG,
 
       manualSaleLimit: process.env.NUXT_MANUAL_SALE_LIMIT || "100000",
     },
