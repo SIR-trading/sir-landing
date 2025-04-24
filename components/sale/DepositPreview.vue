@@ -30,8 +30,6 @@ const futureAllocation = computed((): number => {
   <div class="p-3 w-full flex flex-row justify-around gap-3 bg-[#ffffff15] rounded-md text-sm">
     <div class="flex flex-col gap-3 justify-start">
       <span class="font-bold">Token allocation:</span>
-      <span class="font-bold">Bonus allocation:</span>
-      <span class="font-bold">Bonus level:</span>
     </div>
     <div class="flex flex-col gap-3 justify-start">
       <div>

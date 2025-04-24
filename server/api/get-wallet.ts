@@ -35,11 +35,19 @@ export default defineEventHandler(async (event: H3Event) => {
   const config = useRuntimeConfig();
 
   // Extract query parameters and standardize wallet string
-  const wallet = (getQuery(event).wallet as string).toLowerCase();
-  console.log("fetching wallet signature... ", wallet);
+  const wallet = (getQuery(event).wallet as string);
+  try {
+    if(!wallet) createError({statusCode: 400, statusMessage: 'Missing or invalid wallet address'})
+    console.log("fetching wallet signature... ", wallet.toLowerCase());
 
-  const users = createKVClient(config);
-  return await fetchAndVerifyWallet(wallet, users);
+    const users = createKVClient(config);
+    return await fetchAndVerifyWallet(wallet.toLowerCase(), users);
+  }
+  catch (error) {
+    console.error(error);
+    return error;
+  }
+
 });
 
 interface IAgreement {

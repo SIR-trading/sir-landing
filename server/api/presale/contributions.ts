@@ -1,7 +1,7 @@
 import type {H3Event} from "h3";
 import EthereumClient from "~/web3/EthereumClient";
 import { ethereum, sepolia } from "~/web3/chains";
-import type { Contribution, LockedNFT } from "~/types";
+import type { PresaleContribution, LockedNFT } from "~/types";
 import type { Stablecoin } from "~/types/data";
 
 // Format functions
@@ -12,14 +12,15 @@ const formatLockedNfts = (locked: any): LockedNFT => {
 	};
 };
 
-const formatContribution = (contribution: any): Contribution => {
+const formatContribution = (contribution: any): PresaleContribution => {
+	console.log("contribution: ", contribution, "_".repeat(100));
 	return {
 		stablecoin: Number(contribution[0]) as Stablecoin,
 		amountFinalNoDecimals: Number(contribution[1]),
 		amountWithdrawableNoDecimals: Number(contribution[2]),
 		timeLastContribution: Number(contribution[3]),
-		lockedButerinCards: formatLockedNfts(contribution[4]),
-		lockedMinedJpegs: formatLockedNfts(contribution[5])
+		lockedButerinCards: formatLockedNfts(contribution[4]) ?? { amount: 0, ids: []},
+		lockedMinedJpegs: formatLockedNfts(contribution[5] ?? { amount: 0, ids: []})
 	};
 };
 
@@ -63,6 +64,40 @@ export default defineEventHandler(async (event: H3Event) => {
 							"internalType": "uint40",
 							"name": "timeLastContribution",
 							"type": "uint40"
+						},
+						{
+							"name": "lockedButerinCards",
+							"type": "tuple",
+							"internalType": "struct SaleStructs.LockedButerinCards",
+							"components": [
+								{
+									"name": "number",
+									"type": "uint8",
+									"internalType": "uint8"
+								},
+								{
+									"name": "ids",
+									"type": "uint16[5]",
+									"internalType": "uint16[5]"
+								}
+							]
+						},
+						{
+							"name": "lockedMinedJpegs",
+							"type": "tuple",
+							"internalType": "struct SaleStructs.LockedMinedJpegs",
+							"components": [
+								{
+									"name": "number",
+									"type": "uint8",
+									"internalType": "uint8"
+								},
+								{
+									"name": "ids",
+									"type": "uint8[5]",
+									"internalType": "uint8[5]"
+								}
+							]
 						}
 					],
 					"internalType": "struct Contribution",
@@ -76,8 +111,11 @@ export default defineEventHandler(async (event: H3Event) => {
 	];
 
 	try {
+		console.log("CONTRACT: ", contract, "_".repeat(100));
 		const saleClient = new EthereumClient(contract, config.rpc, chain.id, contributionsAbi);
-		return formatContribution(await saleClient.contract.contributions(address));
+		const contribution = formatContribution(await saleClient.contract.contributions(address));
+		console.log("contribution: ", contribution, "_".repeat(100));
+		return contribution;
 	} catch (error) {
 		console.error("Error details:", error);
 		throw createError({

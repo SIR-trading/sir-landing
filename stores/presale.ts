@@ -28,7 +28,7 @@ const initContributions = (): PresaleContribution => {
   }
 }
 
-export const usePresaleStore = defineStore('sale', {
+export const usePresaleStore = defineStore('presale', {
   state: (): FundraiseState => ({
     contributions: initContributions() as PresaleContribution,
     selectedItems: [] as SelectedItem[],
@@ -37,7 +37,7 @@ export const usePresaleStore = defineStore('sale', {
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
-        const contributions = await $fetch<Contribution>(`/api/sale/contributions?address=${address}`);
+        const contributions = await $fetch<PresaleContribution>(`/api/presale/contributions?address=${address}`);
         console.log("contributions", "_".repeat(100), contributions);
         this.contributions = contributions;
         console.log("contributions", this.contributions);
@@ -51,7 +51,7 @@ export const usePresaleStore = defineStore('sale', {
     }
   },
   getters: {
-    getWalletContributions: (state): Contribution => state.contributions,
+    getWalletContributions: (state): PresaleContribution => state.contributions as PresaleContribution,
     buterinCardsSelected: (state): string[] => {
       return mapSelectedItems(state.selectedItems, "BT");
     },
