@@ -9,6 +9,7 @@ import {useSaleStore} from "~/stores/sale";
 import type {Token} from "~/types/data";
 import Modal from "~/components/common/Modal.vue";
 import DepositPreview from "~/components/sale/DepositPreview.vue";
+import {useOnboard} from '@web3-onboard/vue';
 
 const amount: Ref<string> = ref("");
 const {tokenList} = await $fetch<{tokenList: Token[]}>("/api/erc20/tokens");
@@ -54,6 +55,12 @@ const setBalance = async () => {
       selected.value.decimals
   );
 };
+
+const {connectWallet} = useOnboard();
+
+const connect = async () => {
+  await connectWallet()
+}
 
 
 watch(useWallet().address, async (address) => {
@@ -311,7 +318,12 @@ onMounted(async () => {
         </div>
       </div>
       <div class="flex w-full flex-col gap-3 justify-center items-center p-3">
-        <div v-if="!walletStore.hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
+        <button v-if="!isConnected"
+          @click="connect"
+          class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
+          <span class="inline-block">Connect Wallet</span>
+        </button>
+        <div v-else-if="!walletStore.hasAgreed" class="flex w-full gap-3 mt-0 justify-center items-center">
           <button @click="getAgreement"
                   class="bg-rob-roy-300 text-black font-semibold rounded-md px-4 py-2 w-10/12 text-center">
             <span class="inline-block">Agree to Terms</span>
