@@ -37,19 +37,18 @@ const coreTeamMembers = [
 //   {name: "Pau", role: "Ambassador", link: "https://x.com/PauChan23", avatar: "team-avatars/pau.jpg"},
 // ]
 const thanksTo = [
+{
+    name: "RedTiger",
+    role: "Community manager",
+    link: "https://x.com/RedTigerAuditor",
+    avatar: "team-avatars/redtiger.jpg"
+  },
   {
-    name: "@no_side666",
-    role: "Smart contract analyst",
-    link: "https://x.com/no_side666",
-    avatar: "team-avatars/no_side666.jpg"
+    name: "Tokenbrice",
+    role: "Advisor",
+    link: "https://x.com/TokenBrice",
+    avatar: "team-avatars/tokenbrice.jpg"
   }
-  // ,
-  // {
-  //   name: "@tokenfox",
-  //   role: "Smart contract analyst",
-  //   link: "https://x.com/tokenfox1",
-  //   avatar: "team-avatars/tokenfox.jpg"
-  // },
 ]
 const goto = (link: string) => {
   window.open(link, "_blank")
@@ -63,35 +62,19 @@ const goto = (link: string) => {
            class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
            @click="goto(member.link)"
       >
-        <UAvatar :size="member.core ? '4xl': '3xl'" :src="member.avatar" :alt="member.name"/>
+        <UAvatar size="4xl" :src="member.avatar" :alt="member.name"/>
         <div :class="['font-bold', member.core ? 'text-[24px]' : 'text-[18px]']">{{ member.name }}</div>
         <div>{{ member.role }}</div>
       </div>
     </div>
-    <div class="flex flex-col md:flex-row items-end justify-center gap-1  flex-wrap p-6">
-<!--      <div class="flex flex-row items-center justify-center h-full gap-1 flex-wrap p-1">-->
-<!--        <div v-for="member in minorTeamMembers" :key="member.name"-->
-<!--             class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"-->
-<!--             @click="goto(member.link)"-->
-<!--        >-->
-<!--          <UAvatar size="3xl" :src="member.avatar" :alt="member.name"/>-->
-<!--          <div class="font-bold text-[18px]">{{ member.name }}</div>-->
-<!--          <div class="h-12" v-html="member.role"></div>-->
-<!--        </div>-->
-<!--      </div>-->
-      <div class="flex flex-col items-baseline justify-center p-0 h-full">
-        <h2 class="mb-3 sir-text-shadow text-center w-full section-header text-rob-roy-300">A
-          special thanks to</h2>
-        <div class="flex flex-row items-center justify-center gap-1 p-0 flex-wrap">
-          <div v-for="member in thanksTo" :key="member.name"
-               class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
-               @click="goto(member.link)"
-          >
-            <UAvatar size="3xl" :src="member.avatar" :alt="member.name"/>
-            <div class="font-semibold text-[18px]">{{ member.name }}</div>
-            <div>{{ member.role }}</div>
-          </div>
-        </div>
+    <div class="flex flex-row items-start justify-center gap-6 flex-wrap p-1">
+      <div v-for="member in thanksTo" :key="member.name"
+            class="flex flex-col items-center justify-center p-1 gap-2 flex-wrap cursor-pointer w-[150px]"
+            @click="goto(member.link)"
+      >
+        <UAvatar size="4xl" :src="member.avatar" :alt="member.name"/>
+        <div :class="['font-bold', member.core ? 'text-[24px]' : 'text-[18px]']">{{ member.name }}</div>
+        <div>{{ member.role }}</div>
       </div>
     </div>
   </div>
