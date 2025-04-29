@@ -57,19 +57,10 @@ const token = computed((): Token | null => {
   return getTokenInfo(ticker) as Token;
 })
 
-const {isBoostedAddress} = useWallet();
-
 const tokenAllocation = computed(() => {
   const contributed = contributions.value.amountFinalNoDecimals;
   const withdrawable = contributions.value.amountWithdrawableNoDecimals;
-  return (contributed + withdrawable) * 6045
-})
-
-const bonusAllocation = computed(() => {
-  const contributed = contributions.value.amountFinalNoDecimals;
-  const withdrawable = contributions.value.amountWithdrawableNoDecimals;
-
-  return 362.7 * (contributed + withdrawable) * (isBoostedAddress.value ? 5 : 1)
+  return (contributed + withdrawable) * 1679
 })
 
 const formatNumber = (value: number, digits: number = 2) => {
@@ -114,12 +105,8 @@ const formatNumber = (value: number, digits: number = 2) => {
       <div>Current token allocation:</div>
       <div class="">
         <div class="flex flex-row items-center justify-center font-semibold text-md">
-          <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
-            <UIcon name="heroicons:question-mark-circle" class="w-6 h-6 mr-2"/>
-          </UTooltip>
-
           <div>
-            <span class="text-md"> {{ formatNumber(tokenAllocation + bonusAllocation, 0) }}</span>
+            <span class="text-md"> {{ formatNumber(tokenAllocation, 0) }}</span>
             <span class="text-xs ml-1 text-gray-suit-500 font-normal">SIR</span>
           </div>
         </div>

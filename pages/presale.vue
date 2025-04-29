@@ -25,11 +25,11 @@ watch(isConnected, async (newVal) => {
 const bullets = [
   {
     i: 1,
-    text: 'Following the token sale, we will conduct a comprehensive protocol <span class="font-semibold text-redAccent">code audit with <a href="https://Code4rena.com" target="_blank" class="underline">Code4rena</a></span>. Provided no critical bugs are identified, we will proceed with the <span class="font-semibold text-redAccent">mainnet launch</span>.'
+    text: 'We are conducting multiple private protocol <span class="font-semibold text-redAccent">code audits with different security firms</span> and plan a public audit as well. After identifying and fixing any important bugs, we will proceed with the <span class="font-semibold text-redAccent">mainnet relaunch</span>.'
   },
   {
     i: 2,
-    text: 'In the initial three-year period, token distribution will be allocated to various groups, with <span class="font-semibold text-redAccent">10-13% reserved for sale participants</span>. After this period, all newly issued tokens will be directed towards liquidity providers.',
+    text: 'During the initial three-year period, <span class="font-semibold text-redAccent">tokens will unlock linearly</span>. After this phase, all newly issued tokens will be allocated exclusively to liquidity providers.',
   },
   {
     i: 3,
@@ -53,16 +53,20 @@ definePageMeta({
 <template>
   <UContainer>
     <Section variant="background">
-      <template #header>SIR Token Sale</template>
+      <template #header>SIR Token Presale</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform
-          audits on the protocol and refine the app.
+          The presale is over.
+          Despite the recent <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank" class="underline">exploit of the SIR protocol</a>, we plan on relaunching very soon. <span class="font-semibold text-redAccent">Your original SIR token allocation remains valid </span>and will carry over.
+        </p>
+        <!-- <p>
+          We <span class="font-semibold text-redAccent">plan on raising additional funds</span> at a slightly higher valuation. We are undergoing multiple private audits
+          and plan on doing a public audit as well to squash any left bugs. 
         </p>
         <p>
-          If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
-          enabling you to earn tokens by providing liquidity or buying on secondary markets.
-        </p>
+          If the audits are successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
+          a 2nd time.
+        </p> -->
       </div>
       <!--      <div class="flex flex-col md:flex-row md:justify-evenly w-full mb-3">-->
       <!--        <SirProgressBar/>-->
@@ -72,31 +76,19 @@ definePageMeta({
       </div>
     </Section>
     <Section variant="background" v-if="isConnected">
-      <template #header>Contribute</template>
-      <div class="flex flex-col gap-3 w-full items-center">
-        <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
-          <div class="flex flex-col w-full gap-3 text-left">
-            <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported
-              stablecoins—USDT, USDC, or DAI—for your contribution.</p>
-            <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple
-              contributions during the sale.</p>
-            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you
-              have the flexibility to withdraw your contributions within 24 hours.</p>
-          </div>
-          <div class="flex flex-col w-full gap-3 text-left">
-            <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock
-              gradually over a period of three years to avoid sudden dumps into the market.</p>
-            <p><span class="font-semibold text-redAccent">5. Lock NFTs for additional SIR:</span> If you own <a
-                class="underline" target="_blank" href="https://opensea.io/collection/buterin-cards">Buterin Cards</a>
-              or <a class="underline" target="_blank" href="https://opensea.io/collection/mined-jpeg">Mined JPEGs</a>,
-              you can lock them for one year to receive an additional 6% SIR token bonus per NFT.</p>
-          </div>
-        </div>
+      <template #header>Your Allocation</template>
+      <div class="flex flex-col section-text-block mt-0 mb-6">
+        <p>
+          This reflects your allocation of SIR tokens based on your original presale participation and number of locked NFTs.
+        </p>
+        <p>
+          <span class="font-semibold text-redAccent">Please note:</span> any tokens sold during the pre-exploit live version of SIR will be deducted from your allocation.
+        </p>
         <PresaleNftList/>
       </div>
     </Section>
     <Section variant="background">
-      <template #header>How it works</template>
+      <template #header>Next Steps</template>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
         <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
           <template #header>
