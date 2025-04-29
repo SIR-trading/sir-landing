@@ -96,6 +96,7 @@ const checkApproval = async () => {
 };
 
 const amountLeft = computed((): number => {
+  console.log("amountLeft", config.manualSaleLimit);
   return parseInt(config.manualSaleLimit) - saleStore.saleState.totalContributions;
 });
 
@@ -152,7 +153,6 @@ const emit = defineEmits(['refresh']);
  */
 const contribute = async () => {
   if (walletStore.hasAgreed) {
-    console.log("here")
     const stablecoin = convertTickerToStablecoin(selected.value.ticker);
     isTxHelperLoading.value = true;
     await deposit(stablecoin, Number(amount.value)).then(() => {

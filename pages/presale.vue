@@ -38,10 +38,12 @@ const bullets = [
 ];
 
 const chartLegend = [
-  {label: "LPers", color: "bg-[#271F59]"},
-  {label: "Sale", color: "bg-[#867ACC]"},
-  {label: "Treasury", color: "bg-[#7360E6]"},
-  {label: "Pre-launch contributors", color: "bg-[#4737A9]"},
+  {label: "Liquidity providers", color: "bg-[#CC9901]"},
+  {label: "Team & Contributors", color: "bg-[#6A3C99]"},
+  {label: "Presale", color: "bg-[#44AA99]"},
+  {label: "Public sale", color: "bg-[#882255]"},
+  {label: "Treasury", color: "bg-[#CC6677]"},
+  {label: "Compensation fund (victims of the hack)", color: "bg-[#117733]"},
 ]
 
 definePageMeta({
@@ -105,8 +107,8 @@ definePageMeta({
             <span>Token issuance</span>
             <span>for the first three years</span>
           </p>
-          <picture class="max-w-[345px]">
-            <img alt="Emissions for the first 3 years" src="/first_years_emission.png" class="mix-w-[300px]"/>
+          <picture>
+            <img alt="Emissions for the first 3 years" src="/presale_first_three_years.png" class="block mx-auto h-[345px] w-auto object-contain"/>
           </picture>
         </div>
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
@@ -114,8 +116,8 @@ definePageMeta({
             <span>Token issuance</span>
             <span>after three years</span>
           </p>
-          <picture class="max-w-[345px]">
-            <img alt="Emissions after the 3rd year" src="/3_years_emission.png" class="mix-w-[300px]"/>
+          <picture>
+            <img alt="Emissions after the 3rd year" src="/sale_after_three_years.png" class="block mx-auto h-[345px] w-auto object-contain"/>
           </picture>
         </div>
       </div>
