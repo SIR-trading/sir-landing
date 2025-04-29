@@ -10,7 +10,7 @@ const {amount} = props
 const saleStore = useSaleStore()
 
 const allocationPreview = computed((): number => {
-  return amount * 1209
+  return amount * 1679
 })
 
 
@@ -20,7 +20,7 @@ const futureAllocation = computed((): number => {
       saleStore.contributions.amountWithdrawableNoDecimals
       + saleStore.contributions.amountFinalNoDecimals
       + amount
-  ) * 1209
+  ) * 1679
 })
 
 

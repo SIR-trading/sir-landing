@@ -96,7 +96,7 @@ const checkApproval = async () => {
 };
 
 const amountLeft = computed((): number => {
-  return 500000 - saleStore.saleState.totalContributions;
+  return parseInt(config.manualSaleLimit) - saleStore.saleState.totalContributions;
 });
 
 /**

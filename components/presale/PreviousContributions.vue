@@ -121,21 +121,6 @@ const formatNumber = (value: number, digits: number = 2) => {
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
-      <div>Withdrawable balance:</div>
-      <UButton :loading="isWithdrawing" color="red" variant="outline"
-               v-if="contributions.amountWithdrawableNoDecimals > 0"
-               class="withdraw-btn text-xs ring-1 ring-redAccent hover:ring-black-russian-950"
-               @click="withdrawFromWallet"
-      >
-        withdraw
-        <Timer :start-date="presaleStore.contributions.timeLastContribution" :days-duration="1" :no-days="true"/>
-      </UButton>
-      <div>
-        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
-        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name }}</span></div>
-    </div>
-    <div
-        class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Current token allocation:</div>
       <div class="">
         <div class="flex flex-row items-center justify-center font-semibold text-md">

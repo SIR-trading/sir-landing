@@ -39,7 +39,7 @@ const coreTeamMembers = [
 const thanksTo = [
 {
     name: "RedTiger",
-    role: "Community manager",
+    role: "Communications manager",
     link: "https://x.com/RedTigerAuditor",
     avatar: "team-avatars/redtiger.jpg"
   },
