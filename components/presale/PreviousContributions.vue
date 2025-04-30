@@ -105,14 +105,14 @@ const formatNumber = (value: number, digits: number = 2) => {
     <div
       class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3"
     >
-      <div>Total locked contributions:</div>
+      <div>Total contribution:</div>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
         <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
-      <div>Current token allocation:</div>
+      <div>Token allocation:</div>
       <div class="">
         <div class="flex flex-row items-center justify-center font-semibold text-md">
           <UTooltip :text="`${ formatNumber(tokenAllocation, 0) } SIR + ${formatNumber(bonusAllocation,0)} SIR bonus`">
