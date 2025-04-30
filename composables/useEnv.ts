@@ -17,7 +17,7 @@ declare interface IEnv {
 export const useEnv = () : IEnv => {
   const config = useRuntimeConfig().public
 
-  const chain = config.env === 'production' ? ethereum : (config.env === 'develop' ? sepolia : local);
+  const chain = config.env === 'production' ? ethereum :  sepolia;
   const preSaleContract = config.env === 'production' ? config.preSaleContract : config.testnetPresaleContract;
   const saleContract = config.env === 'production' ? config.saleContract : config.testnetSaleContract;
   const tokenList = config.env === 'production' ? tokens : sepoliaTokens;
