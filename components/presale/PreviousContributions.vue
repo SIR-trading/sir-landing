@@ -11,14 +11,8 @@ const presaleStore = usePresaleStore();
 const {address, isConnected} = useWallet()
 const hasFetchedContributions = ref(false);
 
-const {withdraw, withdrawNfts} = usePreSaleClient();
+const {withdrawNfts} = usePreSaleClient();
 const isWithdrawing: Ref<boolean> = ref(false);
-const withdrawFromWallet = async () => {
-  isWithdrawing.value = true;
-  await withdraw().then(() => {
-    isWithdrawing.value = false;
-  })
-}
 
 const withdrawNFTs = async () => {
   isWithdrawing.value = true;
@@ -49,7 +43,6 @@ onBeforeMount(async () => {
 
 onMounted(async () => {
   await presaleStore.fetchWalletContributions(useWallet().address.value as string);
-
 })
 
 const {getTokenInfo} = useErc20();
