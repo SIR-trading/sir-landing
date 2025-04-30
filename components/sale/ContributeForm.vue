@@ -95,9 +95,11 @@ const checkApproval = async () => {
   console.log(isApproved.value);
 };
 
+const saleCap = ref<boolean>(false);
 const amountLeft = computed((): number => {
-  console.log("amountLeft", config.manualSaleLimit);
-  return parseInt(config.manualSaleLimit) - saleStore.saleState.totalContributions;
+
+  const saleLimit =  inject<number>('saleLimit')
+  return parseInt(saleLimit) - saleStore.saleState.totalContributions;
 });
 
 /**
@@ -114,9 +116,10 @@ const amountTo = (percent: number) => {
 /**
  * Approves the selected ERC20 token.
  */
-const approve = async () => {
+const approve = async (): Promise<void> => {
   isTxHelperLoading.value = true;
-  await approveERC20(selected.value, Number(amount.value));
+  const approvalAmount = saleCap.value ? amountLeft.value : Number(amount.value);
+  await approveERC20(selected.value, approvalAmount);
   await checkApproval();
   isTxHelperLoading.value = false;
 };
@@ -346,22 +349,33 @@ onMounted(async () => {
     <Modal :is-visible="showTxHelper" @close="handleTxHelperClose" modalBackgroundColor="bg-[#060113]">
       <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
         <div class="flex w-full gap-3 mt-3 justify-center items-center p-6">
-          <div class="flex w-full gap-6 mt-0 p-3 justify-center items-start flex-col">
+          <div class="flex w-full gap-6 md:gap-12 mt-0 p-3 justify-center items-start flex-col">
             <div class="flex flex-col w-full p-3 gap-3">
               <h2 class="section-header">
                 {{ `Deposit ${selected.ticker}` }}
               </h2>
             </div>
             <DepositPreview :amount="parseInt(amount)"/>
-            <div class="flex w-full justify-center items-center">
-              <div class="w-2/3">
+            <div class="flex w-full flex-col gap-1 justify-center items-start">
+              <div class="w-2/3 mx-auto">
                 <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
-                         color="robRoy" @click="approve">Approve {{ selected.name }}
+                         color="robRoy" @click="approve({saleCap})">Approve {{ selected.name }}
                 </UButton>
-                <UButton size="lg" block v-else @click="contribute" :loading="isTxHelperLoading"
+                <UButton block v-else @click="contribute" :loading="isTxHelperLoading"
                          class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
                   Make contribution
                 </UButton>
+              </div>
+              <div v-if="!isApproved" class="mt-4 md:mt-2 p-1 w-full flex justify-center">
+                <UCheckbox v-model="saleCap">
+                  <template #label>
+                    <span>Approve maximum sale amount ({{ amountLeft }} {{ selected.ticker }})</span>
+                    <div class="text-xs text-gray-400 mt-1">
+                      Check this to approve the maximum remaining sale amount instead of just your current contribution
+                      amount
+                    </div>
+                  </template>
+                </UCheckbox>
               </div>
             </div>
           </div>

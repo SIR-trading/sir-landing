@@ -84,8 +84,7 @@ export const useErc20 = () => {
           nonce: await signer.provider?.getTransactionCount(await signer.getAddress())
         });
       }
-
-      const tx = await contract.approve(saleContract, ethers.parseUnits("500000", token.decimals))
+      const tx = await contract.approve(saleContract, ethers.parseUnits(amount.toString(), token.decimals))
         toast.add({
           id: "approve:erc20",
           timeout: 30000,

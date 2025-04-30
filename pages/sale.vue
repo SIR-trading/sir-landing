@@ -3,10 +3,19 @@
 
 import {useWallet} from '~/composables/useWallet';
 import {useNfts} from "~/composables/useNfts";
+import { useSaleClient } from "~/composables/useSaleClient";
 
 const wallet = useWallet();
 const saleStore = useSaleStore();
 console.log("sale total contributions: ", saleStore.saleState.totalContributions)
+
+const eth = useSaleClient();
+const maxContribution = await eth.maxContributions();
+const {manualSaleLimit} = useRuntimeConfig().public;
+const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+console.log("saleLimit", saleLimit)
+
+provide<number>('saleLimit', saleLimit);
 
 const bullets = [
   {
@@ -62,10 +71,10 @@ definePageMeta({
           draining our full <span class="font-semibold text-redAccent">$355K TVL after just one month live</span>.
           We are now raising funds through a public sale to finance multiple <span class="font-semibold text-redAccent">private audits</span>
           and a <span class="font-semibold text-redAccent">public bounty</span>.
-        </p><p>  
+        </p><p>
           SIR offers a <span class="font-semibold text-redAccent">one-of-its-kind leverage primitive</span> built for long-term holders.
           We are committed to honoring our believers and bringing SIR back stronger, with every vulnerability patched.
-        </p><p>  
+        </p><p>
           By participating, you help make the <span class="font-semibold text-redAccent">SIR relaunch</span> a reality.
         </p>
       </div>
