@@ -96,7 +96,7 @@ const formatNumber = (value: number, digits: number = 2) => {
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
-        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name }}</span></div>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name || 'USD' }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">

@@ -303,7 +303,9 @@ onMounted(async () => {
             <span>Balance: {{
                 new Intl.NumberFormat('en-US', {
                   style: 'currency',
-                  currency: 'USD'
+                  currency: 'USD',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
                 }).format(balance as number).replace('$', '')
               }}</span>
             <span>{{ selected.ticker }}</span>
