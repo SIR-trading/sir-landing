@@ -58,7 +58,8 @@ definePageMeta({
       <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
           <span class="font-semibold text-redAccent">The public sale is over.</span>
-          The funds raised will be used to perform audits on the protocol and bootstrap liquidity in the new relaunch.
+          After our ongoing private audits and a pending public bug bounty, we will relaunch SIR.
+          We expect to be <span class="font-semibold text-redAccent">live about 1 month after the sale</span>.
         </p>
       </div>
       <div v-else class="flex flex-col section-text-block w-full mt-0 mb-6">
@@ -83,9 +84,9 @@ definePageMeta({
     </CommonSection>
 
     <CommonSection variant="background" v-if="wallet.isConnected">
-      <template #header>Contribute</template>
+      <template #header>{{ saleStore.hasSaleEnded ? 'Your Allocation' : 'Contribute' }}</template>
       <div class="flex flex-col gap-3 w-full items-center">
-        <div class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
+        <div v-if="!saleStore.hasSaleEnded" class="flex flex-col  md:flex-row gap-3 md:gap-6 w-full p-1 md:py-3 md:px-6">
           <div class="flex flex-col w-full gap-3 text-left">
             <p><span class="font-semibold text-redAccent">1. Select a Stablecoin:</span> Choose one of the supported stablecoins—USDT, USDC, or DAI—for your contribution.</p>
             <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
@@ -94,6 +95,12 @@ definePageMeta({
             <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
             <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
           </div>
+        </div>
+        <div v-else class="flex flex-col section-text-block w-full mt-0 mb-6">
+          <p>
+            Below you'll see your total stablecoin contribution and the SIR tokens you'll receive.
+            Once SIR relaunches, your tokens will immediately <span class="font-semibold text-redAccent">vest linearly over the next three years</span>.
+          </p>
         </div>
         <SaleContribute/>
       </div>

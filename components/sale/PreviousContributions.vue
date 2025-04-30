@@ -78,12 +78,12 @@ const formatNumber = (value: number, digits: number = 2) => {
   >
     <div
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
-      <div>Total locked contributions:</div>
+      <div>{{saleStore.hasSaleEnded ? "Total contribution:" : "Total locked contributions:"}}</div>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
-        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name || 'USD' }}</span></div>
     </div>
-    <div
+    <div v-if="!saleStore.hasSaleEnded"
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Withdrawable balance:</div>
       <UButton :loading="isWithdrawing" color="red" variant="outline"
@@ -96,11 +96,11 @@ const formatNumber = (value: number, digits: number = 2) => {
       </UButton>
       <div>
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountWithdrawableNoDecimals) }}</span>
-        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name }}</span></div>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500">{{ token?.name || 'USD' }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
-      <div>Current token allocation:</div>
+      <div>{{saleStore.hasSaleEnded ? "Token allocation:" : "Current token allocation:"}}</div>
       <div class="">
         <div class="flex flex-row items-center justify-center font-semibold text-md">
           <div>
