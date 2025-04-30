@@ -365,7 +365,7 @@ onMounted(async () => {
                 <UCheckbox v-model="saleCap">
                   <template #label>
                     <div>
-                      <span>Approve maximum sale amount</span>
+                      <span>Approve full remaining cap</span>
                       <span class="ml-1 text-xs text-gray-400 italic">({{
                           new Intl.NumberFormat('en-US', {
                             style: 'currency',
@@ -376,8 +376,8 @@ onMounted(async () => {
                         }} {{ selected.ticker }})</span>
                     </div>
                     <div class="text-xs text-gray-400 mt-1">
-                      Check this to approve the maximum remaining sale amount instead of just your current contribution
-                      amount
+                      Grant permission for your entire remaining contribution limit now,
+                      so you won't have to re-approve if you decide to increase your deposit later.
                     </div>
                   </template>
                 </UCheckbox>

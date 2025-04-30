@@ -33,7 +33,9 @@ const goTo = (_path: string) => {
       <template #header>SIR Public Token Sale</template>
       <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The public sale is over.</span> Check your contribution here.
+          <span class="font-semibold text-redAccent">The public sale is over.</span>
+          After our ongoing private audits and a pending public bug bounty, we will relaunch SIR.
+          We expect to be <span class="font-semibold text-redAccent">live about 1 month after the sale</span>.
         </p>
       </div>
       <div v-else class="flex flex-col section-text-block w-full mt-0 mb-6">
