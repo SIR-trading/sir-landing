@@ -53,7 +53,7 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
 })
 
 onMounted(async () => {
-  if(isConnected) {
+  if(isConnected.value) {
     await manageChain()
     await walletStore.checkAgreed(address.value as string)
   }
