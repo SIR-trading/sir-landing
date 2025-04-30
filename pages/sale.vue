@@ -13,8 +13,6 @@ const eth = useSaleClient();
 const maxContribution = await eth.maxContributions();
 const {manualSaleLimit} = useRuntimeConfig().public;
 const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
-console.log("saleLimit", saleLimit)
-
 provide<number>('saleLimit', saleLimit);
 
 const bullets = [

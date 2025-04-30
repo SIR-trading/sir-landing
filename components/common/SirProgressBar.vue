@@ -3,7 +3,7 @@ import { useSaleClient } from "~/composables/useSaleClient";
 import { asyncComputed } from "@vueuse/core";
 import { useSaleStore } from "~/stores/sale";
 
-const saleLimit = inject<number>( "saleLimit");
+const saleLimit = inject<number>( "saleLimit",0);
 const saleStore = useSaleStore();
 saleStore.fetchSaleState();
 const value = asyncComputed(async () => {
