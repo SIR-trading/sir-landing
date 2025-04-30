@@ -1,8 +1,7 @@
-import EthereumClient from "~/web3/EthereumClient";
 import { useEnv } from "~/composables/useEnv";
 import abi from "assets/erc20_abi.json";
 import {ethers, JsonRpcSigner, Contract, type BaseContractMethod} from "ethers";
-import type { SaleType, Token } from "~/types";
+import type { Token } from "~/types";
 
 // Opting for PascalCase for interface names following TypeScript conventions
 declare interface ERC20Contract extends Contract {
@@ -11,14 +10,9 @@ declare interface ERC20Contract extends Contract {
   balanceOf: BaseContractMethod<any[], any, any>;
 }
 
-declare interface ERC20Client extends EthereumClient {
-  contract: ERC20Contract;
-}
 
 export const useErc20 = () => {
   const env = useEnv();
-  const { rpc } = useRuntimeConfig().public;
-  const { chain } = env;
   const { getSigner } = useWallet();
 
   const fetchBalance = async (token: Token, address: string): Promise<bigint | undefined> => {

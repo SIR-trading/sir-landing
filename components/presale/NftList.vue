@@ -1,18 +1,8 @@
 <script lang="ts" setup>
 
-
 // Initialize composables
 const nfts = useNfts();
 const wallet = useWallet();
-
-declare interface INftObject {
-  collection: string;
-  id: string;
-}
-
-// Reactive variables
-const btList: Ref<Array<INftObject|undefined>> = ref([]);
-const totalSelected: Ref<number> = ref(0);
 
 // Fetch NFTs if connected
 let bt:Ref<Array<number>> = ref([]);
@@ -34,49 +24,6 @@ if (wallet.isConnected.value) {
   bt.value = await nfts.fetchWalletButerinCards(wallet.address.value as string) as Array<number>;
   mj.value = await nfts.fetchWalletMinedJpeg(wallet.address.value as string) as Array<number>;
 }
-
-const presaleStore = usePresaleStore()
-
-const totalLocked = computed(() => {
-  const bt = !!presaleStore.contributions.lockedButerinCards ? presaleStore.contributions.lockedButerinCards.amount : 0;
-  const mj = !!presaleStore.contributions.lockedMinedJpegs ? presaleStore.contributions.lockedMinedJpegs.amount : 0;
-  return  mj + bt
-})
-
-const MAX_BT_LIST_LENGTH = 5;
-
-const addNFTItem = (item: INftObject) => {
-  btList.value.push(item);
-  presaleStore.selectedItems.push(item);
-  totalSelected.value += 1;
-};
-
-const removeNFTItem = (index: number, item: INftObject) => {
-  btList.value.splice(index, 1);
-  usePresaleStore().selectedItems = presaleStore.selectedItems.filter(
-      (selectedItem) => selectedItem.id !== item.id || selectedItem.collection !== item.collection
-  );
-  totalSelected.value -= 1;
-};
-
-const toggleSelection = (collection: string, nft: number) => {
-  const nftItem = {collection: collection, id: nft.toString()};
-  const index = btList.value.findIndex(
-      (item: INftObject | undefined) =>
-          item?.collection === nftItem.collection && item?.id === nftItem.id
-  );
-
-  if (index === -1) {
-    if (btList.value.length >= MAX_BT_LIST_LENGTH) {
-      return;
-    }
-    addNFTItem(nftItem);
-  } else {
-    removeNFTItem(index, nftItem);
-  }
-};
-
-
 </script>
 
 <template>
@@ -94,16 +41,4 @@ const toggleSelection = (collection: string, nft: number) => {
 </template>
 
 <style scoped>
-.custom-checkbox {
-  cursor: pointer;
-}
-
-/* Optionally, to ensure the ghost 'clicking hand' icon on the checkbox */
-.custom-checkbox::before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
 </style>

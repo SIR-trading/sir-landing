@@ -2,7 +2,6 @@
 
 
 import {useWallet} from '~/composables/useWallet';
-import {useNfts} from "~/composables/useNfts";
 import { useSaleClient } from "~/composables/useSaleClient";
 
 const wallet = useWallet();
