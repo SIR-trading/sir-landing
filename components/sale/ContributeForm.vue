@@ -355,20 +355,28 @@ onMounted(async () => {
               </h2>
             </div>
             <DepositPreview :amount="parseInt(amount)"/>
-            <div class="flex w-full flex-col gap-1 justify-center items-start">
-              <div class="w-2/3 mx-auto">
-                <UButton size="lg" block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
+            <div class="flex w-full flex-col gap-1 justify-center items-center" :class="isApproved ?? 'items-start'">
+              <div  :class="isApproved ? 'mx-auto' : 'ml-0'">
+                <UButton size=sm block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
                          color="robRoy" @click="approve({saleCap})">Approve {{ selected.name }}
                 </UButton>
-                <UButton block v-else @click="contribute" :loading="isTxHelperLoading"
-                         class="bg-rob-roy-300 text-black font-bold rounded-md px-4 py-2 disabled:bg-gray-suit-700">
+                <UButton size="sm" block v-else @click="contribute" :loading="isTxHelperLoading"
+                         color="robRoy" class="font-bold w-[200px]">
                   Make contribution
                 </UButton>
               </div>
-              <div v-if="!isApproved" class="mt-4 md:mt-2 p-1 w-full flex justify-center">
+              <div v-if="!isApproved" class="mt-4 md:mt-8 p-1 w-full flex justify-center">
                 <UCheckbox v-model="saleCap">
                   <template #label>
-                    <span>Approve maximum sale amount ({{ amountLeft }} {{ selected.ticker }})</span>
+                    <div>
+                      <span>Approve maximum sale amount</span>
+                      <span class="ml-1 text-xs text-gray-400 italic">({{
+                          new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                          }).format(amountLeft).replace('$', '')
+                        }} {{ selected.ticker }})</span>
+                    </div>
                     <div class="text-xs text-gray-400 mt-1">
                       Check this to approve the maximum remaining sale amount instead of just your current contribution
                       amount
