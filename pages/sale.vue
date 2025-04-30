@@ -92,7 +92,7 @@ definePageMeta({
             <p><span class="font-semibold text-redAccent">2. Make Contributions:</span> You can make multiple contributions during the sale.</p>
           </div>
           <div class="flex flex-col w-full gap-3 text-left">
-            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> If you change your mind, you have the flexibility to withdraw your contributions within 24 hours.</p>
+            <p><span class="font-semibold text-redAccent">3. Withdrawal Flexibility:</span> You can withdraw within 24 hours, unless the sale has ended.</p>
             <p><span class="font-semibold text-redAccent">4. Token Unlock Schedule:</span> SIR tokens will unlock gradually over a period of three years to avoid sudden dumps into the market.</p>
           </div>
         </div>
@@ -146,7 +146,7 @@ definePageMeta({
     </CommonSection>
     <footer class="footer">
       <div>
-        <ULink to="/sale_disclaimer">Sale discaimer</ULink>
+        <ULink to="/sale_disclaimer">Sale disclaimer</ULink>
       </div>
     </footer>
   </UContainer>
