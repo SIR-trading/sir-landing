@@ -258,7 +258,6 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col items-center w-full flex-auto rounded-lg bg-[#ffffff15]">
     <ClientOnly>
-
     <UFormGroup class="w-full p-3">
       <div class="w-full flex flex-row gap-3 rounded-md p-3 bg-[#414158]">
         <div class="flex flex-col gap-2">

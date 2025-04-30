@@ -113,11 +113,12 @@ const formatNumber = (value: number, digits: number = 2) => {
       ]"
   >
     <div
-      class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3">
-    <div>Total locked contributions:</div>
-    <div>
-      <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
-      <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
+      class="flex flex-col md:flex-row items-stretch justify-between w-full h-full rounded-lg  gap-1 bg-[#ffffff15] p-3"
+    >
+      <div>Total locked contributions:</div>
+      <div>
+        <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
+        <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
     </div>
     <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">

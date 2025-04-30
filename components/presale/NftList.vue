@@ -88,7 +88,7 @@ const toggleSelection = (collection: string, nft: number) => {
     </div>
 
     <div class="mt-2">
-<!--      <PresaleBonus/>-->
+      <PresaleBonus/>
     </div>
   </div>
 </template>
