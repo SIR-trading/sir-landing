@@ -54,7 +54,6 @@ const initializeTimer = async () => {
   $listen('sale:update', async () => {
     endDate.value = calculateEndDate(props.startDate, props.daysDuration);
     updateTimer();
-    console.log(props.startDate);
   });
 
   onUnmounted(() => clearInterval(interval));

@@ -6,7 +6,6 @@ import { useSaleClient } from "~/composables/useSaleClient";
 
 const wallet = useWallet();
 const saleStore = useSaleStore();
-console.log("sale total contributions: ", saleStore.saleState.totalContributions)
 
 const eth = useSaleClient();
 const maxContribution = await eth.maxContributions();

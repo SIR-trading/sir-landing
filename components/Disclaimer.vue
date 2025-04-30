@@ -38,7 +38,6 @@ const signMessage = async (): Promise<string | void> => {
 const agreeToDisclaimer = async () => {
   if (!isConnected.value) return;
   const signature = await signMessage();
-  console.log("Signature::", signature)
   const res = await $fetch<{
     statusCode: number,
     body: {
@@ -52,7 +51,6 @@ const agreeToDisclaimer = async () => {
       message: message,
     }
   })
-  console.log("Response::", res.body)
   isModalOpen.value = false
   agreed.value = true
   if (res?.statusCode === 200) {

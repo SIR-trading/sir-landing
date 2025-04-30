@@ -18,7 +18,6 @@ const createKVClient = (config: any): VercelKV => {
 const fetchWalletRecord = async (wallet: string, client: VercelKV): Promise<IAgreement|IErrorResponse> => {
   try {
     const response: IAgreement = await client.get(`c_sign_${wallet.toLowerCase()}`) as IAgreement;
-    console.log(response);
     if (!response) {
       console.error("no wallet data found");
       new Error('No wallet data found');
@@ -35,7 +34,6 @@ export default defineEventHandler(async (event: H3Event) => {
 
   // Extract query parameters and standardize wallet string
   const wallet = (getQuery(event).wallet as string).toLowerCase();
-  console.log("fetching wallet signature... ", wallet);
 
   const users = createKVClient(config);
   return await fetchWalletRecord(wallet, users);

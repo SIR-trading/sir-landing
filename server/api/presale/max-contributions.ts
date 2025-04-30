@@ -9,7 +9,6 @@ export default defineEventHandler(async (event: H3Event) => {
 	const saleClient = new EthereumClient(contract, config.rpc, chain.id);
 	try {
 		const maxContributions = await saleClient.contract.MAX_CONTRIBUTIONS_NO_DECIMALS();
-		console.log(maxContributions);
 		return {maxContributions: maxContributions.toString()}
 	} catch (error) {
 		return {

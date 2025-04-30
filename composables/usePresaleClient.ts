@@ -14,11 +14,6 @@ declare interface PreSaleContract extends ethers.Contract {
 export const usePreSaleClient = () => {
 	const env = useEnv()
 	const contract = env.preSaleContract;
-	console.log(
-		'Contract address:',
-		contract,
-		'using network:',
-		env.chain.id);
 
 	const state = async () => {
 		const _state = await $fetch<
@@ -62,23 +57,14 @@ export const usePreSaleClient = () => {
 				title: "Withdrawing NFTs",
 				color: "amber",
 			})
-			console.log(
-				'Transaction hash:',
-				tx.hash,
-				'waiting for confirmation...'
-			)
+
 			const receipt = await tx.wait();
 			toast.update("withdraw:erc721", {
 				title: "Withdrawn",
 				color: "harlequin",
 				timeout: 5000
 			})
-			console.log(
-				'Transaction complete! Block number:',
-				receipt.blockNumber,
-				'Transaction hash:',
-				receipt.transactionHash
-			)
+
 			const saleStore = useSaleStore();
 			await saleStore.fetchWalletContributions(useWallet().address.value as string);
 			const {$event} = useNuxtApp();

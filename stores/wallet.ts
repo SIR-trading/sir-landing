@@ -47,7 +47,6 @@ export const useWalletStore = defineStore('wallet', {
       for (const token of tokenList) {
         const bal = await fetchBalance(token, address);
         this.balances[token.name] = Number(bal?.toString());
-        console.log(this.balances);
       }
     },
 
@@ -57,15 +56,14 @@ export const useWalletStore = defineStore('wallet', {
      */
     async checkAgreed(_address?: string): Promise<void> {
       try{
-      const {  isConnected, address } = useWallet();
-      if (!isConnected.value) new Error("Wallet not connected");
-      const response: IStatusResponse = await $fetch('/api/get-wallet', {params: {wallet: _address ? _address : address.value}})
-      console.log("checkAgreed::", response);
-      this.hasAgreed = response.hasAgreed;
-        }
-        catch(e){
+        const {  isConnected, address } = useWallet();
+        if (!isConnected.value) new Error("Wallet not connected");
+        const response: IStatusResponse = await $fetch('/api/get-wallet', {params: {wallet: _address ? _address : address.value}})
+        this.hasAgreed = response.hasAgreed;
+      }
+      catch(e){
           console.error(e);
-        }
+      }
     }
   },
   getters: {

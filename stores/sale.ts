@@ -35,14 +35,7 @@ export const useSaleStore = defineStore('sale', {
   }),
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
-      try {
-        const contributions = await $fetch<Contribution>(`/api/sale/contributions?address=${address}`);
-        console.log("contributions", "_".repeat(100), contributions);
-        this.contributions = contributions;
-        console.log("contributions", this.contributions);
-      } catch (error) {
-        console.error("Failed to fetch wallet contributions:", error);
-      }
+        this.contributions = await $fetch<Contribution>(`/api/sale/contributions?address=${address}`);
     },
     async fetchSaleState(): Promise<void> {
       const eth = useSaleClient();

@@ -22,10 +22,8 @@ const withdrawNFTs = async () => {
 
 const fetchContributions = async () => {
   if (!isConnected.value) return;
-  console.log("fetching contributions")
   await presaleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
-  console.log("FETCHED", presaleStore.getWalletContributions)
 }
 
 // Watch for changes in 'isConnected' to fetch contributions

@@ -19,14 +19,6 @@ export const useNfts = () => {
   const _fetchNFTs = async (contract: string, address: string): Promise<Array<number> | void>  => {
     const provider = await useWallet().getProvider();
     if(!provider) return;
-    console.log(
-      'Contract address:',
-      contract,
-      'using network:',
-      env.chain.id,
-      'using provider:',
-      provider
-    )
     const eth = new ethers.Contract(contract, abi, provider as ethers.ContractRunner);
     try {
       const amount = Number(await eth.balanceOf(address));

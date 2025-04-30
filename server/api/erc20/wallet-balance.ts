@@ -38,8 +38,6 @@ export default defineEventHandler(async (event: H3Event) => {
 		// Call allowance directly
 		const balance = await tokenContract.balanceOf(address);
 
-		console.log("balance result:", balance.toString());
-
 		return {
 			balance: balance.toString()
 		};

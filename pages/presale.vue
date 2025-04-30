@@ -10,7 +10,6 @@ import { useNfts } from "~/composables/useNfts";
 const {isConnected, address} = useWallet();
 const nfts = useNfts();
 const saleStore = useSaleStore();
-console.log("sale total contributions: ", saleStore.saleState.totalContributions)
 
 let bt: Ref<Array<number>> = ref([]);
 let mj: Ref<Array<number>> = ref([]);
@@ -63,7 +62,7 @@ definePageMeta({
         </p>
         <!-- <p>
           We <span class="font-semibold text-redAccent">plan on raising additional funds</span> at a slightly higher valuation. We are undergoing multiple private audits
-          and plan on doing a public audit as well to squash any left bugs. 
+          and plan on doing a public audit as well to squash any left bugs.
         </p>
         <p>
           If the audits are successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,

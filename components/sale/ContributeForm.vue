@@ -47,9 +47,7 @@ const setBalance = async () => {
     balance.value = 0;
     return;
   }
-  console.log("setBalance", walletStore.balances)
   const rawBal = await fetchBalance(selected.value, address.value as string) as bigint;
-  console.log("setBalance", selected.value.ticker, "RAW_BALANCE", rawBal)
   balance.value = ethers.formatUnits(
       rawBal.toString(),
       selected.value.decimals
@@ -65,7 +63,6 @@ const connect = async () => {
 
 watch(useWallet().address, async (address) => {
   if (address) {
-    console.log("CHANGE ADDRESS from CONTRIBUTE_FORM")
     await saleStore.fetchWalletContributions(address)
     selected.value = tokenList[saleStore.contributions.stablecoin]
     await setBalance();
@@ -77,6 +74,7 @@ const handleChange = async () => {
     await checkApproval();
     await setBalance();
   }
+  await checkApproval()
 };
 
 const isApproved = ref(false);
@@ -92,14 +90,12 @@ const checkDigit = (event: KeyboardEvent) => {
  */
 const checkApproval = async () => {
   isApproved.value = await isERC20Approved(selected.value, Number(amount.value));
-  console.log(isApproved.value);
 };
 
 const saleCap = ref<boolean>(false);
+const saleLimit =  inject<number>('saleLimit')
 const amountLeft = computed((): number => {
-
-  const saleLimit =  inject<number>('saleLimit')
-  return parseInt(saleLimit) - saleStore.saleState.totalContributions;
+  return saleLimit ? saleLimit - saleStore.saleState.totalContributions : 0;
 });
 
 /**
@@ -143,7 +139,6 @@ const getAgreement = () => {
 };
 
 const handleClose = () => {
-  console.log("close");
   showModal.value = false;
 };
 
@@ -172,7 +167,7 @@ const contribute = async () => {
       await saleStore.fetchWalletContributions(address.value as string);
       await saleStore.fetchSaleState();
       await setBalance();
-      amount.value = '0';
+      amount.value = '';
     }, 2000);
   }
 };
@@ -304,12 +299,13 @@ onMounted(async () => {
             </UTooltip>
 
           </div>
-          <div class="text-xs p-1 italic flex flex-inline gap-1 justify-center items-center">Balance: {{
-              new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD'
-              }).format(balance as number).replace('$', '')
-            }}
+          <div class="text-[12px] p-0 mr-1 italic flex flex-row flex-nowrap gap-1 justify-center items-center">
+            <span>Balance: {{
+                new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(balance as number).replace('$', '')
+              }}</span>
             <span>{{ selected.ticker }}</span>
           </div>
           <div class="flex flex-row gap-1 text-cyan text-sm font-semibold">

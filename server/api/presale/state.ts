@@ -9,7 +9,6 @@ export default defineEventHandler(async (event: H3Event) => {
 	const chain = config.public.env === "production" ? ethereum : sepolia;
 	const saleClient = new EthereumClient(contract, config.rpc, chain.id);
 	const saleState = await saleClient.contract.state();
-	console.log(saleState);
 	return {
 		totalContributionsNoDecimals: saleState[0].toString(),
 		timeSaleEnded: saleState[1].toString(),

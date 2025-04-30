@@ -9,11 +9,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         ip: ipAddress,
       }
     })
-    console.log("COUNTRY", res['country_code2'])
     const isBlocked = (countries.map(c =>
         c.code.toUpperCase()).includes(res['country_code2'].toUpperCase())
     )
-    console.log("is_blocked", isBlocked)
     return isBlocked ? navigateTo('/blocked-country') : true
   }
 })

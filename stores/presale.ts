@@ -37,10 +37,8 @@ export const usePresaleStore = defineStore('presale', {
   actions: {
     async fetchWalletContributions(address: string): Promise<void> {
       try {
-        const contributions = await $fetch<PresaleContribution>(`/api/presale/contributions?address=${address}`);
-        console.log("contributions", "_".repeat(100), contributions);
-        this.contributions = contributions;
-        console.log("contributions", this.contributions);
+        this.contributions = await $fetch<PresaleContribution>(`/api/presale/contributions?address=${address}`);
+
       } catch (error) {
         console.error("Failed to fetch wallet contributions:", error);
       }

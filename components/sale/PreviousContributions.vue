@@ -25,10 +25,8 @@ const withdrawFromWallet = async () => {
 
 const fetchContributions = async () => {
   if (!isConnected.value) return;
-  console.log("fetching contributions")
   await saleStore.fetchWalletContributions(address.value as string);
   hasFetchedContributions.value = true;
-  console.log("FETCHED", saleStore.getWalletContributions)
 }
 
 // Watch for changes in 'isConnected' to fetch contributions

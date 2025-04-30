@@ -26,14 +26,12 @@ const manageChain = async () => {
     })
 
     provider.on('accountsChanged', async (accounts: string[]) => {
-      console.log("Accounts Changed: ", accounts)
       await saleStore.fetchSaleState()
       await saleStore.fetchWalletContributions(accounts[0])
       await walletStore.checkAgreed(accounts[0])
     })
 
     provider.on('chainChanged', async (_chainId: string) => {
-      console.log("Chain Changed: ", _chainId)
       useWalletStore().chain = _chainId
     })
 
@@ -51,7 +49,6 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
       color: 'green'
     })
   }else {
-    console.log("Connected to the wrong chain")
   }
 })
 

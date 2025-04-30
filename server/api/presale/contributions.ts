@@ -13,7 +13,6 @@ const formatLockedNfts = (locked: any): LockedNFT => {
 };
 
 const formatContribution = (contribution: any): PresaleContribution => {
-	console.log("contribution: ", contribution, "_".repeat(100));
 	return {
 		stablecoin: Number(contribution[0]) as Stablecoin,
 		amountFinalNoDecimals: Number(contribution[1]),
@@ -111,10 +110,8 @@ export default defineEventHandler(async (event: H3Event) => {
 	];
 
 	try {
-		console.log("CONTRACT: ", contract, "_".repeat(100));
 		const saleClient = new EthereumClient(contract, config.rpc, chain.id, contributionsAbi);
 		const contribution = formatContribution(await saleClient.contract.contributions(address));
-		console.log("contribution: ", contribution, "_".repeat(100));
 		return contribution;
 	} catch (error) {
 		console.error("Error details:", error);

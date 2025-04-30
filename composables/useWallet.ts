@@ -33,7 +33,6 @@ export const useWallet = () => {
       }
       try {
         const walletProvider = connectedWallet.value?.provider as ethers.Eip1193Provider;
-        console.log("WalletProvider: ", walletProvider, "==============================")
         const chain = connectedWallet.value?.chains[0].id;
         const browserProvider = new ethers.BrowserProvider(walletProvider, parseInt(chain));
         return new ethers.JsonRpcSigner(browserProvider, connectedWallet.value.accounts[0].address as string) as ethers.JsonRpcSigner;

@@ -18,11 +18,6 @@ declare interface SaleContract extends ethers.Contract {
 export const useSaleClient = () => {
   const env = useEnv()
   const contract = env.saleContract;
-  console.log(
-    'Contract address:',
-    contract,
-    'using network:',
-    env.chain.id)
 
   const state = async () => {
     const _state = await $fetch<{totalContributionsNoDecimals: string, timeSaleEnded: string}>("/api/sale/state");
@@ -62,7 +57,6 @@ export const useSaleClient = () => {
         color: "amber",
       })
       const receipt = await tx.wait()
-      console.log('Receipt:', receipt);
       const {$event} = useNuxtApp();
       $event('sale:update');
       const saleStore = useSaleStore();
@@ -88,23 +82,12 @@ export const useSaleClient = () => {
         title: "Withdrawing",
         color: "amber",
       })
-      console.log(
-        'Transaction hash:',
-        tx.hash,
-        'waiting for confirmation...'
-      )
       const receipt = await tx.wait();
       toast.update("withdraw:erc20",{
         title: "Withdrawn",
         color: "harlequin",
         timeout: 5000
       })
-      console.log(
-        'Transaction complete! Block number:',
-        receipt.blockNumber,
-        'Transaction hash:',
-        receipt.transactionHash
-      )
        const saleStore = useSaleStore();
        await saleStore.fetchWalletContributions(useWallet().address.value as string);
       const {$event} = useNuxtApp();
@@ -135,23 +118,13 @@ export const useSaleClient = () => {
         title: "Withdrawing NFTs",
         color: "amber",
       })
-      console.log(
-        'Transaction hash:',
-        tx.hash,
-        'waiting for confirmation...'
-      )
       const receipt = await tx.wait();
       toast.update("withdraw:erc721",{
         title: "Withdrawn",
         color: "harlequin",
         timeout: 5000
       })
-      console.log(
-        'Transaction complete! Block number:',
-        receipt.blockNumber,
-        'Transaction hash:',
-        receipt.transactionHash
-      )
+
       const saleStore = useSaleStore();
       await saleStore.fetchWalletContributions(useWallet().address.value as string);
       const {$event} = useNuxtApp();

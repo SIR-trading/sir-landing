@@ -20,7 +20,6 @@ watch([wallet.isConnected, wallet.address], async ([connected, address]) => {
 })
 
 if (wallet.isConnected.value) {
-  console.log('address', wallet.address.value);
   bt.value = await nfts.fetchWalletButerinCards(wallet.address.value as string) as Array<number>;
   mj.value = await nfts.fetchWalletMinedJpeg(wallet.address.value as string) as Array<number>;
 }

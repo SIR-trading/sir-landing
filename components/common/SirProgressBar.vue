@@ -18,7 +18,6 @@ const formatSaleLimit = (): string => {
 
 }
 
-console.log("sale", saleStore.saleState )
 </script>
 
 <template>

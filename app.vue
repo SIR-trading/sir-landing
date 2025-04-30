@@ -55,7 +55,6 @@ const {changeChain} = useWallet()
  */
 const isChainCorrect = computed(() => {
 
-  console.log("chain.id.toString() === walletStore.getChainId.toString()", chain.id.toString() === walletStore.getChainId.toString())
   if (!chain) return false
   if (useWalletStore().getChainId)
     return chain.id.toString() === walletStore.getChainId.toString()
@@ -68,7 +67,6 @@ const toast = useToast()
  */
 
 watch(isChainCorrect, (val) => {
-  console.log("ChainCorrect::", val)
   if (!val) {
     toast.add({
       title: 'Wrong Chain',

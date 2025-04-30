@@ -6,7 +6,6 @@ export default defineEventHandler(async (event: H3Event) => {
 	const config = useRuntimeConfig(event);
 	const { tokenAddress, address } = getQuery<{tokenAddress: string, address: string}>(event);
 
-	const chain = config.public.env === "production" ? ethereum : sepolia;
 
 	if(!tokenAddress || !ethers.isAddress(tokenAddress)) {
 		throw createError({
@@ -46,7 +45,6 @@ export default defineEventHandler(async (event: H3Event) => {
 		// Call allowance directly
 		const allowanceResult = await tokenContract.allowance(address, saleContract);
 
-		console.log("Allowance result:", allowanceResult.toString());
 
 		return {
 			allowance: allowanceResult.toString()

@@ -1,4 +1,3 @@
-import { useEnv } from "~/composables/useEnv";
 import abi from "assets/erc20_abi.json";
 import {ethers, JsonRpcSigner, Contract, type BaseContractMethod} from "ethers";
 import type { Token } from "~/types";
@@ -24,7 +23,6 @@ export const useErc20 = () => {
           address: address,
         }
       })
-      console.log("BALANCE______________________", res)
       return BigInt(res.balance);
     } catch (error) {
       console.error("Error fetching erc20 token balance:", error);
@@ -36,7 +34,6 @@ export const useErc20 = () => {
     // Unwrap the ref to get the raw value
     const walletAddress = toValue(address);
 
-    console.log("useERC20 getAllowance walletAddress: ", walletAddress, " token: ", token);
 
     try {
       const res = await $fetch<{allowance: string}>(
@@ -59,7 +56,6 @@ export const useErc20 = () => {
   const isERC20Approved = async (token: Token, amount: number): Promise<boolean> => {
     const allowance = await getAllowance(token);
     const formattedAllowance = ethers.formatUnits(allowance.toString(), token.decimals);
-    console.log(Number(formattedAllowance), Number(amount));
     return Number(formattedAllowance) >= Number(amount) && Number(formattedAllowance) > 0;
   };
 
@@ -90,9 +86,6 @@ export const useErc20 = () => {
         title: "ERC20 token transfer approved",
         color: "harlequin",
       })
-
-
-      console.log('Approved ERC20 token transfer successfully');
     } catch (error) {
       console.error('Error approving ERC20 token transfer:', error);
     }
