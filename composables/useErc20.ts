@@ -1,4 +1,3 @@
-import EthereumClient from "~/web3/EthereumClient";
 import { useEnv } from "~/composables/useEnv";
 import abi from "assets/erc20_abi.json";
 import {ethers, JsonRpcSigner, Contract, type BaseContractMethod} from "ethers";
