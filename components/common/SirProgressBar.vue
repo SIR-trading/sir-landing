@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useSaleClient } from "~/composables/useSaleClient";
 import { asyncComputed } from "@vueuse/core";
 import { useSaleStore } from "~/stores/sale";
 

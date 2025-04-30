@@ -41,16 +41,4 @@ if (wallet.isConnected.value) {
 </template>
 
 <style scoped>
-.custom-checkbox {
-  cursor: pointer;
-}
-
-/* Optionally, to ensure the ghost 'clicking hand' icon on the checkbox */
-.custom-checkbox::before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
 </style>

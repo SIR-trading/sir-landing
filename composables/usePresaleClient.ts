@@ -1,4 +1,3 @@
-import EthereumClient from "~/web3/EthereumClient";
 import { useEnv } from "~/composables/useEnv";
 import abi from "@/assets/abi.json"
 import { useWallet } from "~/composables/useWallet";

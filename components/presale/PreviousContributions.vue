@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import {ref} from "vue";
-import {useSaleStore} from "~/stores/sale";
 import type {Contribution, Token} from "~/types";
 import {Stablecoin} from "~/types/data";
 import {useErc20} from "~/composables/useErc20";
