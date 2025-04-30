@@ -43,7 +43,7 @@ const goTo = (_path: string) => {
           The <span class="font-semibold text-redAccent">first version of <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank" class="underline">SIR was exploited</a></span> due to an overlooked critical bug,
           draining our full <span class="font-semibold text-redAccent">$355K TVL after just one month live</span>.
           We are now raising funds through a public sale to finance multiple <span class="font-semibold text-redAccent">private audits</span>
-          and a <span class="font-semibold text-redAccent">public bounty</span>.
+          and one <span class="font-semibold text-redAccent">public audit</span>.
         </p><p>  
           SIR offers a <span class="font-semibold text-redAccent">one-of-its-kind leverage primitive</span> built for long-term holders.
           We are committed to honoring our believers and bringing SIR back stronger, with every vulnerability patched.
