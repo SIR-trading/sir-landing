@@ -349,7 +349,7 @@ onMounted(async () => {
       <div class="relative flex flex-col gap-3 justify-center items-center p-3 w-full md:w-[600px]">
         <div class="flex w-full gap-3 mt-3 justify-center items-center p-6">
           <div class="flex w-full gap-6 md:gap-12 mt-0 p-3 justify-center items-start flex-col">
-            <div class="flex flex-col w-full p-3 gap-3">
+            <div class="flex flex-col w-full gap-3">
               <h2 class="section-header">
                 {{ `Deposit ${selected.ticker}` }}
               </h2>
@@ -358,7 +358,7 @@ onMounted(async () => {
             <div class="flex w-full flex-col gap-1 justify-center items-center" :class="isApproved ?? 'items-start'">
               <div  :class="isApproved ? 'mx-auto' : 'ml-0'">
                 <UButton size=sm block class="font-bold w-[200px]" :loading="isTxHelperLoading" v-if="!isApproved"
-                         color="robRoy" @click="approve({saleCap})">Approve {{ selected.name }}
+                         color="robRoy" @click="approve()">Approve {{ selected.name }}
                 </UButton>
                 <UButton size="sm" block v-else @click="contribute" :loading="isTxHelperLoading"
                          color="robRoy" class="font-bold w-[200px]">
