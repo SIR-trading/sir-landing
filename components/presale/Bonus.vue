@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useSaleStore } from "~/stores/sale";
 
-const saleStore = useSaleStore();
 
+const saleStore = usePresaleStore();
 const {isBoostedAddress} = useWallet()
 
 const bonus = computed(() => {
   return isBoostedAddress.value ? 5
-      : saleStore.contributions.lockedMinedJpegs.amount + saleStore.contributions.lockedButerinCards.amount;
+      : saleStore.contributions.lockedMinedJpegs?.amount + saleStore.contributions.lockedButerinCards.amount;
 });
 
 const lockedNFTs = computed(() => {

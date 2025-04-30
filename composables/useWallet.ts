@@ -20,6 +20,12 @@ export const useWallet = () => {
       const {address} = useWallet()
       return !!boostedAddressList.find(add => add.toLocaleLowerCase() === address.value?.toLowerCase())
     }),
+    getProvider: async (): Promise<ethers.ContractRunner|null> => {
+      if (!connectedWallet.value) {
+        return null;
+      }
+      return new ethers.BrowserProvider(connectedWallet.value.provider as ethers.Eip1193Provider, parseInt(connectedWallet.value.chains[0].id)) as ethers.ContractRunner;
+    },
     getSigner: async (): Promise<ethers.JsonRpcSigner|null|undefined> => {
       if (!connectedWallet.value) {
         console.error('No connected wallet');

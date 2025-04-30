@@ -7,7 +7,14 @@ import SirButton from "~/components/common/SirButton.vue";
 
 import {useRouter} from 'vue-router'
 
-const router = useRouter()
+const router = useRouter();
+const saleStore = useSaleStore();
+
+const eth = useSaleClient();
+const maxContribution = await eth.maxContributions();
+const {manualSaleLimit} = useRuntimeConfig().public;
+const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+provide<number>('saleLimit', saleLimit);
 
 const goTo = (_path: string) => {
   router.push({path: _path})
@@ -23,15 +30,30 @@ const goTo = (_path: string) => {
       </template>
     </SirHero>
     <Section class-name="mb-0" variant="background">
-      <template #header>SIR Token Presale</template>
-      <div class="flex flex-col section-text-block mt-0 mb-6">
+      <template #header>SIR Public Token Sale</template>
+      <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The sale is over.</span> Check your contribution here.
+          <span class="font-semibold text-redAccent">The public sale is over.</span>
+          After our ongoing private audits and a pending public bug bounty, we will relaunch SIR.
+          We expect to be <span class="font-semibold text-redAccent">live about 1 month after the sale</span>.
+        </p>
+      </div>
+      <div v-else class="flex flex-col section-text-block w-full mt-0 mb-6">
+        <p>
+          The <span class="font-semibold text-redAccent">first version of <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank" class="underline">SIR was exploited</a></span> due to an overlooked critical bug,
+          draining our full <span class="font-semibold text-redAccent">$355K TVL after just one month live</span>.
+          We are now raising funds through a public sale to finance multiple <span class="font-semibold text-redAccent">private audits</span>
+          and a <span class="font-semibold text-redAccent">public bounty</span>.
+        </p><p>  
+          SIR offers a <span class="font-semibold text-redAccent">one-of-its-kind leverage primitive</span> built for long-term holders.
+          We are committed to honoring our believers and bringing SIR back stronger, with every vulnerability patched.
+        </p><p>  
+          By participating, you help make the <span class="font-semibold text-redAccent">SIR relaunch</span> a reality.
         </p>
       </div>
       <SirProgressBar/>
       <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
-        <SirButton :label="'Check contribution'" @clicked="goTo('/sale')"/>
+        <SirButton :label="saleStore.hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
       </div>
     </Section>
     <ClientOnly>

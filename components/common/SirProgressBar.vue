@@ -1,14 +1,9 @@
 <script lang="ts" setup>
-import { useEthClient } from "~/composables/useEthClient";
 import { asyncComputed } from "@vueuse/core";
 import { useSaleStore } from "~/stores/sale";
 
-const eth = useEthClient();
-const maxContribution = await eth.maxContributions();
+const saleLimit = inject<number>( "saleLimit",0);
 const saleStore = useSaleStore();
-const {manualSaleLimit} = useRuntimeConfig().public;
-const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
-console.log("saleLimit", saleLimit)
 saleStore.fetchSaleState();
 const value = asyncComputed(async () => {
   const progress = Math.round(saleStore.getTotalContributions / saleLimit * 100);
@@ -22,6 +17,7 @@ const formatSaleLimit = (): string => {
   return `${saleLimit}`;
 
 }
+
 </script>
 
 <template>

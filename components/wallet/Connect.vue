@@ -20,19 +20,18 @@ const {isConnected, address, changeChain, isChainCorrect} = useWallet()
 
 const manageChain = async () => {
     const provider = connectedWallet.value?.provider as EIP1193Provider
-    await provider.request({method: 'eth_chainId'}).then((_chainId: string) => {
+    if(!provider) return;
+    await provider?.request({method: 'eth_chainId'}).then((_chainId: string) => {
       useWalletStore().chain = _chainId
     })
 
     provider.on('accountsChanged', async (accounts: string[]) => {
-      console.log("Accounts Changed: ", accounts)
       await saleStore.fetchSaleState()
       await saleStore.fetchWalletContributions(accounts[0])
       await walletStore.checkAgreed(accounts[0])
     })
 
     provider.on('chainChanged', async (_chainId: string) => {
-      console.log("Chain Changed: ", _chainId)
       useWalletStore().chain = _chainId
     })
 
@@ -50,12 +49,11 @@ watch([isConnected, isChainCorrect], async ([isConnected, isChainCorrect]) => {
       color: 'green'
     })
   }else {
-    console.log("Connected to the wrong chain")
   }
 })
 
 onMounted(async () => {
-  if(isConnected) {
+  if(isConnected.value) {
     await manageChain()
     await walletStore.checkAgreed(address.value as string)
   }
