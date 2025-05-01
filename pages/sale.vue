@@ -25,7 +25,7 @@ const bullets = [
   {
     i: 2,
     text: 'We are currently <span class="font-semibold text-redAccent">conducting 3 private audits</span>. '+
-    'After the sale, up to $50K will fund a <span class="font-semibold text-redAccent">public bug bounty</span>. '+
+    'After the sale, up to $50K will fund <span class="font-semibold text-redAccent">one public audit</span>. '+
     'Once the audit process is complete, the relaunch is estimated <span class="font-semibold text-redAccent">to happen 1 month after the sale concludes</span>.',
   },
   {
@@ -58,7 +58,7 @@ definePageMeta({
       <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
           <span class="font-semibold text-redAccent">The public sale is over.</span>
-          After our ongoing private audits and a pending public bug bounty, we will relaunch SIR.
+          After our ongoing private audits and a pending public audit, we will relaunch SIR.
           We expect to be <span class="font-semibold text-redAccent">live about 1 month after the sale</span>.
         </p>
       </div>

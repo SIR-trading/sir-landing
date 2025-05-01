@@ -10,14 +10,14 @@ const coreTeamMembers = [
   },
   {
     name: "Realtarpcity",
-    role: "Fronted dev",
+    role: "Fullstack dev",
     link: "https://x.com/tarpley_travis",
     avatar: "team-avatars/tarp.jpg",
     core: true
   },
   {
     name: "Abstrucked",
-    role: "Fronted dev",
+    role: "Fronted & smart contract dev",
     link: "https://x.com/abstrucked",
     avatar: "team-avatars/abstrucked.jpg",
     core: true
