@@ -11,18 +11,13 @@ export default defineEventHandler(async (event: H3Event) => {
 
   // If no wallet data is provided, initialize it with an empty object
   const wallet: string = body.wallet;
-  console.log("wallet", wallet)
   if(!wallet) return new Response(JSON.stringify({success: false}), {
     status: 400,
     headers: {
       'Content-Type': 'application/json',
     },
   });
-  console.log(
-    "wallet",
-    wallet,
-    body.signature,
-  )
+
   const { signature, message} = body;
   const blob: string = JSON.stringify({ signature, message, wallet });
   const users = createClient({

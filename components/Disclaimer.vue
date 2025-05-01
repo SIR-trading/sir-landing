@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Modal from "~/components/common/Modal.vue";
 
-import {useWallet} from "~/composables/useWallet";
+import { useWallet } from "~/composables/useWallet";
 
 const emits = defineEmits(['close'])
 
@@ -14,11 +14,11 @@ const hasAgreed = computed(() => {
   return walletStore.hasAgreed
 })
 
-const isModalOpen: Ref<boolean> = ref(!hasAgreed.value )
+const isModalOpen: Ref<boolean> = ref(!hasAgreed.value)
 
-const toggleModal= () => {
+const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value
-  if(!isModalOpen.value) {
+  if (!isModalOpen.value) {
     emits('close');
   }
 }
@@ -28,17 +28,22 @@ Click to accept the disclaimer (https://www.sir.trading/sale_disclaimer). This r
 
 The Keccak256 hash of the disclaimer is beba0750bd779f8b410310a53f2c7c698f9f50e9af53924f77559bf8a71d39c2.`
 
-const signMessage = async (): Promise<string|void>  => {
-  if(!isConnected.value) return;
+const signMessage = async (): Promise<string | void> => {
+  if (!isConnected.value) return;
 
   const signer = await useWallet().getSigner()
   return signer?.signMessage(message)
 }
 
 const agreeToDisclaimer = async () => {
-  if(!isConnected.value) return;
-  const signature = await signMessage()
-  const res = await $fetch('/api/save-wallet', {
+  if (!isConnected.value) return;
+  const signature = await signMessage();
+  const res = await $fetch<{
+    statusCode: number,
+    body: {
+      success?: boolean, error?: string
+    }
+  }>('/api/save-wallet', {
     method: 'POST',
     body: {
       wallet: address.value,
@@ -48,7 +53,7 @@ const agreeToDisclaimer = async () => {
   })
   isModalOpen.value = false
   agreed.value = true
-  if(res?.statusCode === 200) {
+  if (res?.statusCode === 200) {
     walletStore.hasAgreed = true
   }
 }
@@ -57,48 +62,49 @@ const agreeToDisclaimer = async () => {
 </script>
 
 <template>
-    <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
-      <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md max-w-[800px]">
-        <h1 class="text-[2.5rem] sir-text-shadow section-header mb-4">Disclaimer</h1>
-        <p>
-          By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
-        </p>
-        <p class="flex flex-col">
-          <span class="font-bold text-white">Trustless Launch:</span>
-          <span>The Protocol will be launched in a trustless manner, meaning that once the launch has occurred, the token allocations are immutable and cannot be altered by the team or any other entity. This ensures a decentralized and transparent distribution process.</span>
-        </p>
-        <p class="flex flex-col">
-          <span class="font-bold text-white">Risk of Bugs and Attacks:</span>
-          <span>While the development team will make all reasonable efforts to minimize bugs and vulnerabilities through thorough testing and, where possible, independent audits, it is impossible to guarantee the complete absence of bugs or vulnerabilities. By participating, you acknowledge that the Protocol may be subject to bugs, vulnerabilities, or attacks that could result in partial or total loss of your funds. The development team, contributors, and associated parties shall not be held liable for any loss or damage arising from bugs, vulnerabilities, or attacks.</span>
-        </p>
-       <p class="flex flex-col">
-          <span class="font-bold text-white">Value of Token SIR: </span>
-          <span>The value of the token SIR is highly volatile and can be influenced by a variety of factors beyond the control of the development team, including market conditions, regulatory changes, and technological advancements. The development team does not guarantee any specific value of the token SIR and is not responsible for any loss of value or potential loss of funds associated with the token SIR.</span>
-        </p>
-       <p class="flex flex-col">
-          <span class="font-bold text-white">Not financial advice:</span>
-          <span>The information provided on the Protocol's website and in related materials is for informational purposes only and does not constitute financial, investment, or other professional advice. Participation in the funding of the Protocol should be based on your own research and assessment of the risks involved.</span>
-        </p>
-        <p class="flex flex-col">
-          <span class="font-bold text-white">Legal Compliance:</span>
-          <span>It is your responsibility to ensure that your participation in the funding of the Protocol complies with all applicable laws and regulations in your jurisdiction. The development team is not responsible for any legal consequences arising from your participation.
+  <Modal :is-visible="isModalOpen" @click="isModalOpen = false" @close="toggleModal">
+    <div class="modal-content text-center md:text-left p-6 flex flex-col gap-6 text-md max-w-[800px]">
+      <h1 class="text-[2.5rem] sir-text-shadow section-header mb-4">Disclaimer</h1>
+      <p>
+        By participating in the funding of SIR ("the Protocol"), you acknowledge and agree to the following terms:
+      </p>
+      <p class="flex flex-col">
+        <span class="font-bold text-white">Trustless Launch:</span>
+        <span>The Protocol will be launched in a trustless manner, meaning that once the launch has occurred, the token allocations are immutable and cannot be altered by the team or any other entity. This ensures a decentralized and transparent distribution process.</span>
+      </p>
+      <p class="flex flex-col">
+        <span class="font-bold text-white">Risk of Bugs and Attacks:</span>
+        <span>While the development team will make all reasonable efforts to minimize bugs and vulnerabilities through thorough testing and, where possible, independent audits, it is impossible to guarantee the complete absence of bugs or vulnerabilities. By participating, you acknowledge that the Protocol may be subject to bugs, vulnerabilities, or attacks that could result in partial or total loss of your funds. The development team, contributors, and associated parties shall not be held liable for any loss or damage arising from bugs, vulnerabilities, or attacks.</span>
+      </p>
+      <p class="flex flex-col">
+        <span class="font-bold text-white">Value of Token SIR: </span>
+        <span>The value of the token SIR is highly volatile and can be influenced by a variety of factors beyond the control of the development team, including market conditions, regulatory changes, and technological advancements. The development team does not guarantee any specific value of the token SIR and is not responsible for any loss of value or potential loss of funds associated with the token SIR.</span>
+      </p>
+      <p class="flex flex-col">
+        <span class="font-bold text-white">Not financial advice:</span>
+        <span>The information provided on the Protocol's website and in related materials is for informational purposes only and does not constitute financial, investment, or other professional advice. Participation in the funding of the Protocol should be based on your own research and assessment of the risks involved.</span>
+      </p>
+      <p class="flex flex-col">
+        <span class="font-bold text-white">Legal Compliance:</span>
+        <span>It is your responsibility to ensure that your participation in the funding of the Protocol complies with all applicable laws and regulations in your jurisdiction. The development team is not responsible for any legal consequences arising from your participation.
 Acceptance of Risks: By participating in the funding of the Protocol, you accept all risks associated with your participation, including but not limited to financial loss, regulatory risk, and technical risks. You agree that you are participating at your own risk and that the development team, contributors, and associated parties shall not be held liable for any loss or damage arising from your participation.</span>
-        </p>
-        <p class="italic">
-          By proceeding with the funding of SIR, you acknowledge that you have read, understood, and agreed to this disclaimer in its entirety.
-        </p>
-        <div class="flex flex-col gap-3">
-          <UCheckbox v-model="agreed" name="disclaimerAgreement" label="I understand and agree." />
-          <UButton
-              @click="agreeToDisclaimer" :disabled="!agreed"
-              color="robRoy" variant="solid"
-          >
-            Confirm and sign
-          </UButton>
+      </p>
+      <p class="italic">
+        By proceeding with the funding of SIR, you acknowledge that you have read, understood, and agreed to this
+        disclaimer in its entirety.
+      </p>
+      <div class="flex flex-col gap-3">
+        <UCheckbox v-model="agreed" name="disclaimerAgreement" label="I understand and agree."/>
+        <UButton
+            @click="agreeToDisclaimer" :disabled="!agreed"
+            color="robRoy" variant="solid"
+        >
+          Confirm and sign
+        </UButton>
 
-        </div>
       </div>
-    </Modal>
+    </div>
+  </Modal>
 </template>
 
 <style scoped>
@@ -111,6 +117,7 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
   max-height: 70vh;
   overflow-y: auto;
 }
+
 .modal-content::after {
   content: "";
   position: absolute;
@@ -122,6 +129,7 @@ Acceptance of Risks: By participating in the funding of the Protocol, you accept
   border-radius: 8px;
   pointer-events: none;
 }
+
 @media (max-width: 1024px) {
   .modal-content {
     max-height: 60vh;

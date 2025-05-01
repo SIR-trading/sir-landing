@@ -31,7 +31,6 @@ const background = computed(() => {
 
 const classList = computed(() => {
   const {classList} = props;
-  console.log("classList", classList)
   return classList
 })
 
