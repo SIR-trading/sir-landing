@@ -2,6 +2,7 @@ import EthereumClient from "~/web3/EthereumClient";
 import {useEnv} from "~/composables/useEnv";
 import abi from "@/assets/erc721_abi.json"
 import {ethers, JsonRpcSigner} from "ethers";
+import { useOnboard } from "@web3-onboard/vue";
 
 declare interface NftContract extends ethers.Contract {
   tokenOfOwnerByIndex: ethers.BaseContractMethod<any[],any,any>
@@ -12,17 +13,18 @@ declare interface NftContract extends ethers.Contract {
 export const useNfts = () => {
 
   const env = useEnv()
-  const {chain, contract} = env
   const config = useRuntimeConfig()
-  const {buterinCards, minedJpeg, rpc} = config.public
+  const {buterinCards, minedJpeg} = env;
 
   const _fetchNFTs = async (contract: string, address: string): Promise<Array<number> | void>  => {
-    const eth = new EthereumClient(contract, rpc, chain.id, abi)
+    const provider = await useWallet().getProvider();
+    if(!provider) return;
+    const eth = new ethers.Contract(contract, abi, provider as ethers.ContractRunner);
     try {
-      const amount = Number(await eth.contract.balanceOf(address));
+      const amount = Number(await eth.balanceOf(address));
       let ids = []
       for (let i = 0; i < amount; i++) {
-        ids.push(eth.contract.tokenOfOwnerByIndex(address, i));
+        ids.push(eth.tokenOfOwnerByIndex(address, i));
       }
 
       return await Promise.all(ids).then((res) => {
@@ -37,7 +39,7 @@ export const useNfts = () => {
     return await _fetchNFTs(buterinCards, address);
 
   }
-  
+
   const fetchWalletMinedJpeg = async (address: string): Promise<Array<number>|void> => {
     return await _fetchNFTs(minedJpeg, address);
   }
@@ -46,9 +48,8 @@ export const useNfts = () => {
     const toast = useToast()
     const {getSigner} = useWallet()
     const signer = await getSigner() as JsonRpcSigner
-    const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
-    const mutable = eth.contract.connect(signer) as NftContract
-    const tx = await mutable.setApprovalForAll(contract, true)
+    const eth = new ethers.Contract(nftContract, abi, signer) as NftContract
+    const tx = await eth.setApprovalForAll(env.preSaleContract, true)
     toast.add({
       id: "approve:erc721",
       title: `Approving ERC721...`,
@@ -65,8 +66,9 @@ export const useNfts = () => {
   }
 
   const isApprovedForAll = async (nftContract: string, owner: string) => {
-    const eth = new EthereumClient(nftContract, rpc, chain.id, abi)
-    return await eth.contract.isApprovedForAll(owner, contract)
+    const provider = await useWallet().getProvider();
+    const eth = new ethers.Contract(nftContract, abi, provider as ethers.ContractRunner);
+    return await eth.isApprovedForAll(owner, env.preSaleContract)
   }
 
   return {fetchWalletButerinCards, fetchWalletMinedJpeg, setApprovalForAll, isApprovedForAll}

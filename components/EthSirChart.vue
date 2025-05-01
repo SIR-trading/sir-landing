@@ -92,7 +92,6 @@ const {loadChartData, getChartData} = useChartStore();
 onBeforeMount(async () => {
   await loadChartData().then(
       () => {
-        console.log(useChartStore().chartData);
         chartData.value = useChartStore().chartData;
       }
   )

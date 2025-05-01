@@ -7,12 +7,14 @@ import SirButton from "~/components/common/SirButton.vue";
 
 import {useRouter} from 'vue-router'
 
-const router = useRouter()
+const router = useRouter();
 const saleStore = useSaleStore();
 
-const hasSaleEnded = computed(() => {
-  return saleStore.hasSaleEnded
-})
+const eth = useSaleClient();
+const maxContribution = await eth.maxContributions();
+const {manualSaleLimit} = useRuntimeConfig().public;
+const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+provide<number>('saleLimit', saleLimit);
 
 const goTo = (_path: string) => {
   router.push({path: _path})
@@ -28,32 +30,30 @@ const goTo = (_path: string) => {
       </template>
     </SirHero>
     <Section class-name="mb-0" variant="background">
-      <template #header>SIR Token Sale</template>
-      <div v-if="hasSaleEnded" class="flex flex-col section-text-block mt-0 mb-6">
+      <template #header>SIR Public Token Sale</template>
+      <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
-          <span class="font-semibold text-redAccent">The sale is over.</span> The funds raised will be used to perform audits on the protocol and refine the app.
-        </p>
-        <p>
-          If the audit is successful, the protocol will <span class="font-semibold text-redAccent">launch on Ethereum mainnet</span>,
-          enabling you to earn tokens by providing liquidity or buying on secondary markets.
+          <span class="font-semibold text-redAccent">The public sale is over.</span>
+          After our ongoing private audits and a pending public bug bounty, we will relaunch SIR.
+          We expect to be <span class="font-semibold text-redAccent">live about 1 month after the sale</span>.
         </p>
       </div>
-      <div v-else class="flex flex-col section-text-block mt-0 mb-6">
+      <div v-else class="flex flex-col section-text-block w-full mt-0 mb-6">
         <p>
-          Help us launch SIR Protocol by funding audits, deployment, and expenses.
-          In return, you'll get 10-13% of SIR tokens issued over the first 3 years.
-        </p>
-        <p>
-          <span class="font-semibold text-redAccent">
-            No private sales, pre-sales, or future sales. Just one $100k sale open to all.
-          </span>
-          Test <a class="underline" href="https://prototype.sir.trading">our prototype on Sepolia</a> now; we'll
-          launch after audits are complete.
+          The <span class="font-semibold text-redAccent">first version of <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank" class="underline">SIR was exploited</a></span> due to an overlooked critical bug,
+          draining our full <span class="font-semibold text-redAccent">$355K TVL after just one month live</span>.
+          We are now raising funds through a public sale to finance multiple <span class="font-semibold text-redAccent">private audits</span>
+          and one <span class="font-semibold text-redAccent">public audit</span>.
+        </p><p>  
+          SIR offers a <span class="font-semibold text-redAccent">one-of-its-kind leverage primitive</span> built for long-term holders.
+          We are committed to honoring our believers and bringing SIR back stronger, with every vulnerability patched.
+        </p><p>  
+          By participating, you help make the <span class="font-semibold text-redAccent">SIR relaunch</span> a reality.
         </p>
       </div>
       <SirProgressBar/>
       <div class="mt-6 flex flex-row w-full justify-center md:justify-end">
-        <SirButton :label="hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
+        <SirButton :label="saleStore.hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
       </div>
     </Section>
     <ClientOnly>
