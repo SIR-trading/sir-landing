@@ -6,7 +6,7 @@ const saleLimit = inject<number>( "saleLimit",0);
 const saleStore = useSaleStore();
 saleStore.fetchSaleState();
 const value = asyncComputed(async () => {
-  const progress = Math.round(saleStore.getTotalContributions / saleLimit * 100);
+  const progress = Number((saleStore.getTotalContributions / saleLimit * 100).toFixed(2));
   return Math.min(progress, 100); // Ensure value does not exceed 100
 }); // Change type to number for proper ARIA handling
 
@@ -37,7 +37,7 @@ const formatSaleLimit = (): string => {
         class="rounded-md progress-gradient h-[40px] transition-width duration-1000 ease-out"
         :style="{ width: value + '%' }"
     >
-      <div class="indicator title sir-text-shadow-darker text-lg">{{ value }}% OF {{formatSaleLimit()}} RAISED</div>
+      <div class="indicator title sir-text-shadow-darker text-lg">{{ value }}% OF ${{formatSaleLimit()}} RAISED</div>
     </div>
   </div>
 </template>
