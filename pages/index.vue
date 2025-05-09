@@ -5,19 +5,19 @@ import SirCard from "~/components/common/SirCard.vue";
 import SirProgressBar from "~/components/common/SirProgressBar.vue";
 import SirButton from "~/components/common/SirButton.vue";
 
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const saleStore = useSaleStore();
 
 const eth = useSaleClient();
 const maxContribution = await eth.maxContributions();
-const {manualSaleLimit} = useRuntimeConfig().public;
-const saleLimit :number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+const { manualSaleLimit } = useRuntimeConfig().public;
+const saleLimit: number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
 provide<number>('saleLimit', saleLimit);
 
 const goTo = (_path: string) => {
-  router.push({path: _path})
+  router.push({ path: _path })
 }
 
 </script>
@@ -29,6 +29,8 @@ const goTo = (_path: string) => {
         Leverage with a one-time fee,<br>keep the rest for yourself
       </template>
     </SirHero>
+
+    <!--
     <Section class-name="mb-0" variant="background">
       <template #header>SIR Public Token Sale</template>
       <div v-if="saleStore.hasSaleEnded" class="flex flex-col section-text-block w-full mt-0 mb-6">
@@ -56,6 +58,8 @@ const goTo = (_path: string) => {
         <SirButton :label="saleStore.hasSaleEnded ? 'Check contribution' : 'Contribute'" @clicked="goTo('/sale')"/>
       </div>
     </Section>
+-->
+
     <ClientOnly>
       <Section class-name="mb-0" variant="background">
         <template v-slot:header>What is Synthetics Implemented Right (SIR)?</template>
@@ -67,7 +71,7 @@ const goTo = (_path: string) => {
               Unlike traditional approaches to leverage,
               <span class="font-semibold text-redAccent">
                 SIR does away with maintenance fees and removes
-              <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>
+                <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>
               </span>.
             </p>
             <p>
@@ -77,7 +81,7 @@ const goTo = (_path: string) => {
             </p>
           </div>
           <div class="flex flex-col w-full justify-center items-center">
-            <EthSirChart/>
+            <EthSirChart />
             <p class="text-xs italic mt-2">Example of simulated ETH/USDC position in SIR with perfect constant x1.5
               leverage versus
               <a href="https://www.opyn.co/squeeth?ct=IT" class="underline">Squeeth from Opyn</a>
@@ -92,26 +96,31 @@ const goTo = (_path: string) => {
             </p>
             <p>The result is
               <span class="font-semibold text-redAccent">a safer, more efficient way to
-              gain
-              amplified,
-              compounding returns</span>
-              over the long term.</p>
+                gain
+                amplified,
+                compounding returns</span>
+              over the long term.
+            </p>
           </div>
         </div>
       </Section>
       <Section variant="background">
         <template v-slot:header>SIR: a Fee Paying Token</template>
         <div class="section-text-block flex flex-col md:flex-row items-center">
-          <img alt="pile of coins" :src="'/pile_of_coins.png'" class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto"/>
+          <img alt="pile of coins" :src="'/pile_of_coins.png'"
+            class="h-full object-cover md:w-1/4 md:mr-4 w-full max-w-xs mx-auto" />
           <div class="section-text-block">
             <p>
               SIR is the native token of the SIR protocol. Unlike most DeFi tokens,
               the SIR token issuance is immutable and part of the core protocol.
               The SIR token is designed to have strong fundamentals,
-              <span class="font-semibold text-redAccent">rewarding its stakers with a share of the protocol's generated fees</span>.
+              <span class="font-semibold text-redAccent">rewarding its stakers with a share of the protocol's generated
+                fees</span>.
             </p>
             <p>
-              The token is primarily <span class="font-semibold text-redAccent">distributed to liquidity providers</span> at a rate of 2,015 million tokens per year,
+              The token is primarily <span class="font-semibold text-redAccent">distributed to liquidity
+                providers</span> at
+              a rate of 2,015 million tokens per year,
               in perpetuity. To maintain a proportional stake in the protocol,
               providing liquidity is necessary.
             </p>
@@ -122,8 +131,7 @@ const goTo = (_path: string) => {
         <template v-slot:header>Permissionless & Trustless</template>
         <div class="section-text-block">
           <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
-            <div
-                class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
+            <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               1
             </div>
             <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
@@ -136,7 +144,8 @@ const goTo = (_path: string) => {
               <span class="font-semibold text-redAccent">anyone can create a vault</span>,
               specifying a pair of tokens and a leverage ratio.
               The protocol runs on immutable smart contracts
-              with fixed parameters, eliminating risks from unexpected changes.</p>
+              with fixed parameters, eliminating risks from unexpected changes.
+            </p>
           </div>
           <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
             <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
@@ -155,12 +164,15 @@ const goTo = (_path: string) => {
         <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row items-center lg:items-start lg:justify-evenly w-full">
           <SirCard image="/gentlemen_card.jpg" size="md">
             <p>Gentlemen <span class="font-semibold text-redAccent">
-                provide liquidity to the protocol</span>. They earn fees for doing so, and on selected vaults, also rewards in the native token SIR.
+                provide liquidity to the protocol</span>. They earn fees for doing so, and on selected vaults, also
+              rewards
+              in the native token SIR.
               Their LP positions are tokenized in the form of an ERC-1155 called TEA.
             </p>
           </SirCard>
           <SirCard image="/ape_card.jpg" size="md">
-            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and what leverage</span>.
+            <p>Apes <span class="font-semibold text-redAccent">choose which pair they want to long, and what
+                leverage</span>.
               They pay upfront fees for minting and burning, but not while holding their positions.
               APE is a leveraged ERC-20 token that can be transferred and used in other protocols.</p>
           </SirCard>
@@ -175,8 +187,6 @@ const goTo = (_path: string) => {
 </template>
 
 <style scoped>
-
-
 .paragraphs p {
   margin-bottom: 0.25rem;
 }
