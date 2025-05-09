@@ -7,7 +7,7 @@ import SirProgressBar from '~/components/common/SirProgressBar.vue';
 import { useWallet } from '~/composables/useWallet';
 import { useNfts } from "~/composables/useNfts";
 
-const {isConnected, address} = useWallet();
+const { isConnected, address } = useWallet();
 const nfts = useNfts();
 const saleStore = useSaleStore();
 
@@ -37,12 +37,12 @@ const bullets = [
 ];
 
 const chartLegend = [
-  {label: "Liquidity providers", color: "bg-[#CC9901]"},
-  {label: "Team & Contributors", color: "bg-[#6A3C99]"},
-  {label: "Presale", color: "bg-[#44AA99]"},
-  {label: "Public sale", color: "bg-[#882255]"},
-  {label: "Treasury", color: "bg-[#CC6677]"},
-  {label: "Compensation fund (victims of the hack)", color: "bg-[#117733]"},
+  { label: "Liquidity providers", color: "bg-[#CC9901]" },
+  { label: "Team & Contributors", color: "bg-[#6A3C99]" },
+  { label: "Presale", color: "bg-[#44AA99]" },
+  { label: "Public sale", color: "bg-[#882255]" },
+  { label: "Treasury", color: "bg-[#CC6677]" },
+  { label: "Compensation fund (victims of the hack)", color: "bg-[#117733]" },
 ]
 
 definePageMeta({
@@ -58,7 +58,10 @@ definePageMeta({
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           The presale is over.
-          Despite the recent <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank" class="underline">exploit of the SIR protocol</a>, we plan on relaunching very soon. <span class="font-semibold text-redAccent">Your original SIR token allocation remains valid </span>and will carry over.
+          Despite the recent <a href="https://x.com/DecurityHQ/status/1906270316935942350" target="_blank"
+            class="underline">exploit of the SIR protocol</a>, we plan on relaunching very soon. <span
+            class="font-semibold text-redAccent">Your original SIR token allocation remains valid </span>and will carry
+          over.
         </p>
         <!-- <p>
           We <span class="font-semibold text-redAccent">plan on raising additional funds</span> at a slightly higher valuation. We are undergoing multiple private audits
@@ -73,19 +76,22 @@ definePageMeta({
       <!--        <SirProgressBar/>-->
       <!--      </div>-->
       <div class="flex flex-col md:flex-row items-center md:justify-end w-full">
-        <Connect/>
+        <Connect />
       </div>
     </Section>
     <Section variant="background" v-if="isConnected">
       <template #header>Your Allocation</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
-          This reflects your allocation of SIR tokens based on your original presale participation and number of locked NFTs.
+          This reflects your allocation of SIR tokens based on your original presale participation and number of locked
+          NFTs.
         </p>
         <p>
-          <span class="font-semibold text-redAccent">Please note:</span> any tokens sold during the pre-exploit live version of SIR will be deducted from your allocation.
+          <span class="font-semibold text-redAccent">Please note:</span> any tokens sold during the pre-exploit live
+          version
+          of SIR will be deducted from your allocation.
         </p>
-        <PresaleNftList/>
+        <PresaleNftList />
       </div>
     </Section>
     <Section variant="background">
@@ -107,7 +113,8 @@ definePageMeta({
             <span>for the first three years</span>
           </p>
           <picture>
-            <img alt="Emissions for the first 3 years" src="/presale_first_three_years.png" class="block mx-auto h-[345px] w-auto object-contain"/>
+            <img alt="Emissions for the first 3 years" src="/presale_first_three_years.png"
+              class="block mx-auto h-[345px] w-auto object-contain" />
           </picture>
         </div>
         <div class="flex flex-col w-full p-0 md:p-12 gap-y-8">
@@ -116,13 +123,14 @@ definePageMeta({
             <span>after three years</span>
           </p>
           <picture>
-            <img alt="Emissions after the 3rd year" src="/sale_after_three_years.png" class="block mx-auto h-[345px] w-auto object-contain"/>
+            <img alt="Emissions after the 3rd year" src="/sale_after_three_years.png"
+              class="block mx-auto h-[345px] w-auto object-contain" />
           </picture>
         </div>
       </div>
       <div class="flex flex-row flex-wrap justify-center items-center w-full p-6 gap-6 ">
         <div v-for="item in chartLegend" :key="item.label" class="flex flex-inline items-center gap-1">
-          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]"/>
+          <div :class="['w-[1rem] h-[1rem] rounded-full', ` ${item.color}`]" />
           {{ item.label }}
         </div>
       </div>
