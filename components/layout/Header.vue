@@ -4,7 +4,7 @@
 const links: Array<any> = [
   { label: 'Presale', to: '/presale' },
   { label: 'Docs', to: 'https://docs.sir.trading/' },
-  { label: 'Audit', to: '/audit' },
+  { label: 'Audits', to: '/audits' },
 ];
 
 const isMenuOpen = ref(false);

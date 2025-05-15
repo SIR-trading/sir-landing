@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Pre-Exploit",
+    "to": "pre-exploit"
+  },
+  {
+    "label": "Syzygy",
+    "to": "syzygy"
+  }
+]
