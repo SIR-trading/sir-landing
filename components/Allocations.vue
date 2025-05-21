@@ -5,6 +5,7 @@ import { boolean, object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
 
 type ValueType = number | string | `0x${string}` | boolean | bigint;
+type FieldType = { label: string, value: ValueType };
 
 const DIGITS: Record<string, number> = {
   "sir": 12,
@@ -43,7 +44,6 @@ const formattedList = data.allocations.map(record => {
   );
 })
 
-const filter = ref<string>("");
 const filterOptions = data.allocations.map(record => record.address);
 const schema = object({
   walletAddress: string().matches(/0x[a-fA-F0-9]{40}$/),
@@ -57,11 +57,6 @@ const state = reactive<Schema>({
   showZeroValues: false
 })
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // Do something with event.data
-  console.log(event.data)
-}
-
 const EXCLUDED = [
   "Iscontract",
   "Allocation In Basis Points",
@@ -70,7 +65,8 @@ const EXCLUDED = [
 const foundRecord = computed(() => {
   return formattedList.find(record => record.find(field => field.label === "Address")?.value === state.walletAddress);
 })
-type FieldType = { label: string, value: ValueType };
+
+
 const removeExcluded = (value: FieldType, index: number, arr: Array<{ label: string, value: ValueType }>) => {
   return !EXCLUDED.includes(value.label)
 }
@@ -82,26 +78,50 @@ const record = computed(() => {
   const cleanRecord = foundRecord.value?.filter(removeExcluded)
   return state.showZeroValues ? cleanRecord : cleanRecord?.filter(filterZeroValues)
 })
-const { address, isConnected } = useWallet()
+
+
+const { address, isConnected } = useWallet();
+const setOnWalletChange = ref<boolean>(false);
 const useConnectedWallet = () => {
   if (!isConnected.value) return;
-
+  setOnWalletChange.value = true;
   state.walletAddress = address.value;
 }
 
 const isWalletConnected = computed(() => isConnected.value);
+const connectedAddress = computed(() => address.value)
+
+watch(connectedAddress, (_address) => {
+  if (_address && setOnWalletChange) {
+    state.walletAddress = _address;
+  }
+})
+
+const handleConnectedWalletLink = () => {
+  if (!isWalletConnected.value) return;
+
+  setOnWalletChange.value = !setOnWalletChange.value;
+  if (setOnWalletChange.value)
+    state.walletAddress = connectedAddress.value;
+}
 </script>
 
 <template>
   <div class="space-y-10 w-full lg:w-1/2">
-    <UForm :state="state" :schema="schema" class="flex flex-col gap-2 py-2">
+    <UForm :state="state" :schema="schema" class="flex items-center justify-center w-full flex-col gap-2 py-2">
 
-      <UFormGroup label="Filters">
-        <div class="w-md max-w-md min-w-md space-y-3">
+      <UFormGroup label="Filters" class="">
+        <div class="w-md max-w-md min-w-md">
           <UInputMenu v-model="state.walletAddress" :options="filterOptions" placeholder="select or insert an address"
             variant="outline" color="primary" />
 
+        </div>
+        <div class="flex justify-around items-center max-w-md mt-3">
+
           <UCheckbox label="Show zero values" name="zero-values" v-model="state.showZeroValues" />
+          <UButton v-if="isWalletConnected" size="xs" variant="link" color="gray"
+            :label="setOnWalletChange ? 'dont use connected wallet' : 'use connected wallet'"
+            :leading-icon="setOnWalletChange ? 'lucide:unlink' : 'lucide:link'" @click="handleConnectedWalletLink" />
         </div>
       </UFormGroup>
       <UFormGroup>
@@ -117,13 +137,16 @@ const isWalletConnected = computed(() => isConnected.value);
         </div>
       </div>
     </div>
-    <div v-else-if="state.walletAddress === '' || state.walletAddress === undefined" class="py-4 lg:p-8">
-      Select an address or {{ !isWalletConnected && 'connect and use wallet' }}
-      <UButton v-if="isWalletConnected" variant="link" label="use connected wallet" @click="useConnectedWallet" />
-      <span v-else class="flex justify-center mt-4">
-
-        <WalletConnect />
-      </span>
+    <div v-else>
+      <div v-if="state.walletAddress === '' || state.walletAddress === undefined" class="py-4 lg:p-8">
+        Select an address or {{ !isWalletConnected && 'connect and use wallet' }}
+        <UButton v-if="isWalletConnected" variant="link" label="use connected wallet" @click="useConnectedWallet" />
+        <span v-else class="flex justify-center mt-4">
+          <WalletConnect />
+        </span>
+      </div>
+      <div v-else>Wallet not found!
+      </div>
     </div>
   </div>
 </template>
