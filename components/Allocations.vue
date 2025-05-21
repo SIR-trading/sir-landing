@@ -110,22 +110,18 @@ const handleConnectedWalletLink = () => {
   <div class="space-y-10 w-full lg:w-1/2">
     <UForm :state="state" :schema="schema" class="flex items-center justify-center w-full flex-col gap-2 py-2">
 
-      <UFormGroup label="Filters" class="">
-        <div class="w-md max-w-md min-w-md">
-          <UInputMenu v-model="state.walletAddress" :options="filterOptions" placeholder="select or insert an address"
-            variant="outline" color="primary" />
+      <div class="w-md lg:w-full min-w-md">
+        <UInputMenu v-model="state.walletAddress" :options="filterOptions" placeholder="select or insert an address"
+          variant="outline" color="primary" />
 
-        </div>
-        <div class="flex justify-around items-center max-w-md mt-3">
+      </div>
+      <div class="flex justify-around items-center max-w-md mt-3">
 
-          <UCheckbox label="Show zero values" name="zero-values" v-model="state.showZeroValues" />
-          <UButton v-if="isWalletConnected" size="xs" variant="link" color="gray"
-            :label="setOnWalletChange ? 'dont use connected wallet' : 'use connected wallet'"
-            :leading-icon="setOnWalletChange ? 'lucide:unlink' : 'lucide:link'" @click="handleConnectedWalletLink" />
-        </div>
-      </UFormGroup>
-      <UFormGroup>
-      </UFormGroup>
+        <UCheckbox label="Show zero values" name="zero-values" v-model="state.showZeroValues" />
+        <UButton v-if="isWalletConnected" size="xs" variant="link" color="gray"
+          :label="setOnWalletChange ? 'dont use connected wallet' : 'use connected wallet'"
+          :leading-icon="setOnWalletChange ? 'lucide:unlink' : 'lucide:link'" @click="handleConnectedWalletLink" />
+      </div>
     </UForm>
     <div v-if="foundRecord" class="animated-height space-y-1 text-sm lg:min-w-xl">
 
