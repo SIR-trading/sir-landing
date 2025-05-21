@@ -18,6 +18,7 @@ const DIGITS: Record<string, number> = {
 
 const formatFieldData = (_key: string, _value: ValueType) => {
   let value: ValueType = '';
+  let key;
 
   if (typeof _value === 'number' || typeof _value === 'boolean' || ethers.isAddress(_value)) {
 
@@ -27,9 +28,11 @@ const formatFieldData = (_key: string, _value: ValueType) => {
     switch (_key) {
       case "allocation_in_billion_parts":
         value = numValue !== 0 ? formatToTwoSignificantDecimals(numValue / 10000000).toString().concat('%') : numValue;
+        key = "Allocation Relaunch"
         break;
       case "allocation_old":
         value = numValue !== 0 ? (numValue / 100).toString().concat('%') : numValue;
+        key = "Previous Allocation"
         break;
       default: value = _value;
     }
@@ -50,7 +53,7 @@ const formatFieldData = (_key: string, _value: ValueType) => {
   }
 
   return {
-    label: _key
+    label: key || _key
       .split('_')
       .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())
       .join(' '),
