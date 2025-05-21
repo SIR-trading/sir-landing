@@ -1,10 +1,13 @@
 [
   {
-    "label": "Pre-Exploit",
-    "to": "pre-exploit"
+    "label": "Egis Security",
+    "to": "egis"
   },
   {
     "label": "Syzygy",
     "to": "syzygy"
+  },{
+    "label": "Egis Security (pre-exploit)",
+    "to": "pre-exploit"
   }
 ]
