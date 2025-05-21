@@ -14,6 +14,7 @@ const eth = useSaleClient();
 const maxContribution = await eth.maxContributions();
 const { manualSaleLimit } = useRuntimeConfig().public;
 const saleLimit: number = manualSaleLimit ? parseInt(manualSaleLimit) : maxContribution;
+
 provide<number>('saleLimit', saleLimit);
 
 const goTo = (_path: string) => {

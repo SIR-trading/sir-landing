@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import data from "@/assets/new-allocations.json";
 import { ethers } from "ethers";
-import { boolean, object, string, type InferType } from 'yup'
-import type { FormSubmitEvent } from '#ui/types'
-
+import { boolean, object, string, type InferType } from 'yup';
 type ValueType = number | string | `0x${string}` | boolean | bigint;
+
 type FieldType = { label: string, value: ValueType };
 
 const DIGITS: Record<string, number> = {
@@ -16,18 +15,40 @@ const DIGITS: Record<string, number> = {
   "usdt": 6
 }
 
+
 const formatFieldData = (_key: string, _value: ValueType) => {
   let value: ValueType = '';
-  ;
 
   if (typeof _value === 'number' || typeof _value === 'boolean' || ethers.isAddress(_value)) {
-    value = _value;
-  }
-  else if (typeof _value === 'string') {
+
+    const numValue = Number(_value)
+
+
+    switch (_key) {
+      case "allocation_in_billion_parts":
+        value = numValue !== 0 ? formatToTwoSignificantDecimals(numValue / 10000000).toString().concat('%') : numValue;
+        break;
+      case "allocation_old":
+        value = numValue !== 0 ? (numValue / 100).toString().concat('%') : numValue;
+        break;
+      default: value = _value;
+    }
+
+  } else if (typeof _value === 'string') {
     const prefix = _key.split('_')[0].toLowerCase();
     const _v = (_value as string).replace(/,/g, '');
-    value = DIGITS[prefix] ? ethers.formatUnits(BigInt(_v), DIGITS[prefix]) : _v;
+    const parsedValue = DIGITS[prefix] ? ethers.formatUnits(BigInt(_v), DIGITS[prefix]) : _v;
+
+    // Format the value to at most two decimal places
+    if (typeof _value === 'string' && !isNaN(Number(parsedValue))) {
+      const numValue = Number(parsedValue);
+      value = new Intl.NumberFormat('en-US', {}).format(numValue)
+    } else {
+      console.log("____________", _key)
+      value = parsedValue;
+    }
   }
+
   return {
     label: _key
       .split('_')
@@ -74,6 +95,7 @@ const filterZeroValues = (value: FieldType, index: number, arr: Array<{ label: s
   console.log(value.label, ":", Number(value.value), Number(value.value) === 0)
   return Number(value.value) !== 0;
 }
+
 const record = computed(() => {
   const cleanRecord = foundRecord.value?.filter(removeExcluded)
   return state.showZeroValues ? cleanRecord : cleanRecord?.filter(filterZeroValues)
@@ -107,44 +129,47 @@ const handleConnectedWalletLink = () => {
 </script>
 
 <template>
-  <div class="space-y-10 w-full lg:w-1/2">
-    <UForm :state="state" :schema="schema" class="flex items-center justify-center w-full flex-col gap-2 py-2">
+  <ClientOnly>
+    <div class="space-y-10 w-full lg:w-1/2">
+      <UForm :state="state" :schema="schema" class="flex items-center justify-center w-full flex-col gap-2 py-2">
 
-      <div class="w-md lg:w-full min-w-md">
-        <UInputMenu v-model="state.walletAddress" :options="filterOptions" placeholder="select or insert an address"
-          variant="outline" color="primary" />
+        <div class="w-md lg:w-full min-w-md">
+          <UInputMenu v-model="state.walletAddress" :options="filterOptions" placeholder="select or insert an address"
+            variant="outline" color="primary" />
 
+        </div>
+        <div class="flex justify-around items-center max-w-md mt-3">
+
+          <UCheckbox label="Show zero values" name="zero-values" v-model="state.showZeroValues" />
+          <UButton v-if="isWalletConnected" size="xs" variant="link" color="gray"
+            :label="setOnWalletChange ? 'dont use connected wallet' : 'use connected wallet'"
+            :leading-icon="setOnWalletChange ? 'lucide:unlink' : 'lucide:link'" @click="handleConnectedWalletLink" />
+        </div>
+      </UForm>
+      <div v-if="foundRecord" class="animated-height space-y-1 text-sm lg:min-w-xl">
+
+        <div v-for="field in record" class="bg-white/5 p-2 rounded-lg">
+          <div class="grid grid-cols-2 gap-2">
+            <div class="text-left">{{ field.label }}</div>
+            <div class="text-right">{{ field.value }}</div>
+
+          </div>
+        </div>
       </div>
-      <div class="flex justify-around items-center max-w-md mt-3">
-
-        <UCheckbox label="Show zero values" name="zero-values" v-model="state.showZeroValues" />
-        <UButton v-if="isWalletConnected" size="xs" variant="link" color="gray"
-          :label="setOnWalletChange ? 'dont use connected wallet' : 'use connected wallet'"
-          :leading-icon="setOnWalletChange ? 'lucide:unlink' : 'lucide:link'" @click="handleConnectedWalletLink" />
-      </div>
-    </UForm>
-    <div v-if="foundRecord" class="animated-height space-y-1 text-sm lg:min-w-xl">
-
-      <div v-for="field in record" class="bg-white/5 p-2 rounded-lg">
-        <div class="grid grid-cols-2 gap-2">
-          <div class="text-left">{{ field.label }}</div>
-          <div class="text-right">{{ field.value }}</div>
-
+      <div v-else>
+        <div v-if="state.walletAddress === '' || state.walletAddress === undefined" class="py-4 lg:p-8">
+          Select an address or {{ !isWalletConnected && 'connect and use wallet' }}
+          <UButton v-if="isWalletConnected" variant="link" label="use connected wallet" @click="useConnectedWallet" />
+          <span v-else class="flex justify-center mt-4">
+            <WalletConnect />
+          </span>
+        </div>
+        <div v-else>Wallet not found!
         </div>
       </div>
     </div>
-    <div v-else>
-      <div v-if="state.walletAddress === '' || state.walletAddress === undefined" class="py-4 lg:p-8">
-        Select an address or {{ !isWalletConnected && 'connect and use wallet' }}
-        <UButton v-if="isWalletConnected" variant="link" label="use connected wallet" @click="useConnectedWallet" />
-        <span v-else class="flex justify-center mt-4">
-          <WalletConnect />
-        </span>
-      </div>
-      <div v-else>Wallet not found!
-      </div>
-    </div>
-  </div>
+  </ClientOnly>
+
 </template>
 
 <style>
