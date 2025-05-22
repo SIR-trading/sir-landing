@@ -55,7 +55,7 @@ definePageMeta({
   <UContainer>
 
     <Section variant="background">
-      <template #header>Your Contribution</template>
+      <template #header>Your Allocation</template>
       <Allocations />
     </Section>
 
@@ -86,7 +86,7 @@ definePageMeta({
       </div>
     </Section>
 
-    <!-- <Section variant="background" v-if="isConnected">
+    <Section variant="background" v-if="isConnected">
       <template #header>Your Contributions</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
@@ -100,7 +100,8 @@ definePageMeta({
         </p>
         <PresaleNftList />
       </div>
-    </Section> -->
+    </Section>
+
     <Section variant="background">
       <template #header>Next Steps</template>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
