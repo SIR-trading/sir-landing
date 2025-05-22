@@ -27,7 +27,7 @@ const formatFieldData = (_key: string, _value: ValueType) => {
 
     switch (_key) {
       case "allocation_in_billion_parts":
-        value = numValue !== 0 ? formatToTwoSignificantDecimals(numValue / 10000000).toString().concat('%') : numValue;
+        value = numValue !== 0 ? (numValue / 10000000).toPrecision(2).toString().concat('%') : numValue;
         key = "Allocation Relaunch"
         break;
       case "allocation_old":

@@ -19,6 +19,10 @@ export const formatToTwoSignificantDecimals = (value: number): number => {
   for (let i = 0; i < decimalPart.length; i++) {
     if (decimalPart[i] !== '0') {
       count++
+      if (i + 1 < decimalPart.length && decimalPart[i + 1] === '0') {
+        end = i + 1;
+        break;
+      }
       end = i;
     }
     if (count === 2) {

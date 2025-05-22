@@ -53,6 +53,12 @@ definePageMeta({
 
 <template>
   <UContainer>
+
+    <Section variant="background">
+      <template #header>Your Contribution</template>
+      <Allocations />
+    </Section>
+
     <Section variant="background">
       <template #header>SIR Token Presale</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
@@ -80,13 +86,8 @@ definePageMeta({
       </div>
     </Section>
 
-    <Section variant="background">
-      <template #header>Token Allocation</template>
-      <Allocations />
-
-    </Section>
-    <Section variant="background" v-if="isConnected">
-      <template #header>Your Allocation</template>
+    <!-- <Section variant="background" v-if="isConnected">
+      <template #header>Your Contributions</template>
       <div class="flex flex-col section-text-block mt-0 mb-6">
         <p>
           This reflects your allocation of SIR tokens based on your original presale participation and number of locked
@@ -99,7 +100,7 @@ definePageMeta({
         </p>
         <PresaleNftList />
       </div>
-    </Section>
+    </Section> -->
     <Section variant="background">
       <template #header>Next Steps</template>
       <div class="flex flex-col md:flex-row md:justify-evenly w-full">
