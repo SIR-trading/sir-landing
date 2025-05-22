@@ -39,7 +39,7 @@ const bullets = [
 const chartLegend = [
   { label: "Liquidity providers", color: "bg-[#CC9901]" },
   { label: "Team & Contributors", color: "bg-[#6A3C99]" },
-  { label: "Presale", color: "bg-[#CC6677]"},
+  { label: "Presale", color: "bg-[#CC6677]" },
   { label: "Treasury", color: "bg-[#882255]" },
   { label: "Compensation fund (victims of the hack)", color: "bg-[#117733]" },
 ]
@@ -55,6 +55,17 @@ definePageMeta({
 
     <Section variant="background">
       <template #header>Your Allocation</template>
+      <div class="section-text-block p-4">
+        <p>
+          We captured a snapshot of every user’s on-chain data at block #22,157,899,
+          detailing SIR balances,
+          leverage
+          positions,
+          liquidity-provision stakes, and more, just before the exploit, and used the market prices at that moment (ETH
+          $1,805;
+          BTC $82,356; USDT $0.9998; USDC $1.00; SIR $0.0005955) to calculate each user’s compensation allocation at
+          relaunch.</p>
+      </div>
       <Allocations />
     </Section>
 
