@@ -15,35 +15,63 @@ const DIGITS: Record<string, number> = {
   "usdt": 6
 }
 
+const LABELS: Record<string, string> = {
+  sir_balance:              'SIR Balance',
+  sir_liquidity_mining:     'Unclaimed LPing SIR Rewards',
+  sir_unminted_contributor: 'Unclaimed Presale SIR',
+  sir_staked:               'Staked SIR',
+  sir_sir:                  'SIR in Liquidity & Leverage Positions',
+  sir_uniswapV2:            'SIR in Uniswap V2 Pools',
+  sir_uniswapV3:            'SIR in Uniswap V3 Pools',
+  SIR_TOTAL_BALANCE:        'Total SIR Balance',
+  eth_sir:                  'ETH in Liquidity & Leverage Positions',
+  eth_uniswapV2:            'ETH in Uniswap V2 Pools',
+  eth_uniswapV3:            'ETH in Uniswap V3 Pools',
+  WETH_TOTAL_BALANCE:       'Total ETH Balance',
+  wbtc_sir:                 'BTC in Liquidity & Leverage Positions',
+  usdc_sir:                 'USDC in Liquidity & Leverage Positions',
+  usdt_sir:                 'USDT in Liquidity & Leverage Positions',
+  SIR_ENTITLED:             'SIR Entitled',
+}
+
+const HIGHLIGHT_LABELS = [
+  LABELS.SIR_TOTAL_BALANCE,
+  LABELS.WETH_TOTAL_BALANCE,
+  LABELS.SIR_ENTITLED,'Allocation Relaunch'
+]
 
 const formatFieldData = (_key: string, _value: ValueType) => {
   let value: ValueType = '';
-  let key;
+  let key: string | undefined;
 
   if (typeof _value === 'number' || typeof _value === 'boolean' || ethers.isAddress(_value)) {
-
     const numValue = Number(_value)
-
 
     switch (_key) {
       case "allocation_in_billion_parts":
-        value = numValue !== 0 ? (numValue / 10000000).toPrecision(2).toString().concat('%') : numValue;
+        value = numValue !== 0
+          ? (numValue / 10000000).toPrecision(2).toString().concat('%')
+          : numValue;
         key = "Allocation Relaunch"
         break;
       case "allocation_old":
-        value = numValue !== 0 ? (numValue / 100).toString().concat('%') : numValue;
+        value = numValue !== 0
+          ? (numValue / 100).toString().concat('%')
+          : numValue;
         key = "Previous Allocation"
         break;
-      default: value = _value;
+      default:
+        value = _value;
     }
 
   } else if (typeof _value === 'string') {
     const prefix = _key.split('_')[0].toLowerCase();
-    const _v = (_value as string).replace(/,/g, '');
-    const parsedValue = DIGITS[prefix] ? ethers.formatUnits(BigInt(_v), DIGITS[prefix]) : _v;
+    const _v = _value.replace(/,/g, '');
+    const parsedValue = DIGITS[prefix]
+      ? ethers.formatUnits(BigInt(_v), DIGITS[prefix])
+      : _v;
 
-    // Format the value to at most two decimal places
-    if (typeof _value === 'string' && !isNaN(Number(parsedValue))) {
+    if (!isNaN(Number(parsedValue))) {
       const numValue = Number(parsedValue);
       value = new Intl.NumberFormat('en-US', {}).format(numValue)
     } else {
@@ -52,11 +80,16 @@ const formatFieldData = (_key: string, _value: ValueType) => {
     }
   }
 
-  return {
-    label: key || _key
+  // 3) pick label: first from LABELS, then your key override, then title-case
+  const label = LABELS[_key]
+    || key
+    || _key
       .split('_')
       .map(w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase())
-      .join(' '),
+      .join(' ');
+
+  return {
+    label,
     value: value.toString()
   }
 }
@@ -151,11 +184,17 @@ const handleConnectedWalletLink = () => {
       </UForm>
       <div v-if="foundRecord" class="animated-height space-y-1 text-sm lg:min-w-xl">
 
-        <div v-for="field in record" class="bg-white/5 p-2 rounded-lg">
-          <div class="grid grid-cols-2 gap-2">
+        <div v-for="field in record" 
+          :key="field.label"
+          :class="[
+            'p-2 rounded-lg',
+            HIGHLIGHT_LABELS.includes(field.label)
+              ? 'bg-white/15'   /* slightly stronger tint—swap this for your exact hex or Tailwind slot */
+              : 'bg-white/5'
+          ]">
+          <div class="grid grid-cols-[2fr_1fr] gap-2">
             <div class="text-left">{{ field.label }}</div>
             <div class="text-right">{{ field.value }}</div>
-
           </div>
         </div>
       </div>

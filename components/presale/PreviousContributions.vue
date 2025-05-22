@@ -110,7 +110,7 @@ const formatNumber = (value: number, digits: number = 2) => {
         <span class="font-semibold text-md"> {{ formatNumber(contributions.amountFinalNoDecimals) }}</span>
         <span class="text-xs top-2 ml-1 text-gray-suit-500"> {{ token?.name }}</span></div>
     </div>
-    <div
+    <!-- <div
         class="flex flex-col md:flex-row items-center justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Token allocation:</div>
       <div class="">
@@ -125,7 +125,7 @@ const formatNumber = (value: number, digits: number = 2) => {
         </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div
         class="flex flex-col md:flex-row items-stretch justify-between w-full h-full bg-midGray rounded-lg gap-1 bg-[#ffffff15] p-3">
       <div>Number of locked NFTs:</div>

@@ -39,9 +39,8 @@ const bullets = [
 const chartLegend = [
   { label: "Liquidity providers", color: "bg-[#CC9901]" },
   { label: "Team & Contributors", color: "bg-[#6A3C99]" },
-  { label: "Presale", color: "bg-[#44AA99]" },
-  { label: "Public sale", color: "bg-[#882255]" },
-  { label: "Treasury", color: "bg-[#CC6677]" },
+  { label: "Presale", color: "bg-[#CC6677]"},
+  { label: "Treasury", color: "bg-[#882255]" },
   { label: "Compensation fund (victims of the hack)", color: "bg-[#117733]" },
 ]
 
