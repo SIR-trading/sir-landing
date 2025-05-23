@@ -72,7 +72,7 @@ const goTo = (_path: string) => {
               Unlike traditional approaches to leverage,
               <span class="font-semibold text-redAccent">
                 SIR does away with maintenance fees and removes
-                <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay">volatility decay</a>
+                <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay" class="underline">volatility decay</a>
               </span>.
             </p>
             <p>

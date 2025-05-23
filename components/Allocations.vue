@@ -32,12 +32,15 @@ const LABELS: Record<string, string> = {
   usdc_sir:                 'USDC in Liquidity & Leverage Positions',
   usdt_sir:                 'USDT in Liquidity & Leverage Positions',
   SIR_ENTITLED:             'SIR Entitled',
+  allocationInBillionParts: 'Allocation Relaunch',
+  allocationOld: 'Previous Allocation'
 }
 
 const HIGHLIGHT_LABELS = [
   LABELS.SIR_TOTAL_BALANCE,
   LABELS.WETH_TOTAL_BALANCE,
-  LABELS.SIR_ENTITLED,'Allocation Relaunch'
+  LABELS.SIR_ENTITLED,
+  'Allocation Relaunch'
 ]
 
 const formatFieldData = (_key: string, _value: ValueType) => {
@@ -48,15 +51,15 @@ const formatFieldData = (_key: string, _value: ValueType) => {
     const numValue = Number(_value)
 
     switch (_key) {
-      case "allocation_in_billion_parts":
+      case "allocationInBillionParts":
         value = numValue !== 0
           ? (numValue / 10000000).toPrecision(2).toString().concat('%')
           : numValue;
         key = "Allocation Relaunch"
         break;
-      case "allocation_old":
+      case "allocationOld":
         value = numValue !== 0
-          ? (numValue / 100).toString().concat('%')
+          ? (numValue / 100).toFixed(2).toString().concat('%')
           : numValue;
         key = "Previous Allocation"
         break;
@@ -95,11 +98,11 @@ const formatFieldData = (_key: string, _value: ValueType) => {
 }
 
 const formattedList = data.allocations.map(record => {
-  // Extract keys and values from the record
-  return Object.entries(record).map(([key, value]) =>
-    formatFieldData(key, value)
-  );
-})
+  // Extract keys and values from the record, excluding 'allocationOld'
+  return Object.entries(record)
+    .filter(([key, value]) => key !== 'allocationInBasisPoints')
+    .map(([key, value]) => formatFieldData(key, value));
+});
 
 const filterOptions = data.allocations.map(record => record.address);
 const schema = object({
@@ -200,7 +203,7 @@ const handleConnectedWalletLink = () => {
       </div>
       <div v-else>
         <div v-if="state.walletAddress === '' || state.walletAddress === undefined" class="py-4 lg:p-8">
-          Select an address or {{ !isWalletConnected && 'connect and use wallet' }}
+          Select an address or {{ !isWalletConnected && 'connect wallet' }}
           <UButton v-if="isWalletConnected" variant="link" label="use connected wallet" @click="useConnectedWallet" />
           <span v-else class="flex justify-center mt-4">
             <WalletConnect />
