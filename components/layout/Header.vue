@@ -2,7 +2,7 @@
 
 
 const links: Array<any> = [
-  { label: 'Presale', to: '/presale' },
+  { label: 'Allocations', to: '/allocations' },
   { label: 'Docs', to: 'https://docs.sir.trading/' },
   { label: 'Audits', to: '/audits' },
 ];

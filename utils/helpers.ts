@@ -1,6 +1,8 @@
-export default function ()  {
+export default function () {
   const classLink = (classes: Array<string>) => {
     return classes.join(' ')
   }
-  return {classLink}
+
+
+  return { classLink }
 }
