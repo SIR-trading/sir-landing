@@ -123,7 +123,7 @@ const EXCLUDED = [
   "Address"
 ]
 const foundRecord = computed(() => {
-  return formattedList.find(record => record.find(field => field.label === "Address")?.value === state.walletAddress);
+  return formattedList.find(record => record.find(field => field.label === "Address")?.value.toLowerCase() === state.walletAddress?.toLowerCase());
 })
 
 
