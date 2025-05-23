@@ -32,7 +32,7 @@ const LABELS: Record<string, string> = {
   usdc_sir:                 'USDC in Liquidity & Leverage Positions',
   usdt_sir:                 'USDT in Liquidity & Leverage Positions',
   SIR_ENTITLED:             'SIR Entitled',
-  allocationInBillionParts: 'Allocation Relaunch',
+  allocationInBillionParts: 'Allocation Relaunch (% of total supply)',
   allocationOld: 'Previous Allocation'
 }
 

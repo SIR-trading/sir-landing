@@ -63,7 +63,7 @@ definePageMeta({
           <a href="https://etherscan.io/tx/0xa05f047ddfdad9126624c4496b5d4a59f961ee7c091e7b4e38cee86f1335736f" class="underline">the exploit</a>.
         </p>
         <p>
-          To calculate each <span class="font-semibold text-redAccent">user's compensation allocation</span> at relaunch, we converted all holdings into USD using
+          To calculate each <span class="font-semibold text-redAccent">user's compensation allocation</span> at relaunch, we converted all holdings into SIR token using
           the market prices at that exact moment (ETH $1,805; BTC $82,356; USDT $0.9998; USDC $1.00; SIR $0.0005955).
         </p>
       </div>
