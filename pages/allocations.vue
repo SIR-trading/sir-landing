@@ -57,13 +57,16 @@ definePageMeta({
       <template #header>Your Allocation</template>
       <div class="section-text-block p-4">
         <p>
-          We captured <span class="font-semibold text-redAccent">a snapshot</span> of every user's on-chain data at 
+          We captured <span class="font-semibold text-redAccent">a snapshot</span> of every user's on-chain data at
           <span class="font-semibold text-redAccent">block #22,157,899</span>, detailing SIR balances,
           leverage positions, liquidity-provision stakes and more just before
-          <a href="https://etherscan.io/tx/0xa05f047ddfdad9126624c4496b5d4a59f961ee7c091e7b4e38cee86f1335736f" class="underline">the exploit</a>.
+          <a href="https://etherscan.io/tx/0xa05f047ddfdad9126624c4496b5d4a59f961ee7c091e7b4e38cee86f1335736f"
+            class="underline">the exploit</a>.
         </p>
         <p>
-          To calculate each <span class="font-semibold text-redAccent">user's compensation allocation</span> at relaunch, we converted all holdings into SIR token using
+          To calculate each <span class="font-semibold text-redAccent">user's compensation allocation</span> at
+          relaunch, we
+          converted all holdings into SIR token using
           the market prices at that exact moment (ETH $1,805; BTC $82,356; USDT $0.9998; USDC $1.00; SIR $0.0005955).
         </p>
       </div>
@@ -115,14 +118,14 @@ definePageMeta({
 
     <Section variant="background">
       <template #header>Next Steps</template>
-      <div class="flex flex-col md:flex-row md:justify-evenly w-full">
+      <div class="flex flex-col items-center md:items-start  md:flex-row md:justify-evenly w-full gap-20 md:gap-0">
         <SirCard size="xs" v-for="bullet in bullets" :key="bullet.i">
           <template #header>
             <div class="rounded-xl font-black text-rob-roy-300 ring-2 ring-rob-roy-300 text-center py-3 px-4">
               {{ bullet.i }}
             </div>
           </template>
-          <p class="p-3 text-left" v-html="bullet.text"></p>
+          <p class="md:p-3 text-left" v-html="bullet.text"></p>
         </SirCard>
       </div>
       <div class="flex flex-col md:flex-row md:justify-evenly items-center w-full p-6 gap-12 md:gap-0 ">
