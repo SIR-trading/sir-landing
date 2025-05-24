@@ -72,7 +72,9 @@ const goTo = (_path: string) => {
               Unlike traditional approaches to leverage,
               <span class="font-semibold text-redAccent">
                 SIR does away with maintenance fees and removes
-                <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay" class="underline">volatility decay</a>
+                <a href="https://www.etf.com/sections/etf-basics/why-do-leveraged-etfs-decay"
+                  class="underline">volatility
+                  decay</a>
               </span>.
             </p>
             <p>
@@ -130,14 +132,14 @@ const goTo = (_path: string) => {
       </Section>
       <Section variant="background">
         <template v-slot:header>Permissionless & Trustless</template>
-        <div class="section-text-block">
-          <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
+        <div class="section-text-block space-y-4">
+          <div class="flex flex-col md:flex-row gap-3 md:gap-12 w-full items-center justify-center md:justify-start">
             <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               1
             </div>
             <p>SIR is designed as a DeFi primitive, focusing on being maximally trustless and permissionless.</p>
           </div>
-          <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
+          <div class="flex flex-col md:flex-row gap-3 md:gap-12 w-full items-center justify-center md:justify-start">
             <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               2
             </div>
@@ -148,7 +150,7 @@ const goTo = (_path: string) => {
               with fixed parameters, eliminating risks from unexpected changes.
             </p>
           </div>
-          <div class="flex flex-col md:flex-row gap-3 w-full items-center justify-center md:justify-start">
+          <div class="flex flex-col md:flex-row gap-3 md:gap-12 w-full items-center justify-center md:justify-start">
             <div class="bullet-point w-8 h-8 md:flex-shrink-0 text-sm">
               3
             </div>
