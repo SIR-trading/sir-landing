@@ -40,7 +40,7 @@ const HIGHLIGHT_LABELS = [
   LABELS.SIR_TOTAL_BALANCE,
   LABELS.WETH_TOTAL_BALANCE,
   LABELS.SIR_ENTITLED,
-  'Allocation Relaunch'
+  LABELS.allocationInBillionParts
 ]
 
 const formatFieldData = (_key: string, _value: ValueType) => {
