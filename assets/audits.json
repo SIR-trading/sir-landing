@@ -6,6 +6,10 @@
   {
     "label": "Syzygy",
     "to": "syzygy"
+  },
+  {
+    "label": "Guild Audits",
+    "to": "guild"
   },{
     "label": "Egis Security (pre-exploit)",
     "to": "pre-exploit"
